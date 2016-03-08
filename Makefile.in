@@ -35,14 +35,14 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = matex_svm$(EXEEXT) matex_knn$(EXEEXT) \
-	matex_fpgrowth$(EXEEXT) matex_kmeans$(EXEEXT) \
-	matex_compute_distance$(EXEEXT) \
+bin_PROGRAMS = matex_svm$(EXEEXT) matex_svm_shrinking$(EXEEXT) \
+	matex_knn$(EXEEXT) matex_fpgrowth$(EXEEXT) \
+	matex_kmeans$(EXEEXT) matex_compute_distance$(EXEEXT) \
 	matex_distance_to_similarity$(EXEEXT) matex_evd$(EXEEXT) \
 	matex_spectral_kmeans$(EXEEXT)
 noinst_PROGRAMS =
 check_PROGRAMS =
-DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
+DIST_COMMON = $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(srcdir)/contrib/ARPACK/Makefile.inc $(top_srcdir)/configure \
 	AUTHORS INSTALL build-aux/config.guess build-aux/config.sub \
@@ -564,6 +564,17 @@ matex_svm_OBJECTS = $(am_matex_svm_OBJECTS)
 matex_svm_DEPENDENCIES = $(am__DEPENDENCIES_4)
 matex_svm_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(matex_svm_LDFLAGS) $(LDFLAGS) -o $@
+am_matex_svm_shrinking_OBJECTS = src/supervised/svm_shrinking/matex_svm_shrinking-comm.$(OBJEXT) \
+	src/supervised/svm_shrinking/matex_svm_shrinking-dataset.$(OBJEXT) \
+	src/supervised/svm_shrinking/matex_svm_shrinking-distance.$(OBJEXT) \
+	src/supervised/svm_shrinking/matex_svm_shrinking-driver.$(OBJEXT) \
+	src/supervised/svm_shrinking/matex_svm_shrinking-smo.$(OBJEXT) \
+	src/supervised/svm_shrinking/matex_svm_shrinking-testing.$(OBJEXT) \
+	src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.$(OBJEXT)
+matex_svm_shrinking_OBJECTS = $(am_matex_svm_shrinking_OBJECTS)
+matex_svm_shrinking_DEPENDENCIES = $(am__DEPENDENCIES_4)
+matex_svm_shrinking_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(matex_svm_shrinking_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -613,7 +624,7 @@ SOURCES = $(contrib_ARPACK_libarpack_a_SOURCES) \
 	$(matex_distance_to_similarity_SOURCES) $(matex_evd_SOURCES) \
 	$(matex_fpgrowth_SOURCES) $(matex_kmeans_SOURCES) \
 	$(matex_knn_SOURCES) $(matex_spectral_kmeans_SOURCES) \
-	$(matex_svm_SOURCES)
+	$(matex_svm_SOURCES) $(matex_svm_shrinking_SOURCES)
 DIST_SOURCES = $(contrib_ARPACK_libarpack_a_SOURCES) \
 	$(contrib_ARPACK_libarpack_blas_a_SOURCES) \
 	$(contrib_ARPACK_libarpack_lapack_a_SOURCES) \
@@ -622,7 +633,7 @@ DIST_SOURCES = $(contrib_ARPACK_libarpack_a_SOURCES) \
 	$(matex_distance_to_similarity_SOURCES) $(matex_evd_SOURCES) \
 	$(matex_fpgrowth_SOURCES) $(matex_kmeans_SOURCES) \
 	$(matex_knn_SOURCES) $(matex_spectral_kmeans_SOURCES) \
-	$(matex_svm_SOURCES)
+	$(matex_svm_SOURCES) $(matex_svm_shrinking_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -1021,6 +1032,20 @@ matex_svm_SOURCES = src/supervised/svm/comm.cpp \
 matex_svm_CPPFLAGS = $(AM_CPPFLAGS)
 matex_svm_LDFLAGS = $(AM_LDFLAGS)
 matex_svm_LDADD = $(LDADD)
+matex_svm_shrinking_SOURCES = src/supervised/svm_shrinking/comm.cpp \
+	src/supervised/svm_shrinking/comm.hpp \
+	src/supervised/svm_shrinking/dataset.cpp \
+	src/supervised/svm_shrinking/dataset.hpp \
+	src/supervised/svm_shrinking/distance.cpp \
+	src/supervised/svm_shrinking/distance.hpp \
+	src/supervised/svm_shrinking/driver.cpp \
+	src/supervised/svm_shrinking/smo.cpp \
+	src/supervised/svm_shrinking/smo.hpp \
+	src/supervised/svm_shrinking/testing.cpp \
+	src/supervised/svm_shrinking/shrinking.cpp
+matex_svm_shrinking_CPPFLAGS = $(AM_CPPFLAGS)
+matex_svm_shrinking_LDFLAGS = $(AM_LDFLAGS)
+matex_svm_shrinking_LDADD = $(LDADD)
 matex_knn_SOURCES = src/supervised/knn/comm.cpp \
 	src/supervised/knn/comm.hpp src/supervised/knn/dataset.cpp \
 	src/supervised/knn/dataset.hpp src/supervised/knn/distance.cpp \
@@ -2533,6 +2558,36 @@ src/supervised/svm/matex_svm-testing.$(OBJEXT):  \
 matex_svm$(EXEEXT): $(matex_svm_OBJECTS) $(matex_svm_DEPENDENCIES) $(EXTRA_matex_svm_DEPENDENCIES) 
 	@rm -f matex_svm$(EXEEXT)
 	$(AM_V_CXXLD)$(matex_svm_LINK) $(matex_svm_OBJECTS) $(matex_svm_LDADD) $(LIBS)
+src/supervised/svm_shrinking/$(am__dirstamp):
+	@$(MKDIR_P) src/supervised/svm_shrinking
+	@: > src/supervised/svm_shrinking/$(am__dirstamp)
+src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/supervised/svm_shrinking/$(DEPDIR)
+	@: > src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-comm.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-dataset.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-distance.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-driver.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-smo.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-testing.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.$(OBJEXT):  \
+	src/supervised/svm_shrinking/$(am__dirstamp) \
+	src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+matex_svm_shrinking$(EXEEXT): $(matex_svm_shrinking_OBJECTS) $(matex_svm_shrinking_DEPENDENCIES) $(EXTRA_matex_svm_shrinking_DEPENDENCIES) 
+	@rm -f matex_svm_shrinking$(EXEEXT)
+	$(AM_V_CXXLD)$(matex_svm_shrinking_LINK) $(matex_svm_shrinking_OBJECTS) $(matex_svm_shrinking_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -2940,6 +2995,13 @@ mostlyclean-compile:
 	-rm -f src/supervised/svm/matex_svm-driver.$(OBJEXT)
 	-rm -f src/supervised/svm/matex_svm-smo.$(OBJEXT)
 	-rm -f src/supervised/svm/matex_svm-testing.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-comm.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-dataset.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-distance.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-driver.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-smo.$(OBJEXT)
+	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-testing.$(OBJEXT)
 	-rm -f src/unsupervised/kmeans/matex_kmeans-comm.$(OBJEXT)
 	-rm -f src/unsupervised/kmeans/matex_kmeans-dataset.$(OBJEXT)
 	-rm -f src/unsupervised/kmeans/matex_kmeans-distance.$(OBJEXT)
@@ -2972,6 +3034,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm/$(DEPDIR)/matex_svm-driver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm/$(DEPDIR)/matex_svm-smo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm/$(DEPDIR)/matex_svm-testing.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/unsupervised/kmeans/$(DEPDIR)/matex_kmeans-comm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/unsupervised/kmeans/$(DEPDIR)/matex_kmeans-dataset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/unsupervised/kmeans/$(DEPDIR)/matex_kmeans-distance.Po@am__quote@
@@ -3336,6 +3405,104 @@ src/supervised/svm/matex_svm-testing.obj: src/supervised/svm/testing.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm/matex_svm-testing.obj `if test -f 'src/supervised/svm/testing.cpp'; then $(CYGPATH_W) 'src/supervised/svm/testing.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm/testing.cpp'; fi`
 
+src/supervised/svm_shrinking/matex_svm_shrinking-comm.o: src/supervised/svm_shrinking/comm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-comm.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-comm.o `test -f 'src/supervised/svm_shrinking/comm.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/comm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/comm.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-comm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-comm.o `test -f 'src/supervised/svm_shrinking/comm.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/comm.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-comm.obj: src/supervised/svm_shrinking/comm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-comm.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-comm.obj `if test -f 'src/supervised/svm_shrinking/comm.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/comm.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/comm.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/comm.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-comm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-comm.obj `if test -f 'src/supervised/svm_shrinking/comm.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/comm.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/comm.cpp'; fi`
+
+src/supervised/svm_shrinking/matex_svm_shrinking-dataset.o: src/supervised/svm_shrinking/dataset.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-dataset.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-dataset.o `test -f 'src/supervised/svm_shrinking/dataset.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/dataset.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/dataset.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-dataset.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-dataset.o `test -f 'src/supervised/svm_shrinking/dataset.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/dataset.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-dataset.obj: src/supervised/svm_shrinking/dataset.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-dataset.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-dataset.obj `if test -f 'src/supervised/svm_shrinking/dataset.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/dataset.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/dataset.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/dataset.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-dataset.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-dataset.obj `if test -f 'src/supervised/svm_shrinking/dataset.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/dataset.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/dataset.cpp'; fi`
+
+src/supervised/svm_shrinking/matex_svm_shrinking-distance.o: src/supervised/svm_shrinking/distance.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-distance.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-distance.o `test -f 'src/supervised/svm_shrinking/distance.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/distance.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/distance.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-distance.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-distance.o `test -f 'src/supervised/svm_shrinking/distance.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/distance.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-distance.obj: src/supervised/svm_shrinking/distance.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-distance.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-distance.obj `if test -f 'src/supervised/svm_shrinking/distance.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/distance.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/distance.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/distance.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-distance.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-distance.obj `if test -f 'src/supervised/svm_shrinking/distance.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/distance.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/distance.cpp'; fi`
+
+src/supervised/svm_shrinking/matex_svm_shrinking-driver.o: src/supervised/svm_shrinking/driver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-driver.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-driver.o `test -f 'src/supervised/svm_shrinking/driver.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/driver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/driver.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-driver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-driver.o `test -f 'src/supervised/svm_shrinking/driver.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/driver.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-driver.obj: src/supervised/svm_shrinking/driver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-driver.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-driver.obj `if test -f 'src/supervised/svm_shrinking/driver.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/driver.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/driver.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-driver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/driver.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-driver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-driver.obj `if test -f 'src/supervised/svm_shrinking/driver.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/driver.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/driver.cpp'; fi`
+
+src/supervised/svm_shrinking/matex_svm_shrinking-smo.o: src/supervised/svm_shrinking/smo.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-smo.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-smo.o `test -f 'src/supervised/svm_shrinking/smo.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/smo.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/smo.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-smo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-smo.o `test -f 'src/supervised/svm_shrinking/smo.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/smo.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-smo.obj: src/supervised/svm_shrinking/smo.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-smo.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-smo.obj `if test -f 'src/supervised/svm_shrinking/smo.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/smo.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/smo.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-smo.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/smo.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-smo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-smo.obj `if test -f 'src/supervised/svm_shrinking/smo.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/smo.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/smo.cpp'; fi`
+
+src/supervised/svm_shrinking/matex_svm_shrinking-testing.o: src/supervised/svm_shrinking/testing.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-testing.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-testing.o `test -f 'src/supervised/svm_shrinking/testing.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/testing.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/testing.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-testing.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-testing.o `test -f 'src/supervised/svm_shrinking/testing.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/testing.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-testing.obj: src/supervised/svm_shrinking/testing.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-testing.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-testing.obj `if test -f 'src/supervised/svm_shrinking/testing.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/testing.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/testing.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-testing.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/testing.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-testing.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-testing.obj `if test -f 'src/supervised/svm_shrinking/testing.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/testing.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/testing.cpp'; fi`
+
+src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.o: src/supervised/svm_shrinking/shrinking.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.o `test -f 'src/supervised/svm_shrinking/shrinking.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/shrinking.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/shrinking.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.o `test -f 'src/supervised/svm_shrinking/shrinking.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/shrinking.cpp
+
+src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.obj: src/supervised/svm_shrinking/shrinking.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.obj -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.obj `if test -f 'src/supervised/svm_shrinking/shrinking.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/shrinking.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/shrinking.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Tpo src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-shrinking.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_shrinking/shrinking.cpp' object='src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_shrinking/matex_svm_shrinking-shrinking.obj `if test -f 'src/supervised/svm_shrinking/shrinking.cpp'; then $(CYGPATH_W) 'src/supervised/svm_shrinking/shrinking.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_shrinking/shrinking.cpp'; fi`
+
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
 @am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
@@ -3632,6 +3799,8 @@ distclean-generic:
 	-rm -f src/supervised/knn/$(am__dirstamp)
 	-rm -f src/supervised/svm/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/supervised/svm/$(am__dirstamp)
+	-rm -f src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/supervised/svm_shrinking/$(am__dirstamp)
 	-rm -f src/unsupervised/kmeans/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/unsupervised/kmeans/$(am__dirstamp)
 	-rm -f src/unsupervised/spectralclustering/$(DEPDIR)/$(am__dirstamp)
@@ -3650,7 +3819,7 @@ clean-am: clean-binPROGRAMS clean-checkPROGRAMS clean-generic \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
+	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/supervised/svm_shrinking/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -3698,7 +3867,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
+	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/supervised/svm_shrinking/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

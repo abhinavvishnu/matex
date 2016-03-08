@@ -63,6 +63,32 @@ matex_svm_LDFLAGS =
 matex_svm_LDFLAGS += $(AM_LDFLAGS)
 matex_svm_LDADD =
 matex_svm_LDADD += $(LDADD)
+
+##############################################################################
+# src/supervised/svm
+# ##############################################################################
+bin_PROGRAMS += matex_svm_shrinking
+matex_svm_shrinking_SOURCES =
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/comm.cpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/comm.hpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/dataset.cpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/dataset.hpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/distance.cpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/distance.hpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/driver.cpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/smo.cpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/smo.hpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/testing.cpp
+matex_svm_shrinking_SOURCES += src/supervised/svm_shrinking/shrinking.cpp
+
+matex_svm_shrinking_CPPFLAGS =
+matex_svm_shrinking_CPPFLAGS += $(AM_CPPFLAGS)
+matex_svm_shrinking_LDFLAGS =
+matex_svm_shrinking_LDFLAGS += $(AM_LDFLAGS)
+matex_svm_shrinking_LDADD =
+matex_svm_shrinking_LDADD += $(LDADD)
+
+
 ##############################################################################
 # src/supervised/smo
 ##############################################################################
