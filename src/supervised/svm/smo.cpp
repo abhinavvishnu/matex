@@ -19,6 +19,7 @@ SMO::SMO() {
     C = 1.0;
     sigmasqr = 1.0;
     TOL = 1.0e-3;
+    user_iter = LONG_MAX;
 }
 
 SMO::SMO(int *argc, char ***argv) {
@@ -28,9 +29,9 @@ SMO::SMO(int *argc, char ***argv) {
     pone = 1.0;
     mone = -1.0;
     comm = new Comm(argc, argv);
-    if(*argc != 5) {
+    if(*argc > 6) {
         if (comm->rank() == 0)
-            cout << "Usage: mpirun -np $nproc ./smo trainset testset C sigmasqr" << endl;
+            cout << "Usage: mpirun -np $nproc ./smo trainset testset C sigmasqr max-iterations (optional)" << endl;
         MPI_Barrier(comm->worldcomm());
         MPI_Abort(comm->worldcomm(), -1);
     }
@@ -40,6 +41,11 @@ SMO::SMO(int *argc, char ***argv) {
 
     C = atof(tmp[3]);
     sigmasqr = atof(tmp[4]);
+
+    if (*argc == 6)
+	user_iter = atoi(tmp[5]);
+    else
+        user_iter = LONG_MAX;
     
     TOL = 1.0e-3;
     int root = 0;
@@ -429,7 +435,9 @@ void SMO::run() {
     
     double t_start = comm->timestamp(); // returns in seconds
 
-    while (b_up < b_low - 2 * TOL) {
+    size_t running_iter = 0;
+    cout << user_iter << endl;
+    while (b_up < b_low - 2 * TOL && (running_iter++ < user_iter) ) {
         i2 = i_low;
         i1 = i_up;
         if (!takestep(i1, i2))
