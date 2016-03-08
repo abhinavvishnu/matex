@@ -40,8 +40,6 @@ echo ""
 
 MPICH="mpich-3.1"
 MPICH_BUILD="$MPICH-build"
-GA="ga-5-3"
-GA_BUILD="$GA-build"
 MATEX=matex
 MATEX_BUILD="$MATEX-build"
 
@@ -135,96 +133,6 @@ then
     echo "adding \"$INSTALLPATH/bin\" to PATH"
     echo ""
     export PATH="$INSTALLPATH/bin:$PATH"
-fi
-
-echo "==========================================================="
-echo "checking for Global Arrays"
-echo "==========================================================="
-echo ""
-GA_CONFIG=""
-save_IFS="$IFS"
-IFS=:
-for dir in $PATH
-do
-    IFS="$save_IFS"
-    test -z "$dir" && dir=.
-    prog="$dir/ga-config"
-    if test -f "$prog" && test -x "$prog"
-    then
-        GA_CONFIG="$prog"
-        break
-    fi
-done
-IFS="$save_IFS"
-
-if test -z "$MPICC" || test -z "$GA_CONFIG"
-then
-    if ! test -z "$GA_CONFIG"
-    then
-        echo "Global Arrays was found but MPI was not"
-        echo "To ensure compatibility, we will (re)build the internal GA"
-        echo ""
-    fi
-
-    echo "==========================================================="
-    echo "configuring $GA"
-    echo "==========================================================="
-    echo ""
-    if test -f "$GA_BUILD/config.status"
-    then
-        echo "$GA already configured"
-    else
-        rm -rf $GA_BUILD
-        mkdir $GA_BUILD || exit 1
-        cd $GA_BUILD || exit 1
-        echo "$SCRIPTPATH/contrib/$GA/configure --prefix=\"$INSTALLPATH\" --without-blas --with-mpi-ts"
-        $SCRIPTPATH/contrib/$GA/configure --prefix="$INSTALLPATH" --without-blas --with-mpi-ts || exit 1
-        cd $BUILDPATH || exit 1
-        if ! test -f "$GA_BUILD/config.status"
-        then
-            echo "$GA configure failed, see $GA_BUILD/config.log for details"
-            exit 1
-        fi
-    fi
-    echo ""
-
-    echo "==========================================================="
-    echo "making $GA"
-    echo "==========================================================="
-    echo ""
-    if test -f "$INSTALLPATH/bin/ga-config" && test -x "$INSTALLPATH/bin/ga-config"
-    then
-        echo "$GA already installed"
-    else
-        cd $GA_BUILD || exit 1
-        echo "make V=0 -j $NPROC"
-        make V=0 -j $NPROC || exit 1
-        cd $BUILDPATH || exit 1
-    fi
-    echo ""
-
-    echo "==========================================================="
-    echo "installing $GA"
-    echo "==========================================================="
-    echo ""
-    if test -f "$INSTALLPATH/bin/ga-config" && test -x "$INSTALLPATH/bin/ga-config"
-    then
-        echo "$GA already installed"
-    else
-        cd $GA_BUILD || exit 1
-        echo "make V=0 install"
-        make V=0 install || exit 1
-        cd $BUILDPATH || exit 1
-    fi
-    echo ""
-
-    # add our 'internal' MPI to the PATH
-    echo "adding \"$INSTALLPATH/bin\" to PATH"
-    echo ""
-    export PATH="$INSTALLPATH/bin:$PATH"
-else
-    echo "Global Arrays was found at"
-    echo "$GA_CONFIG"
 fi
 
 echo "==========================================================="
