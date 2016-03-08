@@ -37,6 +37,7 @@ class SMO {
         double b_up, b_low;
         size_t i_up, i_low;
         size_t nsv, bsv, zsv;
+        size_t user_iter;
         
         double pone, mone;
         double C, sigmasqr, TOL;
