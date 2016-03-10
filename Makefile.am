@@ -90,6 +90,29 @@ matex_svm_shrinking_LDADD += $(LDADD)
 
 
 ##############################################################################
+# src/supervised/svm
+# ##############################################################################
+bin_PROGRAMS += matex_svm_approx
+matex_svm_approx_SOURCES =
+matex_svm_approx_SOURCES += src/supervised/svm_approx/comm.cpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/comm.hpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/dataset.cpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/dataset.hpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/distance.cpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/distance.hpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/driver.cpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/smo.cpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/smo.hpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/testing.cpp
+matex_svm_approx_SOURCES += src/supervised/svm_approx/shrinking.cpp
+
+matex_svm_approx_CPPFLAGS =
+matex_svm_approx_CPPFLAGS += $(AM_CPPFLAGS)
+matex_svm_approx_LDFLAGS =
+matex_svm_approx_LDFLAGS += $(AM_LDFLAGS)
+matex_svm_approx_LDADD =
+matex_svm_approx_LDADD += $(LDADD)
+##############################################################################
 # src/supervised/smo
 ##############################################################################
 #bin_PROGRAMS += matex_smo

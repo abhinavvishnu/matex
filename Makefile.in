@@ -36,8 +36,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = matex_svm$(EXEEXT) matex_svm_shrinking$(EXEEXT) \
-	matex_knn$(EXEEXT) matex_fpgrowth$(EXEEXT) \
-	matex_kmeans$(EXEEXT) matex_compute_distance$(EXEEXT) \
+	matex_svm_approx$(EXEEXT) matex_knn$(EXEEXT) \
+	matex_fpgrowth$(EXEEXT) matex_kmeans$(EXEEXT) \
+	matex_compute_distance$(EXEEXT) \
 	matex_distance_to_similarity$(EXEEXT) matex_evd$(EXEEXT) \
 	matex_spectral_kmeans$(EXEEXT)
 noinst_PROGRAMS =
@@ -564,6 +565,18 @@ matex_svm_OBJECTS = $(am_matex_svm_OBJECTS)
 matex_svm_DEPENDENCIES = $(am__DEPENDENCIES_4)
 matex_svm_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(matex_svm_LDFLAGS) $(LDFLAGS) -o $@
+am_matex_svm_approx_OBJECTS =  \
+	src/supervised/svm_approx/matex_svm_approx-comm.$(OBJEXT) \
+	src/supervised/svm_approx/matex_svm_approx-dataset.$(OBJEXT) \
+	src/supervised/svm_approx/matex_svm_approx-distance.$(OBJEXT) \
+	src/supervised/svm_approx/matex_svm_approx-driver.$(OBJEXT) \
+	src/supervised/svm_approx/matex_svm_approx-smo.$(OBJEXT) \
+	src/supervised/svm_approx/matex_svm_approx-testing.$(OBJEXT) \
+	src/supervised/svm_approx/matex_svm_approx-shrinking.$(OBJEXT)
+matex_svm_approx_OBJECTS = $(am_matex_svm_approx_OBJECTS)
+matex_svm_approx_DEPENDENCIES = $(am__DEPENDENCIES_4)
+matex_svm_approx_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(matex_svm_approx_LDFLAGS) $(LDFLAGS) -o $@
 am_matex_svm_shrinking_OBJECTS = src/supervised/svm_shrinking/matex_svm_shrinking-comm.$(OBJEXT) \
 	src/supervised/svm_shrinking/matex_svm_shrinking-dataset.$(OBJEXT) \
 	src/supervised/svm_shrinking/matex_svm_shrinking-distance.$(OBJEXT) \
@@ -624,7 +637,8 @@ SOURCES = $(contrib_ARPACK_libarpack_a_SOURCES) \
 	$(matex_distance_to_similarity_SOURCES) $(matex_evd_SOURCES) \
 	$(matex_fpgrowth_SOURCES) $(matex_kmeans_SOURCES) \
 	$(matex_knn_SOURCES) $(matex_spectral_kmeans_SOURCES) \
-	$(matex_svm_SOURCES) $(matex_svm_shrinking_SOURCES)
+	$(matex_svm_SOURCES) $(matex_svm_approx_SOURCES) \
+	$(matex_svm_shrinking_SOURCES)
 DIST_SOURCES = $(contrib_ARPACK_libarpack_a_SOURCES) \
 	$(contrib_ARPACK_libarpack_blas_a_SOURCES) \
 	$(contrib_ARPACK_libarpack_lapack_a_SOURCES) \
@@ -633,7 +647,8 @@ DIST_SOURCES = $(contrib_ARPACK_libarpack_a_SOURCES) \
 	$(matex_distance_to_similarity_SOURCES) $(matex_evd_SOURCES) \
 	$(matex_fpgrowth_SOURCES) $(matex_kmeans_SOURCES) \
 	$(matex_knn_SOURCES) $(matex_spectral_kmeans_SOURCES) \
-	$(matex_svm_SOURCES) $(matex_svm_shrinking_SOURCES)
+	$(matex_svm_SOURCES) $(matex_svm_approx_SOURCES) \
+	$(matex_svm_shrinking_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -1046,6 +1061,20 @@ matex_svm_shrinking_SOURCES = src/supervised/svm_shrinking/comm.cpp \
 matex_svm_shrinking_CPPFLAGS = $(AM_CPPFLAGS)
 matex_svm_shrinking_LDFLAGS = $(AM_LDFLAGS)
 matex_svm_shrinking_LDADD = $(LDADD)
+matex_svm_approx_SOURCES = src/supervised/svm_approx/comm.cpp \
+	src/supervised/svm_approx/comm.hpp \
+	src/supervised/svm_approx/dataset.cpp \
+	src/supervised/svm_approx/dataset.hpp \
+	src/supervised/svm_approx/distance.cpp \
+	src/supervised/svm_approx/distance.hpp \
+	src/supervised/svm_approx/driver.cpp \
+	src/supervised/svm_approx/smo.cpp \
+	src/supervised/svm_approx/smo.hpp \
+	src/supervised/svm_approx/testing.cpp \
+	src/supervised/svm_approx/shrinking.cpp
+matex_svm_approx_CPPFLAGS = $(AM_CPPFLAGS)
+matex_svm_approx_LDFLAGS = $(AM_LDFLAGS)
+matex_svm_approx_LDADD = $(LDADD)
 matex_knn_SOURCES = src/supervised/knn/comm.cpp \
 	src/supervised/knn/comm.hpp src/supervised/knn/dataset.cpp \
 	src/supervised/knn/dataset.hpp src/supervised/knn/distance.cpp \
@@ -2558,6 +2587,36 @@ src/supervised/svm/matex_svm-testing.$(OBJEXT):  \
 matex_svm$(EXEEXT): $(matex_svm_OBJECTS) $(matex_svm_DEPENDENCIES) $(EXTRA_matex_svm_DEPENDENCIES) 
 	@rm -f matex_svm$(EXEEXT)
 	$(AM_V_CXXLD)$(matex_svm_LINK) $(matex_svm_OBJECTS) $(matex_svm_LDADD) $(LIBS)
+src/supervised/svm_approx/$(am__dirstamp):
+	@$(MKDIR_P) src/supervised/svm_approx
+	@: > src/supervised/svm_approx/$(am__dirstamp)
+src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/supervised/svm_approx/$(DEPDIR)
+	@: > src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-comm.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-dataset.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-distance.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-driver.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-smo.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-testing.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+src/supervised/svm_approx/matex_svm_approx-shrinking.$(OBJEXT):  \
+	src/supervised/svm_approx/$(am__dirstamp) \
+	src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+matex_svm_approx$(EXEEXT): $(matex_svm_approx_OBJECTS) $(matex_svm_approx_DEPENDENCIES) $(EXTRA_matex_svm_approx_DEPENDENCIES) 
+	@rm -f matex_svm_approx$(EXEEXT)
+	$(AM_V_CXXLD)$(matex_svm_approx_LINK) $(matex_svm_approx_OBJECTS) $(matex_svm_approx_LDADD) $(LIBS)
 src/supervised/svm_shrinking/$(am__dirstamp):
 	@$(MKDIR_P) src/supervised/svm_shrinking
 	@: > src/supervised/svm_shrinking/$(am__dirstamp)
@@ -2995,6 +3054,13 @@ mostlyclean-compile:
 	-rm -f src/supervised/svm/matex_svm-driver.$(OBJEXT)
 	-rm -f src/supervised/svm/matex_svm-smo.$(OBJEXT)
 	-rm -f src/supervised/svm/matex_svm-testing.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-comm.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-dataset.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-distance.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-driver.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-shrinking.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-smo.$(OBJEXT)
+	-rm -f src/supervised/svm_approx/matex_svm_approx-testing.$(OBJEXT)
 	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-comm.$(OBJEXT)
 	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-dataset.$(OBJEXT)
 	-rm -f src/supervised/svm_shrinking/matex_svm_shrinking-distance.$(OBJEXT)
@@ -3034,6 +3100,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm/$(DEPDIR)/matex_svm-driver.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm/$(DEPDIR)/matex_svm-smo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm/$(DEPDIR)/matex_svm-testing.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-dataset.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-distance.Po@am__quote@
@@ -3404,6 +3477,104 @@ src/supervised/svm/matex_svm-testing.obj: src/supervised/svm/testing.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm/testing.cpp' object='src/supervised/svm/matex_svm-testing.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm/matex_svm-testing.obj `if test -f 'src/supervised/svm/testing.cpp'; then $(CYGPATH_W) 'src/supervised/svm/testing.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm/testing.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-comm.o: src/supervised/svm_approx/comm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-comm.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-comm.o `test -f 'src/supervised/svm_approx/comm.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/comm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/comm.cpp' object='src/supervised/svm_approx/matex_svm_approx-comm.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-comm.o `test -f 'src/supervised/svm_approx/comm.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/comm.cpp
+
+src/supervised/svm_approx/matex_svm_approx-comm.obj: src/supervised/svm_approx/comm.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-comm.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-comm.obj `if test -f 'src/supervised/svm_approx/comm.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/comm.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/comm.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-comm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/comm.cpp' object='src/supervised/svm_approx/matex_svm_approx-comm.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-comm.obj `if test -f 'src/supervised/svm_approx/comm.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/comm.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/comm.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-dataset.o: src/supervised/svm_approx/dataset.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-dataset.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-dataset.o `test -f 'src/supervised/svm_approx/dataset.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/dataset.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/dataset.cpp' object='src/supervised/svm_approx/matex_svm_approx-dataset.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-dataset.o `test -f 'src/supervised/svm_approx/dataset.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/dataset.cpp
+
+src/supervised/svm_approx/matex_svm_approx-dataset.obj: src/supervised/svm_approx/dataset.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-dataset.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-dataset.obj `if test -f 'src/supervised/svm_approx/dataset.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/dataset.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/dataset.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-dataset.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/dataset.cpp' object='src/supervised/svm_approx/matex_svm_approx-dataset.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-dataset.obj `if test -f 'src/supervised/svm_approx/dataset.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/dataset.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/dataset.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-distance.o: src/supervised/svm_approx/distance.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-distance.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-distance.o `test -f 'src/supervised/svm_approx/distance.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/distance.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/distance.cpp' object='src/supervised/svm_approx/matex_svm_approx-distance.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-distance.o `test -f 'src/supervised/svm_approx/distance.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/distance.cpp
+
+src/supervised/svm_approx/matex_svm_approx-distance.obj: src/supervised/svm_approx/distance.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-distance.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-distance.obj `if test -f 'src/supervised/svm_approx/distance.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/distance.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/distance.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-distance.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/distance.cpp' object='src/supervised/svm_approx/matex_svm_approx-distance.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-distance.obj `if test -f 'src/supervised/svm_approx/distance.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/distance.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/distance.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-driver.o: src/supervised/svm_approx/driver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-driver.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-driver.o `test -f 'src/supervised/svm_approx/driver.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/driver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/driver.cpp' object='src/supervised/svm_approx/matex_svm_approx-driver.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-driver.o `test -f 'src/supervised/svm_approx/driver.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/driver.cpp
+
+src/supervised/svm_approx/matex_svm_approx-driver.obj: src/supervised/svm_approx/driver.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-driver.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-driver.obj `if test -f 'src/supervised/svm_approx/driver.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/driver.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/driver.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-driver.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/driver.cpp' object='src/supervised/svm_approx/matex_svm_approx-driver.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-driver.obj `if test -f 'src/supervised/svm_approx/driver.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/driver.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/driver.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-smo.o: src/supervised/svm_approx/smo.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-smo.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-smo.o `test -f 'src/supervised/svm_approx/smo.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/smo.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/smo.cpp' object='src/supervised/svm_approx/matex_svm_approx-smo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-smo.o `test -f 'src/supervised/svm_approx/smo.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/smo.cpp
+
+src/supervised/svm_approx/matex_svm_approx-smo.obj: src/supervised/svm_approx/smo.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-smo.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-smo.obj `if test -f 'src/supervised/svm_approx/smo.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/smo.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/smo.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-smo.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/smo.cpp' object='src/supervised/svm_approx/matex_svm_approx-smo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-smo.obj `if test -f 'src/supervised/svm_approx/smo.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/smo.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/smo.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-testing.o: src/supervised/svm_approx/testing.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-testing.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-testing.o `test -f 'src/supervised/svm_approx/testing.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/testing.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/testing.cpp' object='src/supervised/svm_approx/matex_svm_approx-testing.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-testing.o `test -f 'src/supervised/svm_approx/testing.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/testing.cpp
+
+src/supervised/svm_approx/matex_svm_approx-testing.obj: src/supervised/svm_approx/testing.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-testing.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-testing.obj `if test -f 'src/supervised/svm_approx/testing.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/testing.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/testing.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-testing.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/testing.cpp' object='src/supervised/svm_approx/matex_svm_approx-testing.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-testing.obj `if test -f 'src/supervised/svm_approx/testing.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/testing.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/testing.cpp'; fi`
+
+src/supervised/svm_approx/matex_svm_approx-shrinking.o: src/supervised/svm_approx/shrinking.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-shrinking.o -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-shrinking.o `test -f 'src/supervised/svm_approx/shrinking.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/shrinking.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/shrinking.cpp' object='src/supervised/svm_approx/matex_svm_approx-shrinking.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-shrinking.o `test -f 'src/supervised/svm_approx/shrinking.cpp' || echo '$(srcdir)/'`src/supervised/svm_approx/shrinking.cpp
+
+src/supervised/svm_approx/matex_svm_approx-shrinking.obj: src/supervised/svm_approx/shrinking.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_approx/matex_svm_approx-shrinking.obj -MD -MP -MF src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Tpo -c -o src/supervised/svm_approx/matex_svm_approx-shrinking.obj `if test -f 'src/supervised/svm_approx/shrinking.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/shrinking.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/shrinking.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Tpo src/supervised/svm_approx/$(DEPDIR)/matex_svm_approx-shrinking.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/supervised/svm_approx/shrinking.cpp' object='src/supervised/svm_approx/matex_svm_approx-shrinking.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_approx_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o src/supervised/svm_approx/matex_svm_approx-shrinking.obj `if test -f 'src/supervised/svm_approx/shrinking.cpp'; then $(CYGPATH_W) 'src/supervised/svm_approx/shrinking.cpp'; else $(CYGPATH_W) '$(srcdir)/src/supervised/svm_approx/shrinking.cpp'; fi`
 
 src/supervised/svm_shrinking/matex_svm_shrinking-comm.o: src/supervised/svm_shrinking/comm.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(matex_svm_shrinking_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT src/supervised/svm_shrinking/matex_svm_shrinking-comm.o -MD -MP -MF src/supervised/svm_shrinking/$(DEPDIR)/matex_svm_shrinking-comm.Tpo -c -o src/supervised/svm_shrinking/matex_svm_shrinking-comm.o `test -f 'src/supervised/svm_shrinking/comm.cpp' || echo '$(srcdir)/'`src/supervised/svm_shrinking/comm.cpp
@@ -3799,6 +3970,8 @@ distclean-generic:
 	-rm -f src/supervised/knn/$(am__dirstamp)
 	-rm -f src/supervised/svm/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/supervised/svm/$(am__dirstamp)
+	-rm -f src/supervised/svm_approx/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/supervised/svm_approx/$(am__dirstamp)
 	-rm -f src/supervised/svm_shrinking/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/supervised/svm_shrinking/$(am__dirstamp)
 	-rm -f src/unsupervised/kmeans/$(DEPDIR)/$(am__dirstamp)
@@ -3819,7 +3992,7 @@ clean-am: clean-binPROGRAMS clean-checkPROGRAMS clean-generic \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/supervised/svm_shrinking/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
+	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/supervised/svm_approx/$(DEPDIR) src/supervised/svm_shrinking/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-tags
@@ -3867,7 +4040,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/supervised/svm_shrinking/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
+	-rm -rf src/assoc_rules/$(DEPDIR) src/supervised/knn/$(DEPDIR) src/supervised/svm/$(DEPDIR) src/supervised/svm_approx/$(DEPDIR) src/supervised/svm_shrinking/$(DEPDIR) src/unsupervised/kmeans/$(DEPDIR) src/unsupervised/spectralclustering/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
