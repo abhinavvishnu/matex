@@ -1,14 +1,14 @@
 Deep Learning using TensorFlow and MPI (mpi-tensorflow.py)
 ==========================================================
 
-mpi-tensorflow.py uses the Message Passing Interface (MPI) via mpi4py to replicate a TensorFlow graph.  Each MPI rank receives a disjoint partition of the input dataset, processes the local samples, and performs an MPI reduction of the weights and biases before entering the next epoch.
+mpi-tensorflow.py scales the TensorFlow on large scale systems using Message Passing Interface (MPI) via mpi4py.  Each MPI rank receives a disjoint partition of the input dataset, processes the local samples, and performs an MPI reduction of the weights and biases before entering the next epoch.
 
 Datasets
 --------
 
 mpi-tensorflow.py will default to using the MNIST dataset.  Other datasets can be selected using the --data command-line parameter (see below).  The first time the MNIST, CIFAR10, or CIFAR100 datasets are used, they will be downloaded.  Subsequent runs will reuse the downloaded data and only extract it.
 
-User-specified data is given by the `--data CSV` and `--filename <file.csv>` command-line parameters.  It is expected that the CSV file contains the classifier as the first column.  The validation and testing sets are created by reserving a percentage of the samples from the end of the data set using `--valid_pct` and `--test_pct`, respectively.
+User-specified data is given by the `--data CSV` and `--filename <file.csv>` command-line parameters.  It is expected that the CSV file contains the class label as the first column.  The validation and testing sets are created by reserving a percentage of the samples from the end of the data set using `--valid_pct` and `--test_pct`, respectively.
 
 Command-Line Interface
 ----------------------
