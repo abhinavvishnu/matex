@@ -1,0 +1,3 @@
+*.pyc
+CIFAR_data
+MNIST_data
