@@ -35,9 +35,9 @@ opts,args = getopt.getopt(sys.argv[1:], "a:b:c:d:e:fg:i:hj:k:l:t:r:s:z:y",
 ])
 
 conv_layers = []
-full_layers = [30]
-train_batch = 10
-epochs = 30
+full_layers = [100]
+train_batch = 1024
+epochs = 50
 learning_rate = 0.01
 data = "MNIST"
 input_shape = [784]
