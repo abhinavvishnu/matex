@@ -32,12 +32,15 @@ opts,args = getopt.getopt(sys.argv[1:], "a:b:c:d:e:fg:i:hj:k:l:t:r:s:z:y",
 "threads=",
 "inter_threads=",
 "intra_threads=",
+"error_batch",
+"merge_every=",
+"top=",
 ])
 
 conv_layers = []
-full_layers = [100]
-train_batch = 1024
-epochs = 50
+full_layers = [30]
+train_batch = 10
+epochs = 30
 learning_rate = 0.01
 data = "MNIST"
 input_shape = [784]
@@ -49,6 +52,9 @@ valid_pct = 0.1
 test_pct = 0.1
 stop_time = -1
 epoch = 0
+error_batch = False
+merge_every = 0
+top = 1
 
 help_str = ""
 help_str +=   "    --conv_layers"
@@ -67,6 +73,9 @@ help_str += "\n    --filename"
 help_str += "\n    --valid_pct"
 help_str += "\n    --test_pct"
 help_str += "\n    --time"
+help_str += "\n    --error_batch"
+help_str += "\n    --merge_every"
+help_str += "\n    --top"
 
 for opt,arg in opts:
     if opt == '-a' or opt == '--conv_layers':
@@ -112,6 +121,12 @@ for opt,arg in opts:
         test_pct = float(arg)
     elif opt == '--time':
         stop_time = float(arg)
+    elif opt == '--error_batch':
+        error_batch = True
+    elif opt == '--merge_every':
+        merge_every = int(arg)
+    elif opt == '--top':
+        top = int(arg)
 
 if 0 == inter_threads:
     inter_threads = threads
@@ -164,7 +179,10 @@ elif data == "CIFAR100":
     valid_lab = cifar100.validation.labels
     test_dat = cifar100.test.images
     test_lab = cifar100.test.labels
-    input_shape = [full_dat.shape[1]]
+    if conv_layers != []:
+        input_shape = [32, 32, 3]
+    else:
+        input_shape = [full_dat.shape[1]]
     output_size = 100
 elif data == "CSV":
     full_dat,full_lab,valid_dat,valid_lab,test_dat,test_lab = read_csv(filename,
@@ -172,9 +190,6 @@ elif data == "CSV":
             test_percentage=test_pct)
     input_shape = [full_dat.shape[1]]
     output_size = full_lab.shape[1]
-else:
-    print "--data must be one of [MNIST, CIFAR10, CIFAR100, CSV]"
-    sys.exit(1)
 
 if 0 == rank:
     print full_dat.shape
@@ -238,25 +253,14 @@ def create_full_layer(in_size, out_size, layer_list, weight_list,
 
 time_global_start = time.time()
 
-def populate_and_run_graph(
-        data,
-        labels,
-        conv_layers,
-        full_layers,
-        train_batch,
-        epochs,
-        learning_rate,
-        input_shape,
-        saved_state):
 
-    global time_global_start
-    global epoch
-    global max_accuracy_encountered_value
-    global max_accuracy_encountered_epoch
-    global max_accuracy_encountered_time
+def populate_graph(
+            conv_layers,
+            full_layers,
+            learning_rate,
+            input_shape,
+            saved_state):
 
-    time_epoch_start = time.time()
-    
     weights = []
     biases = []
     layers = []
@@ -291,73 +295,186 @@ def populate_and_run_graph(
     weights.append(W)
     biases.append(b)
 
+    w_holder = [tf.placeholder(tf.float32, w.get_shape()) for w in weights]
+    b_holder = [tf.placeholder(tf.float32, b.get_shape()) for b in  biases]
+    w_assign = [w.assign(p) for w,p in zip(weights,w_holder)]
+    b_assign = [b.assign(p) for b,p in zip( biases,b_holder)]
+
     y = tf.nn.softmax(tf.matmul(layers[-1], W) + b)
-    
-    #train network
-    
+
     tf_diff = y_-y
     square = tf_diff*tf_diff/2.0
     cross_entropy = tf.reduce_sum(square)
     train_step = tf.train.AdagradOptimizer(learning_rate).minimize(cross_entropy)
+    #train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
     init = tf.initialize_all_variables()
     sess = tf.Session(
             config=tf.ConfigProto(
                 inter_op_parallelism_threads=inter_threads,
                 intra_op_parallelism_threads=intra_threads))
     
-    correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    correct = tf.nn.in_top_k(y, tf.argmax(y_, 1), top)
+    accuracy = tf.reduce_sum(tf.cast(correct, tf.int32))
 
     sess.run(init)
+
+    ops = {
+            "sess":sess,
+            "x":x,
+            "y_":y_,
+            "weights":weights,
+            "biases":biases,
+            "w_holder":w_holder,
+            "b_holder":b_holder,
+            "w_assign":w_assign,
+            "b_assign":b_assign,
+            "train_step":train_step,
+            "cross_entropy":cross_entropy,
+            "accuracy":accuracy,
+            }
+
+    return ops
+
+
+def run_graph(
+        data,
+        labels,
+        train_batch,
+        ops,
+        saved_state):
+
+
+    global time_global_start
+    global epoch
+    global max_accuracy_encountered_value
+    global max_accuracy_encountered_epoch
+    global max_accuracy_encountered_time
+
+    time_epoch_start = time.time()
+    time_comm = 0.0
+
+    sess = ops["sess"]
+    x = ops["x"]
+    y_ = ops["y_"]
+    weights = ops["weights"]
+    biases = ops["biases"]
+    w_holder = ops["w_holder"]
+    b_holder = ops["b_holder"]
+    w_assign = ops["w_assign"]
+    b_assign = ops["b_assign"]
+    train_step = ops["train_step"]
+    cross_entropy =  ops["cross_entropy"]
+    accuracy =  ops["accuracy"]
+
+    # use saved state to assign saved weights and biases
+    if saved_state is not None:
+        feed_dict = {}
+        for d,p in zip(saved_state[0],w_holder):
+            feed_dict[p] = d
+        for d,p in zip(saved_state[1],b_holder):
+            feed_dict[p] = d
+        sess.run(w_assign+b_assign, feed_dict=feed_dict)
+
+    number_of_batches = len(data)/train_batch
+    time_this = time.time()
+    min_batches = comm.allreduce(number_of_batches, MPI.MIN)
+    time_comm += time.time() - time_this
+    if number_of_batches == 0:
+        number_of_batches = 1
     
-    for i in range(len(data)/train_batch):
+    for i in range(number_of_batches):
         lo = i*train_batch
         hi = (i+1)*train_batch
         batch_xs = data[lo:hi]
         batch_ys = labels[lo:hi]
         sess.run(train_step, feed_dict={x: batch_xs, y_:batch_ys})
-    sum_error = sess.run(cross_entropy, feed_dict={x: data, y_: labels})
-    sum_error_all = comm.allreduce(sum_error)
-    accurate = sess.run(accuracy, feed_dict={x: test_dat, y_: test_lab})
+        if (i < min_batches) and (merge_every>=1) and (i%merge_every == 0):
+            time_this = time.time()
+            r_weights = sess.run(weights)
+            r_biases = sess.run(biases)
+            for r in r_weights:
+                comm.Allreduce(MPI.IN_PLACE, r, MPI.SUM)
+                r /= size
+            for r in r_biases:
+                comm.Allreduce(MPI.IN_PLACE, r, MPI.SUM)
+                r /= size
+            feed_dict = {}
+            for d,p in zip(r_weights,w_holder):
+                feed_dict[p] = d
+            for d,p in zip(r_biases,b_holder):
+                feed_dict[p] = d
+            sess.run(w_assign+b_assign, feed_dict=feed_dict)
+            time_comm += time.time() - time_this
 
+    # average as soon as we're done with all batches so the error and
+    # accuracy reflect the current epoch
+    time_this = time.time()
     r_weights = sess.run(weights)
     r_biases = sess.run(biases)
-    n_weights = []
-    n_biases = []
     for r in r_weights:
-        new_r = np.empty_like(r)
-        comm.Allreduce(r, new_r, MPI.SUM)
-        n_weights.append(new_r/size)
+        comm.Allreduce(MPI.IN_PLACE, r, MPI.SUM)
+        r /= size
     for r in r_biases:
-        new_r = np.empty_like(r)
-        comm.Allreduce(r, new_r, MPI.SUM)
-        n_biases.append(new_r/size)
-    del r_weights
-    del r_biases
+        comm.Allreduce(MPI.IN_PLACE, r, MPI.SUM)
+        r /= size
+    time_comm += time.time() - time_this
+
+    sum_error = 0.0
+    if error_batch:
+        for i in range(number_of_batches):
+            lo = i*train_batch
+            hi = (i+1)*train_batch
+            batch_xs = data[lo:hi]
+            batch_ys = labels[lo:hi]
+            sum_error += sess.run(cross_entropy, feed_dict={x: batch_xs, y_:batch_ys})
+    else:
+        sum_error = sess.run(cross_entropy, feed_dict={x: data, y_: labels})
+    time_this = time.time()
+    sum_error_all = comm.allreduce(sum_error)
+    time_comm += time.time() - time_this
+    accurate = 0.0
+    if error_batch:
+        test_batch_count = len(test_dat)/train_batch
+        if test_batch_count == 0:
+            test_batch_count = 1
+        for i in range(test_batch_count):
+            lo = i*train_batch
+            hi = (i+1)*train_batch
+            batch_xs = test_dat[lo:hi]
+            batch_ys = test_lab[lo:hi]
+            accurate += sess.run(accuracy, feed_dict={x: batch_xs, y_: batch_ys})
+    else:
+        accurate = sess.run(accuracy, feed_dict={x: test_dat, y_: test_lab})
+    time_this = time.time()
+    accurate = comm.allreduce(accurate, MPI.SUM)
+    acc_count = comm.allreduce(len(test_dat), MPI.SUM)
+    accurate = float(accurate)/acc_count
+    time_comm += time.time() - time_this
 
     if accurate > max_accuracy_encountered_value:
         max_accuracy_encountered_value = accurate
         max_accuracy_encountered_epoch = epoch
         max_accuracy_encountered_time = time.time()-time_global_start
 
-    sess.close()
+    time_all = time.time() - time_epoch_start
 
     if 0 == rank:
-        print "%s,%s,%s,%s,%s,%s" % (
+        print "%s,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f" % (
                 epoch+1,
-                time.time()-time_epoch_start,
+                time_all,
                 time.time()-time_global_start,
                 accurate,
                 resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1000.0,
+                time_comm / time_all,
                 sum_error_all,
                 )
     sys.stdout.flush()
 
-    return n_weights, n_biases
+    return r_weights, r_biases
 
 
 if 0 == rank:
-    print "epoch,etime,ctime,accuracy,MB_mem,error"
+    print "epoch,etime,ctime,accuracy,MB_mem,time_comm,error"
 
 data_threshold = int(len(full_dat)/2)
 active_dat = full_dat
@@ -367,38 +484,36 @@ inactive_lab = np.empty([0]+list(full_lab.shape[1:]), full_lab.dtype)
 
 if stop_time > 0:
     saved_state = None
+    ops = populate_graph(
+            conv_layers,
+            full_layers,
+            learning_rate,
+            input_shape,
+            saved_state)
     while stop_time > (time.time()-time_global_start):
-        graph = tf.Graph()
-        with graph.as_default():
-            saved_state = populate_and_run_graph(
-                    active_dat,
-                    active_lab,
-                    conv_layers,
-                    full_layers,
-                    train_batch,
-                    epochs,
-                    learning_rate,
-                    input_shape,
-                    saved_state)
-        del graph
+        saved_state = run_graph(
+                active_dat,
+                active_lab,
+                train_batch,
+                ops,
+                saved_state)
         epoch += 1
 
 else:
     saved_state = None
+    ops = populate_graph(
+            conv_layers,
+            full_layers,
+            learning_rate,
+            input_shape,
+            saved_state)
     for epoch in range(epochs):
-        graph = tf.Graph()
-        with graph.as_default():
-            saved_state = populate_and_run_graph(
-                    active_dat,
-                    active_lab,
-                    conv_layers,
-                    full_layers,
-                    train_batch,
-                    epochs,
-                    learning_rate,
-                    input_shape,
-                    saved_state)
-        del graph
+        saved_state = run_graph(
+                active_dat,
+                active_lab,
+                train_batch,
+                ops,
+                saved_state)
 
 if 0 == rank:
     print "max accuracy achieved value", max_accuracy_encountered_value
