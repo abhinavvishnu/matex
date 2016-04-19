@@ -20,7 +20,7 @@ Parameter       | Default | Alt. Example | Description
 --train_batch   | 10      | 1000         | sample batch size
 --epochs        | 30      | 300          | number of epochs to run
 --time          | -1      | 60.0         | stop running after given number of seconds; when present, --epochs is ignored
---learning_rate | 0.1     | 1.1          | learning rate
+--learning_rate | 0.01    | 1.1          | learning rate
 --data          | MNIST   | CIFAR10      | data set, one of MNIST, CIFAR10, CIFAR100, CSV
 --inter_threads | 1       | 5            | sets inter_threads used by TensorFlow
 --intra_threads | 1       | 5            | sets intra_threads used by TensorFlow
