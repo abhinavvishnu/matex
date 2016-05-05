@@ -14,3 +14,5 @@ The tested network used the full MNIST training set of 60000 greyscale 28 x 28 i
 These tests were performed on a Windows 7 enterprise sp 1 (64-bit) computer with an Ubuntu 15.10LTS virtual box with access to 5292 MB of RAM and 4 processors from an Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz with 8.00 GB of RAM.
 
 The TensorFlow 0.8.0 and PyCaffe files are included as tensorflow_test.py and pycaffe_test.py.  The only difference between TensorFlow 0.8.0 and TensorFlow 0.7.1 is in the MNIST reader, as several TensorFlow functions moved between releases.
+
+Both versions of TensorFlow installed from the provided whl files.  Caffe compiled with ATLAS as BLAS.
