@@ -28,3 +28,8 @@ Parameter       | Default | Alt. Example | Description
 --filename      | None    | file.csv     | filename to use with --data CSV
 --valid_pct     | 0.1     | 0.05         | percentage of samples to reserve for validation set (used by all data sets)
 --test_pct      | 0.1     | 0.05         | percentage of samples to reserve for testing set (used only by --data CSV)
+
+
+--------
+
+tf_alexnet.py is a script that will train AlexNet from scratch using tensorflow, using standard parameters.  It takes two parameters: --train_data and --test_data which take paths to pnetcdf files of the ILSVRC2012 training and validation sets.
