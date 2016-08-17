@@ -59,6 +59,12 @@ Vishnu, and Khushbu Agarwal. IEEE Cluster 2015, September, 2015 (pdf).
 Hamidouche, Jie Zhang, Xiaoyi Lu, Abhinav Vishnu and Dhabaleswar Panda.
 OpenSHMEM Workshop, August, 2015. pdf .
 
+Acknowledgement
+---------------
+
+MaTEx is supported by PNNL Analysis in Motion (AIM) initiative and US
+Government.
+
 Support
 -------
 Email matex-users@googlegroups.com for all questions/bugs/requests.
