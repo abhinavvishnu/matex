@@ -7,8 +7,10 @@ and cloud computing systems.
 
 Supported Algorithms
 --------------------
-1) Deep Neural Networks (extending Google TensorFlow with MPI)
+1) **Deep Neural Networks (extending Google TensorFlow with MPI)**
+
 2) k-means, Spectral Clustering
+
 3) KNN, Support Vector Machines
 
 MaTEx uses Message Passing Interface (MPI), which can be used on
