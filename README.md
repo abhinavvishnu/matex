@@ -65,6 +65,18 @@ Acknowledgement
 MaTEx is supported by PNNL Analysis in Motion (AIM) initiative and US
 Government.
 
+
+Contributors
+------------
+
+Technical Lead: **Abhinav Vishnu**
+
+Current Contributors: Jeff Daily, Charles Siegel, Lindy Rauchenstein,
+Junqiao Qiu, Chengcheng Jia
+
+Project Alumni: Sameh Abdulah, Jeyanthi Narasimhan, Joon Hee Choi, Gagan
+Agrawala
+
 Support
 -------
 Email matex-users@googlegroups.com for all questions/bugs/requests.
