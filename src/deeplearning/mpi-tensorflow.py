@@ -145,8 +145,7 @@ valid_lab = None
 test_dat = None
 test_lab = None
 if data == "MNIST":
-    mnist = read_data_sets('MNIST_data', one_hot=True,
-            validation_percentage=valid_pct)
+    mnist = read_data_sets('MNIST_data', one_hot=True, validation_percentage=valid_pct)
     full_dat = mnist.train._images
     full_lab = mnist.train._labels
     valid_dat = mnist.validation.images
@@ -305,7 +304,7 @@ def populate_graph(
     cross_entropy = - tf.reduce_mean(tf.reduce_sum(y_ * tf.log(tf.clip_by_value(y, 1e-10, 1.0)), reduction_indices=1))
     #train_step = tf.train.AdagradOptimizer(learning_rate).minimize(cross_entropy)
     train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
-    init = tf.initialize_all_variables()
+    init = tf.global_variables_initializer()
     sess = tf.Session(
             config=tf.ConfigProto(
                 inter_op_parallelism_threads=inter_threads,

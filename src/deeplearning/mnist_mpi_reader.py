@@ -2,10 +2,13 @@ import sys
 from mpi4py import MPI
 import numpy as np
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist.input_data import extract_images
-from tensorflow.examples.tutorials.mnist.input_data import extract_labels
-from tensorflow.examples.tutorials.mnist.input_data import maybe_download
-from tensorflow.examples.tutorials.mnist.input_data import DataSet
+from tensorflow.contrib.learn.python.learn.datasets.mnist import extract_images, extract_labels, DataSet
+# from tensorflow.examples.tutorials.mnist.input_data import extract_images
+# from tensorflow.examples.tutorials.mnist.input_data import extract_labels
+# from tensorflow.examples.tutorials.mnist.input_data import maybe_download
+from tensorflow.models.image.mnist.convolutional import maybe_download
+# from tensorflow.examples.tutorials.mnist.input_data import DataSet
+
 
 def read_data_sets(train_dir, fake_data=False, one_hot=False,
         shuffle=False, validation_percentage=0.1):
@@ -23,13 +26,18 @@ def read_data_sets(train_dir, fake_data=False, one_hot=False,
         data_sets.validation = fake()
         data_sets.test = fake()
         return data_sets
+
+    SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
+    WORK_DIRECTORY = 'data'
+
     TRAIN_IMAGES = 'train-images-idx3-ubyte.gz'
     TRAIN_LABELS = 'train-labels-idx1-ubyte.gz'
     TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
     TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
     if 0 == rank:
-        local_file = maybe_download(TRAIN_IMAGES, train_dir)
-        train_images = extract_images(local_file)
+        local_file = maybe_download(TRAIN_IMAGES)
+        temp_file = open(local_file, 'r')
+        train_images = extract_images(temp_file)
         if shuffle:
             # shuffle the data
             perm = np.arange(train_images.shape[0])
@@ -40,8 +48,9 @@ def read_data_sets(train_dir, fake_data=False, one_hot=False,
         shape = comm.bcast(shape, root=0)
         comm.Bcast(train_images, root=0)
 
-        local_file = maybe_download(TRAIN_LABELS, train_dir)
-        train_labels = extract_labels(local_file, one_hot=one_hot)
+        local_file = maybe_download(TRAIN_LABELS)
+        temp_file = open(local_file, 'r')
+        train_labels = extract_labels(temp_file, one_hot=one_hot)
         if shuffle:
             # shuffle the data, using same indices as images above
             train_labels = train_labels[perm]
@@ -50,14 +59,16 @@ def read_data_sets(train_dir, fake_data=False, one_hot=False,
         shape = comm.bcast(shape, root=0)
         comm.Bcast(train_labels, root=0)
 
-        local_file = maybe_download(TEST_IMAGES, train_dir)
-        test_images = extract_images(local_file)
+        local_file = maybe_download(TEST_IMAGES)
+        temp_file = open(local_file, 'r')
+        test_images = extract_images(temp_file)
         shape = test_images.shape
         shape = comm.bcast(shape, root=0)
         comm.Bcast(test_images, root=0)
 
-        local_file = maybe_download(TEST_LABELS, train_dir)
-        test_labels = extract_labels(local_file, one_hot=one_hot)
+        local_file = maybe_download(TEST_LABELS)
+        temp_file = open(local_file, 'r')
+        test_labels = extract_labels(temp_file, one_hot=one_hot)
         shape = test_labels.shape
         shape = comm.bcast(shape, root=0)
         comm.Bcast(test_labels, root=0)
@@ -99,6 +110,10 @@ def read_data_sets(train_dir, fake_data=False, one_hot=False,
     else :
         start += remain
         stop += remain
+
+    VALIDATION_SIZE = int(VALIDATION_SIZE)
+    start = int(start)
+    stop = int(stop)
 
     validation_images = train_images[:VALIDATION_SIZE]
     validation_labels = train_labels[:VALIDATION_SIZE]

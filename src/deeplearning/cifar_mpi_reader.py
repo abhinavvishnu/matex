@@ -203,6 +203,10 @@ def read_cifar(train_dir, is_ten, one_hot=False, shuffle=False,
         start += remain
         stop += remain
 
+    VALIDATION_SIZE = int(VALIDATION_SIZE)
+    start = int(start)
+    stop = int(stop)
+
     validation_images = train_images[:VALIDATION_SIZE]
     validation_labels = train_labels[:VALIDATION_SIZE]
     train_images = train_images[VALIDATION_SIZE:]
