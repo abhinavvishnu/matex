@@ -434,7 +434,7 @@ def run_graph(
     else:
         sum_error = sess.run(cross_entropy, feed_dict={x: data, y_: labels})
     time_this = time.time()
-    sum_error_all = comm.allreduce(sum_error)
+    sum_error_all = comm.allreduce(sum_error)/size
     time_comm += time.time() - time_this
     accurate = 0.0
     if error_batch:
