@@ -19,13 +19,8 @@ average = np.transpose(average, [1, 2, 0])
 
 data_start = time.time()
 
-# training_data, training_labels = read_pnetcdf(args.train_data)
-# testing_data, testing_labels = read_pnetcdf(args.test_data)
-
-training_data = np.load('/home/charles/Desktop/ilsvrc.npy')
-training_labels = np.load('/home/charles/Desktop/ilsvrclab.npy')
-testing_data = np.load('/home/charles/Desktop/ilsvrc_test.npy')
-testing_labels = np.load('/home/charles/Desktop/ilsvrclab_test.npy')
+training_data, training_labels = read_pnetcdf(args.train_data)
+testing_data, testing_labels = read_pnetcdf(args.test_data)
 
 print "Time to Load Data", time.time()-data_start
 

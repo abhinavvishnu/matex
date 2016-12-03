@@ -3,6 +3,7 @@ from mnist_mpi_reader import read_data_sets
 from cifar_mpi_reader import read_cifar10
 from cifar_mpi_reader import read_cifar100
 from csv_mpi_reader import read_csv
+from pnetcdf import read_pnetcdf
 import tensorflow as tf
 import numpy as np
 import time
@@ -26,10 +27,11 @@ parser.add_argument('--input_shape', type=int, default=[784], nargs='+', help='i
 parser.add_argument('--output_size', type=int, default=10, help='number of classes')
 parser.add_argument('--data', type=str, default="MNIST", help='dataset')
 parser.add_argument('--filename', type=str, default=None, help='filename')
+parser.add_argument('--filename2', type=str, default=None, help='filename')
 parser.add_argument('--valid_pct', type=float, default=0.1, help='validation percent')
 parser.add_argument('--test_pct', type=float, default=0.1, help='testing percent')
 parser.add_argument('--time', type=float, default=-1, help='training time')
-parser.add_argument('--threads', type=int, default=1, help='number of threads')
+parser.add_argument('--threads', type=int, default=0, help='number of threads')
 parser.add_argument('--inter_threads', type=int, default=0, help='number of internal threads')
 parser.add_argument('--intra_threads', type=int, default=0, help='number of intra-op threads')
 parser.add_argument('--error_batch', action='store_true', help='batch the error calculation')
@@ -96,6 +98,13 @@ elif args.data == "CSV":
                                                                             test_percentage=args.test_pct)
     args.input_shape = [full_dat.shape[1]]
     args.output_size = full_lab.shape[1]
+elif args.data == "PNETCDF":
+    training_data, training_labels = read_pnetcdf(args.filename)
+    testing_data, testing_labels = read_pnetcdf(args.filename2)
+    args.input_shape = training_data.shape[1:]
+    args.output_size = np.max(training_labels)
+    if 0 in training_labels:
+        args.output_size += 1
 
 if 0 == rank:
     print full_dat.shape
