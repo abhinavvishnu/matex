@@ -3,6 +3,11 @@ from pnetcdf import read_pnetcdf
 import numpy as np
 import time
 import argparse
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_data', type=str, default=None, help='filename for CSV or PNETCDF')
@@ -14,14 +19,25 @@ average = np.transpose(average, [1, 2, 0])
 
 data_start = time.time()
 
-training_data, training_labels = read_pnetcdf(args.train_data)
-testing_data, testing_labels = read_pnetcdf(args.test_data)
+# training_data, training_labels = read_pnetcdf(args.train_data)
+# testing_data, testing_labels = read_pnetcdf(args.test_data)
+
+training_data = np.load('/home/charles/Desktop/ilsvrc.npy')
+training_labels = np.load('/home/charles/Desktop/ilsvrclab.npy')
+testing_data = np.load('/home/charles/Desktop/ilsvrc_test.npy')
+testing_labels = np.load('/home/charles/Desktop/ilsvrclab_test.npy')
 
 print "Time to Load Data", time.time()-data_start
 
 l2_coeff = 0.0005
 train_batch_size = 256
 test_batch_size = 100
+
+
+def mpi_average(tensor):
+    comm.Allreduce(MPI.IN_PLACE, tensor, MPI.SUM)
+    tensor /= size
+    return tensor
 
 
 def create_weights(shape, std):
@@ -128,9 +144,18 @@ opt2 = tf.train.MomentumOptimizer(tf.mul(2.0, learning_rate), 0.9)
 grads = tf.gradients(cost, weight_list + bias_list)
 grads1 = grads[:len(weight_list)]
 grads2 = grads[len(weight_list):]
+
+grads1 = [tf.py_func(mpi_average, [x], tf.float32) for x in grads1]
+grads2 = [tf.py_func(mpi_average, [x], tf.float32) for x in grads2]
+
 train1 = opt1.apply_gradients(zip(grads1, weight_list))
 train2 = opt2.apply_gradients(zip(grads2, bias_list))
 train_step = tf.group(train1, train2)
+
+# optimizer = tf.train.GradientDescentOptimizer(args_in.learning_rate)
+# grads_and_vars = optimizer.compute_gradients(cross_entropy, weights + biases)
+# grads_and_vars = [(tf.py_func(mpi_average, [gv[0]], tf.float32), gv[1]) for gv in grads_and_vars]
+# train_step = optimizer.apply_gradients(grads_and_vars)
 
 init = tf.initialize_all_variables()
 sess = tf.Session(config=tf.ConfigProto())
