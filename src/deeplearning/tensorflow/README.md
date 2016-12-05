@@ -1,4 +1,4 @@
-Deep Learning using TensorFlow and MPI (mpi-tensorflow.py)
+Getting Started
 ==========================================================
 
 mpi-tensorflow.py scales TensorFlow 0.12 on large scale systems using Message Passing Interface (MPI) via mpi4py.  Each MPI rank receives a disjoint partition of the input dataset, processes the local samples, and performs an MPI reduction of the gradients for each iteration.
