@@ -20,7 +20,7 @@ epoch = 0
 parser = argparse.ArgumentParser()
 parser.add_argument('--conv_layers', type=int, default=None, nargs='+', help='number of conv layers (space separated)')
 parser.add_argument('--full_layers', type=int, default=[30], nargs='+', help='number of full layers (space separated)')
-parser.add_argument('--train_batch', type=int, default=10, help='training batch size')
+parser.add_argument('--train_batch', type=int, default=128, help='training batch size')
 parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
 parser.add_argument('--learning_rate', type=float, default=0.1, nargs='+', help='learning rate')
 parser.add_argument('--input_shape', type=int, default=[784], nargs='+', help='input shape')
@@ -286,7 +286,7 @@ def run_graph(data, labels, ops, args_in):
             batch_ys = labels[lo:hi]
             sum_error += sess.run(cross_entropy, feed_dict={x: batch_xs, y_: batch_ys})
     else:
-        sum_error = sess.run(cross_entropy, feed_dict={x: data, y_: labels})
+        sum_error = sess.run(cross_entropy, feed_dict={x: data, y_: labels})/number_of_batches
     time_this = time.time()
     sum_error_all = comm.allreduce(sum_error) / size
     time_comm += time.time() - time_this
