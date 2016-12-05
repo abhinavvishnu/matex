@@ -37,7 +37,7 @@ Parameter       | Default | Alt. Example | Description
 ----------------| ------- | ------------ | -----------
 --conv_layers   | None    | 32 32        | numbers of features in convolutional layers with 5x5 window and stride of 2
 --full_layers   | 30      | 200 100 50   | numbers of features in fully connecterd layers
---train_batch   | 10      | 1024         | sample batch size
+--train_batch   | 128     | 1024         | sample batch size
 --epochs        | 30      | 300          | number of epochs to run
 --time          | -1      | 60.0         | stop running after given number of seconds; when present, --epochs is ignored
 --learning_rate | 0.1     | 1.1          | learning rate
