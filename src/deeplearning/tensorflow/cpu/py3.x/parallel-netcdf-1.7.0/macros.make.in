@@ -1,0 +1,138 @@
+# $Id: macros.make.in 2264 2015-12-22 15:42:59Z wkliao $
+
+# The purpose of this file is to contain common make(1) macros.
+# It should be processed by every execution of that utility.
+
+@SET_MAKE@
+
+# POSIX shell.  Shouldn't be necessary -- but is under IRIX 5.3.
+SHELL		= /bin/sh
+RM		= @RM@
+LN_S		= @LN_S@
+
+# Installation Directories:
+# SRCDIR	= @SRCDIR@
+prefix		= @prefix@
+INCDIR		= $(prefix)/include
+LIBDIR		= $(prefix)/lib
+BINDIR		= $(prefix)/bin
+MANDIR		= $(prefix)/man
+BUILDDIR	= @BUILDDIR@
+LIBRARY		= @BUILDDIR@/src/lib/libpnetcdf.a
+
+
+# Useful tools
+M4		= @M4@
+M4FLAGS		= @M4FLAGS@
+EGREP		= @EGREP@
+
+# AC_PROG_SED and AC_PROG_GREP are only available on autoconf 2.60 and later
+# SED		= @SED@
+# GREP		= @GREP@
+SED		= sed
+GREP		= grep
+
+# Preprocessing:
+DEFS		= @DEFS@
+FC_DEFINE	= @FC_DEFINE@
+CPP		= @CPP@
+CPPFLAGS	= $(INCLUDES) $(DEFS) @CPPFLAGS@
+CXXCPPFLAGS     = $(INCLUDES) $(DEFS) @CXXCPPFLAGS@
+FPP		= @FPP@
+FPPFLAGS	= $(INCLUDES) @FPPFLAGS@ @NAGf90FPPFLAGS@
+
+
+# Compilation:
+MPICC		= @MPICC@
+MPICXX		= @MPICXX@
+MPIF77		= @MPIF77@
+MPIF90		= @MPIF90@
+
+SEQ_CC          = @SEQ_CC@
+
+# debugging and optimization options for compiling and linking
+CFLAGS		= @CFLAGS@
+CXXFLAGS	= @CXXFLAGS@
+F77FLAGS	= @F77FLAGS@ @NAG_FCFLAGS@
+F90FLAGS	= @F90FLAGS@ @NAG_FCFLAGS@
+
+# compiler options for different file extensions: .f .F .f90 .F90
+F77FLAGS_f	= @F77FLAGS_f@
+F77FLAGS_F	= @F77FLAGS_F@
+F90FLAGS_f90	= @F90FLAGS_f90@
+F90FLAGS_F90	= @F90FLAGS_F90@
+
+# preprocessor options for different file extensions: .f .F .f90 .F90
+F77PPFLAGS_f	= @F77PPFLAGS_f@
+F77PPFLAGS_F	= @F77PPFLAGS_F@
+F90PPFLAGS_f90	= @F90PPFLAGS_f90@
+F90PPFLAGS_F90	= @F90PPFLAGS_F90@
+
+# NETCDF.MOD	= @NETCDF_MOD@
+CC_MAKEDEPEND	= @CC_MAKEDEPEND@
+
+COMPILE.c	= $(MPICC)  $(CFLAGS)       $(CPPFLAGS) -c
+COMPILE.cxx	= $(MPICXX) $(CXXFLAGS)     $(CXXCPPFLAGS) -c
+COMPILE.f	= $(MPIF77) $(F77FLAGS_f)   $(FPPFLAGS) $(F77FLAGS) -c
+COMPILE.f90	= $(MPIF90) $(F90FLAGS_f90) $(FPPFLAGS) $(F90FLAGS) -c
+COMPILE.F	= $(MPIF77) $(F77FLAGS_F)   $(FPPFLAGS) $(F77FLAGS) $(F77PPFLAGS_F) -c
+COMPILE.F90	= $(MPIF90) $(F90FLAGS_F90) $(FPPFLAGS) $(F90FLAGS) $(F90PPFLAGS_F90) -c
+# In PnetCDF, we follow the file extension convention that .F and .F90 files
+# require preprocessing, while .f and .f90 do not.
+
+
+# Linking:
+FLIBS		= @FLIBS@
+FCLIBS		= @FCLIBS@
+F90LIBS		= @F90LIBS@
+FLDFLAGS	= @FLDFLAGS@
+F90LDFLAGS	= @F90LDFLAGS@
+LDFLAGS		= @LDFLAGS@ 
+LIBS		= @LIBS@
+
+LINK.c		= $(MPICC)  $(CFLAGS)   -o $@
+LINK.cxx	= $(MPICXX) $(CXXFLAGS) -o $@
+LINK.F77	= $(MPIF77) $(F77FLAGS) -o $@
+LINK.F90	= $(MPIF90) $(F90FLAGS) -o $@
+
+TEST_MPIRUN	= @TEST_MPIRUN@
+TEST_OUTDIR	= @TEST_OUTDIR@
+TEST_SEQRUN	= @TEST_SEQRUN@
+
+# Manual pages:
+WHATIS		= @WHATIS@
+# The following macro should be empty on systems that don't
+# allow users to create their own manual-page indexes.
+MAKEWHATIS_CMD	= @MAKEWHATIS_CMD@
+
+
+# Misc. Utilities:
+AR		= @AR@
+ARFLAGS		= @ARFLAGS@
+AWK		= @AWK@
+RANLIB		= @RANLIB@
+INSTALL 	= @INSTALL@
+INSTALL_DATA	= @INSTALL_DATA@
+TARFLAGS	= -chf
+
+
+# Dummy macros: used only as placeholders to silence GNU make.  They are
+# redefined, as necessary, in subdirectory makefiles.
+HEADER		= dummy_header
+HEADER1		= dummy_header1
+HEADER2		= dummy_header2
+HEADER3		= dummy_header3
+MANUAL		= dummy_manual
+PROGRAM		= dummy_program
+
+
+# Distribution macros:
+FTPDIR		= /home/ftp/pub/$(PACKAGE)
+FTPBINDIR	= @FTPBINDIR@
+
+PNETCDF_VERSION_MAJOR = @PNETCDF_VERSION_MAJOR@
+PNETCDF_VERSION_MINOR = @PNETCDF_VERSION_MINOR@
+PNETCDF_VERSION_SUB   = @PNETCDF_VERSION_SUB@
+PNETCDF_VERSION_PRE   = @PNETCDF_VERSION_PRE@
+PNETCDF_VERSION       = @PNETCDF_VERSION@
+

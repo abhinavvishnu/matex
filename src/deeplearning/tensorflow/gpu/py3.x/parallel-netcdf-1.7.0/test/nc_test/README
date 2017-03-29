@@ -1,0 +1,9 @@
+This test is ported from Unidata netCDF-3.5 to test the functionality
+of the PnetCDF API C interface particularly on a single processor. 
+
+The typical way to run the test includes two steps:
+
+ 	(1) create test.nc by 	"<mpirun -np 1> ./nc_test -c"
+	(2) run the test   by 	"<mpirun -np 1> ./nc_test -v"
+
+

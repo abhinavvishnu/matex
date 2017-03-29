@@ -1,0 +1,88 @@
+#
+# Copyright (C) 2003, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2251 2015-12-20 21:13:42Z wkliao $
+#
+# @configure_input@
+
+
+srcdir = @srcdir@
+VPATH  = @srcdir@
+
+include ../../macros.make
+
+INCLUDES  = -I../../src/lib -I$(srcdir)/../common
+FPPFLAGS += -I../../src/libf @FC_MODINC@../../src/libf90
+LDFLAGS  := $(LDFLAGS) -L../common
+LIBS     := $(LIBRARY) -ltestutils $(LIBS) @LCOV_LIB@
+ifeq (@PNC_DEBUG@, yes)
+CPPFLAGS := $(CPPFLAGS) -DPNC_DEBUG
+endif
+
+C_SRCS   = pnctest.c \
+           csnap.c
+
+F77_SRCS = pnf_test.f \
+           pnctestf.f
+
+ifeq (@F77_SUPPORT_FREEFORM@, yes)
+F77_SRCS += freeform.f
+endif
+
+F90_SRCS = fixedform.f90
+
+PROGS  = $(C_SRCS:.c=)
+OBJS   = $(C_SRCS:.c=.o)
+ifeq (@has_fortran@, yes)
+PROGS += $(F77_SRCS:.f=)   $(F90_SRCS:.f90=)
+OBJS  += $(F77_SRCS:.f=.o) $(F90_SRCS:.f90=.o)
+endif
+
+GARBAGE      = $(PROGS) *.nc
+PACKING_LIST = $(C_SRCS) $(F77_SRCS) $(F90_SRCS) Makefile.in depend
+
+all: $(PROGS)
+
+$(C_SRCS:.c=.o): $(srcdir)/../common/testutils.h
+
+$(PROGS): ../common/libtestutils.a
+
+../common/libtestutils.a:
+	set -e; cd ../common && $(MAKE) $(MFLAGS) all
+
+pnctest: pnctest.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+csnap:  csnap.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS) -lm
+
+pnctestf: pnctestf.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+pnf_test:  pnf_test.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+# check F77 program to see if accept Fortran free form
+freeform.o: freeform.f
+	$(COMPILE.f) @FFREEFORMFLAG@ $<
+
+freeform: freeform.o
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+# check F90 program to see if accept Fortran fixed form
+fixedform.o: fixedform.f90
+	$(COMPILE.f90) @FFIXEDFORMFLAG@ $<
+
+fixedform: fixedform.o
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+testing check verbose_testing:
+
+ptest ptests ptest2 ptest4 ptest6 ptest8 ptest10:
+
+include $(srcdir)/../../rules.make
+include $(srcdir)/depend
+
+$(LIBRARY): ;
+

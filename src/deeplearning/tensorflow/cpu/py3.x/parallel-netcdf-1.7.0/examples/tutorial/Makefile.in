@@ -1,0 +1,116 @@
+#
+# Copyright (C) 2012, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2318 2016-02-04 00:18:26Z wkliao $
+#
+# @configure_input@
+
+srcdir = @srcdir@
+VPATH  = @srcdir@
+
+include ../../macros.make
+
+# note the order of -L list matters
+INCLUDES    = -I../../src/lib
+FPPFLAGS   += -I../../src/libf @FC_MODINC@../../src/libf90
+LDFLAGS    := -L../../src/lib $(LDFLAGS)
+FLDFLAGS   += $(LDFLAGS)
+F90LDFLAGS += $(LDFLAGS)
+LIBS       := -lpnetcdf $(LIBS)
+
+C_SRCS = pnetcdf-write-from-master.c \
+         pnetcdf-read-from-master.c \
+         pnetcdf-write-nfiles.c \
+         pnetcdf-read-nfiles.c \
+         pnetcdf-write-standard.c \
+         pnetcdf-read-standard.c \
+         pnetcdf-write-flexible.c \
+         pnetcdf-read-flexible.c \
+         pnetcdf-write-nb.c \
+         pnetcdf-read-nb.c \
+         pnetcdf-write-buffered.c \
+         pnetcdf-permute.c
+
+F77_SRCS = pnetcdf-write-bufferedf77.f
+
+F90_SRCS = pnetcdf-write-bufferedf.f90
+
+PROGS  = $(C_SRCS:.c=)
+OBJS   = $(C_SRCS:.c=.o)
+ifeq (@has_fortran@, yes)
+PROGS += $(F77_SRCS:.f=)
+OBJS  += $(F77_SRCS:.f=.o)
+ifeq (@mpi_mod@, yes)
+PROGS += $(F90_SRCS:.f90=)
+OBJS  += $(F90_SRCS:.f90=.o)
+endif
+endif
+
+GARBAGE      = $(PROGS) *.nc
+PACKING_LIST = $(C_SRCS) $(F77_SRCS) $(F90_SRCS) Makefile.in depend
+
+all: $(PROGS)
+
+pnetcdf-write-from-master: pnetcdf-write-from-master.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-read-from-master: pnetcdf-read-from-master.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-write-nfiles: pnetcdf-write-nfiles.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-read-nfiles: pnetcdf-read-nfiles.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-write-standard: pnetcdf-write-standard.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-read-standard: pnetcdf-read-standard.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-write-flexible: pnetcdf-write-flexible.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-read-flexible: pnetcdf-read-flexible.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-write-nb: pnetcdf-write-nb.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-read-nb: pnetcdf-read-nb.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-write-buffered: pnetcdf-write-buffered.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+pnetcdf-write-bufferedf: pnetcdf-write-bufferedf.o $(LIBRARY)
+	$(LINK.F90) $< $(F90LDFLAGS) $(LIBS)
+
+pnetcdf-write-bufferedf77: pnetcdf-write-bufferedf77.o $(LIBRARY)
+	$(LINK.F77) $< $(FLDFLAGS) $(LIBS)
+
+pnetcdf-permute: pnetcdf-permute.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+TEST_MPIRUN_4  = $(subst NP,4,$(TEST_MPIRUN))
+
+ptest4: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_4) ./$$i $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS:     parallel run on 4 processes --------------- $$i"; \
+        else \
+           echo "FAILED:     parallel run on 4 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest: ptest4
+ptests: ptest4
+ptest2 ptest3 ptest6 ptest8 ptest10:
+
+include $(srcdir)/depend
+include $(srcdir)/../../rules.make
+
+$(LIBRARY): ;
+

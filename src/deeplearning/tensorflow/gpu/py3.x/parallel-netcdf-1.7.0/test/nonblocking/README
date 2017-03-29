@@ -1,0 +1,12 @@
+There are two test cases in this directory.
+(1) C test case
+This test case test non-blocking functions.
+mpiexec -n 4 mcoll_perf  //test the blocking I/O and non-blocking I/O
+
+The default path to write output is "./". 
+
+You can change the path and output path:
+mpiexec -n 4 mcoll_perf -f testfile.nc
+
+(2) Fortran test case
+mpiexec -n 4 mcoll_testf

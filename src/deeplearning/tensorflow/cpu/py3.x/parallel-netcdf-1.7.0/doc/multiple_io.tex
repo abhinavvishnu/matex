@@ -1,0 +1,152 @@
+{\bf ncmpi\_mput\_var1()}: Write Multiple Single Data Values
+
+\begin{verbatim}
+int ncmpi_mput_var1(int ncid, int ntimes, int varids[],
+                   MPI_Offset* const starts[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mput_var1_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mget\_var1()}: Read Multiple Single Data Values
+
+\begin{verbatim}
+int ncmpi_mget_var1(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mget_var1_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mput\_var()}: Write Multiple Entire Variables
+
+\begin{verbatim}
+int ncmpi_mput_var(int ncid, int ntimes, int varids[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mput_var_all(int ncid, int ntimes, int varids[], 
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mget\_var()}: Read Multiple Entire Variables
+
+\begin{verbatim}
+int ncmpi_mget_var(int ncid, int ntimes, int varids[], 
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mget_var_all(int ncid, int ntimes, int varids[], 
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mput\_vara()}: Write Multiple Arrays of Values
+
+\begin{verbatim}
+int ncmpi_mput_vara(int ncid, int ntimes, int varids[],
+                   MPI_Offset* const starts[], MPI_Offset* const counts[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mput_vara_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mget\_vara()}: Read Multiple Arrays of Values
+
+\begin{verbatim}
+int ncmpi_mget_vara(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mget_vara_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mput\_vars()}: Write Multiple Subsampled Arrays of Values
+
+\begin{verbatim}
+int ncmpi_mput_vars(int ncid, int ntimes, int varids[],
+                   MPI_Offset* const starts[], MPI_Offset* const counts[],
+                   MPI_Offset* const strides[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mput_vars_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   MPI_Offset* const strides[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mget\_vars()}: Read Multiple Subsampled Arrays of Values
+
+\begin{verbatim}
+int ncmpi_mget_vars(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   MPI_Offset* const strides[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mget_vars_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   MPI_Offset* const strides[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mput\_varm()}: Write Multiple Mapped Arrays of Values
+
+\begin{verbatim}
+int ncmpi_mput_varm(int ncid, int ntimes, int varids[],
+                   MPI_Offset* const starts[], MPI_Offset* const counts[],
+                   MPI_Offset* const strides[], MPI_Offset* const imaps[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mput_varm_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   MPI_Offset* const strides[], MPI_Offset* const imaps[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}
+
+
+{\bf ncmpi\_mget\_varm()}: Read Multiple Mapped Arrays of Values
+
+\begin{verbatim}
+int ncmpi_mget_varm(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   MPI_Offset* const strides[], MPI_Offset* const imaps[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+
+int ncmpi_mget_varm_all(int ncid, int ntimes, int varids[], 
+                   MPI_Offset* const starts[], MPI_Offset* const counts[], 
+                   MPI_Offset* const strides[], MPI_Offset* const imaps[],
+                   void *bufs[], MPI_Offset bufcounts[],
+                   MPI_Datatype datatypes[]);
+\end{verbatim}

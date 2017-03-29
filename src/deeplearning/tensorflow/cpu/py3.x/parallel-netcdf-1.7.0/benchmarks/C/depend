@@ -1,0 +1,2 @@
+aggregation.o: aggregation.c
+write_block_read_column.o: write_block_read_column.c

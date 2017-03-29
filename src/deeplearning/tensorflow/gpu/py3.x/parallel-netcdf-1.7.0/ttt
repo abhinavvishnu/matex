@@ -1,0 +1,583 @@
+make  -C src
+make[1]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src'
+make -w -C lib
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/lib'
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c mpinetcdf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c header.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c mpincio.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c dim.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c error.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c nc.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c string.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c var.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c ncmpidtype.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c filetype.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c nonblocking.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c malloc.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c utf8proc.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c vard.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c fill.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c util.c
+m4  getput.m4 >getput.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c getput.c
+m4  i_getput.m4 >i_getput.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c i_getput.c
+m4  bput.m4 >bput.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput.c
+m4  ncx.m4 >ncx.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c ncx.c
+m4  m_getput_varx.m4 >m_getput_varx.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c m_getput_varx.c
+m4  varn.m4 >varn.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c varn.c
+m4  i_varn.m4 >i_varn.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c i_varn.c
+m4  attr.m4 >attr.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c attr.c
+m4  convert_swap.m4 >convert_swap.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c convert_swap.c
+ar cru libpnetcdf.a mpinetcdf.o header.o mpincio.o dim.o error.o nc.o string.o var.o ncmpidtype.o filetype.o nonblocking.o malloc.o utf8proc.o vard.o fill.o util.o getput.o i_getput.o bput.o ncx.o m_getput_varx.o varn.o i_varn.o attr.o convert_swap.o
+ranlib libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/lib'
+make -w -C utils
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils'
+make -w -C ncmpigen
+make[3]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpigen'
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c main.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c load.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c escapes.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c getfill.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c init.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c genlib.c
+Error: ncmpigen.l is modified, but cannot find flex or lex, required to re-generate ncmpigenyy.c
+Error: one of ncmpigenyy.c ncmpigen.h is modified, but cannot find bison or yacc, required to re-generate ncmpigentab.c
+Error: one of ncmpigen.h is modified, but cannot find bison or yacc, required to re-generate ncmpigentab.h
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c ncmpigentab.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2   -o ncmpigen main.o load.o escapes.o getfill.o init.o genlib.o ncmpigentab.o  -L../../lib -lpnetcdf   
+make[3]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpigen'
+make -w -C ncmpidump
+make[3]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpidump'
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c ncmpidump.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c vardata.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c dumplib.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2   -o ncmpidump ncmpidump.o vardata.o dumplib.o  -L../../lib -lpnetcdf   
+make[3]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpidump'
+make -w -C ncmpidiff
+make[3]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpidiff'
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c ncmpidiff.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2   -o ncmpidiff ncmpidiff.o  -L../../lib -lpnetcdf   
+make[3]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpidiff'
+make -w -C ncmpivalid
+make[3]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpivalid'
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c ncmpivalid.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2   -o ncmpivalid ncmpivalid.o  -L../../lib -lpnetcdf   
+make[3]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncmpivalid'
+make -w -C pnetcdf_version
+make[3]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/pnetcdf_version'
+/share/apps/gcc/4.9.2/bin/gcc -DMPICC="\"/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc\""   -DCFLAGS="\"-g -O2\"" -DCONFIGURE_ARGS_CLEAN="\"--prefix=/home/manz551/swtf/\"" -DPNETCDF_VERSION="\"1.7.0\"" -DPNETCDF_RELEASE_DATE="\"03 Mar 2016\"" -DMPICXX="\"/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx\"" -DCXXFLAGS="\"-fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c\"" -DMPIF77="\"/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpif77\"" -DF77FLAGS="\"-g -O2 \"" -DMPIF90="\"/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpif90\"" -DF90FLAGS="\"-g -O2 \"" -o pnetcdf_version pnetcdf_version.c
+make[3]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/pnetcdf_version'
+make -w -C ncoffsets
+make[3]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncoffsets'
+/share/apps/gcc/4.9.2/bin/gcc -o ncoffsets ncoffsets.c
+make[3]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils/ncoffsets'
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/utils'
+make -w -C libcxx
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libcxx'
+cp -f ./pnetcdf.in pnetcdf
+set -e; for i in ncmpi_notyet.h ncmpiCheck.h ncmpiType.h ncmpiAtt.h ncmpiEnumType.h ncmpiGroupAtt.h ncmpiGroup.h ncmpiByte.h ncmpiChar.h ncmpiCompoundType.h ncmpiDouble.h ncmpiFloat.h ncmpiInt.h ncmpiInt64.h ncmpiOpaqueType.h ncmpiShort.h ncmpiUbyte.h ncmpiUint.h ncmpiUint64.h ncmpiUshort.h ncmpiException.h ncmpiDim.h ncmpiFile.h ncmpiVarAtt.h ncmpiVar.h ncmpiVlenType.h; do ( \
+	sed -e '/#ifndef/d' -e '/#define/d' -e '/#endif/d' -e '/#include/d' ./$i >> pnetcdf; \
+	) ; done
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpi_notyet.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiCheck.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiType.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiAtt.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiEnumType.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiGroupAtt.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiGroup.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiByte.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiChar.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiCompoundType.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiDouble.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiFloat.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiInt.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiInt64.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiOpaqueType.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiShort.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiUbyte.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiUint.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiUint64.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiUshort.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiException.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiDim.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiFile.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiVarAtt.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiVar.cpp
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicxx -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c     -I../lib -DHAVE_CONFIG_H  -c ncmpiVlenType.cpp
+ar cru ../lib/libpnetcdf.a ncmpi_notyet.o ncmpiCheck.o ncmpiType.o ncmpiAtt.o ncmpiEnumType.o ncmpiGroupAtt.o ncmpiGroup.o ncmpiByte.o ncmpiChar.o ncmpiCompoundType.o ncmpiDouble.o ncmpiFloat.o ncmpiInt.o ncmpiInt64.o ncmpiOpaqueType.o ncmpiShort.o ncmpiUbyte.o ncmpiUint.o ncmpiUint64.o ncmpiUshort.o ncmpiException.o ncmpiDim.o ncmpiFile.o ncmpiVarAtt.o ncmpiVar.o ncmpiVlenType.o
+ranlib ../lib/libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libcxx'
+make -w -C libf
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf'
+./buildiface -infile=../lib/pnetcdf.h -deffile=./defs
+rm -f nfconfig.inc
+sed -e "s%/\*%!%g" -e "s%\*/%%g" nfconfig_inc > nfconfig.inc
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c createf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c openf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_file_infof.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_file_infof.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c deletef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c enddeff.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c _enddeff.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c redeff.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c set_default_formatf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_default_formatf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c syncf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c sync_numrecsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c abortf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c begin_indep_dataf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c end_indep_dataf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c closef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c set_fillf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c def_var_fillf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_var_fillf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c fill_var_recf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c def_dimf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c def_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c rename_dimf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c rename_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inqf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_formatf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_file_formatf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_versionf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_stripingf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_ndimsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_nvarsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_num_rec_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_num_fix_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_nattsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_unlimdimf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_dimidf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_dimf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_dimnamef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_dimlenf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_varidf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_varnamef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_vartypef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_varndimsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_vardimidf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_varnattsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_varoffsetf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_attf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_attidf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_atttypef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_attlenf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_attnamef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c copy_attf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c rename_attf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c del_attf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_attf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_att_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_attf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_att_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var1_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var1_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_var_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_var_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varaf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vara_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varaf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vara_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vars_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vars_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varmf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varm_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varmf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varm_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c waitf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c wait_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c cancelf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var1_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var1_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var1_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_var_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_var_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_var_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varaf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vara_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varaf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vara_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varaf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vara_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_vars_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_vars_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_vars_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varmf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varm_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varmf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varm_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varmf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varm_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bufattachf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bufdetachf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_buffer_usagef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_buffer_sizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_put_sizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_get_sizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_header_sizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_header_extentf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_malloc_sizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_malloc_max_sizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_malloc_listf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_files_openedf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_nreqsf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c inq_recsizef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varnf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_varn_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varnf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_text_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int1_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int2_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_real_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_double_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_varn_int8_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varnf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iget_varn_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varnf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c iput_varn_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varnf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_textf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_int1f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_int2f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_intf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_realf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_doublef.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c bput_varn_int8f.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vardf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c get_vard_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vardf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c put_vard_allf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c issyserrf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c nfxutil.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c xstrerrorf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpicc  -g -O2       -fPIC -g -O2 -I. -I. -DHAVE_CONFIG_H -I../../lib -I../lib -c -c xinq_libversf.c
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpif77    -I../lib -I.   -g -O2  -c strerrorf.f
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpif77    -I../lib -I.   -g -O2  -c inq_libversf.f
+ar cru ../lib/libpnetcdf.a createf.o openf.o inq_file_infof.o get_file_infof.o deletef.o enddeff.o _enddeff.o redeff.o set_default_formatf.o inq_default_formatf.o syncf.o sync_numrecsf.o abortf.o begin_indep_dataf.o end_indep_dataf.o closef.o set_fillf.o def_var_fillf.o inq_var_fillf.o fill_var_recf.o def_dimf.o def_varf.o rename_dimf.o rename_varf.o inqf.o inq_formatf.o inq_file_formatf.o inq_versionf.o inq_stripingf.o inq_ndimsf.o inq_nvarsf.o inq_num_rec_varsf.o inq_num_fix_varsf.o inq_nattsf.o inq_unlimdimf.o inq_dimidf.o inq_dimf.o inq_dimnamef.o inq_dimlenf.o inq_varf.o inq_varidf.o inq_varnamef.o inq_vartypef.o inq_varndimsf.o inq_vardimidf.o inq_varnattsf.o inq_varoffsetf.o inq_attf.o inq_attidf.o inq_atttypef.o inq_attlenf.o inq_attnamef.o copy_attf.o rename_attf.o del_attf.o put_attf.o put_att_textf.o put_att_int1f.o put_att_int2f.o put_att_intf.o put_att_realf.o put_att_doublef.o put_att_int8f.o get_attf.o get_att_textf.o get_att_int1f.o get_att_int2f.o get_att_intf.o get_att_realf.o get_att_doublef.o get_att_int8f.o put_var1f.o put_var1_allf.o put_var1_textf.o put_var1_text_allf.o put_var1_int1f.o put_var1_int1_allf.o put_var1_int2f.o put_var1_int2_allf.o put_var1_intf.o put_var1_int_allf.o put_var1_realf.o put_var1_real_allf.o put_var1_doublef.o put_var1_double_allf.o put_var1_int8f.o put_var1_int8_allf.o get_var1f.o get_var1_allf.o get_var1_textf.o get_var1_text_allf.o get_var1_int1f.o get_var1_int1_allf.o get_var1_int2f.o get_var1_int2_allf.o get_var1_intf.o get_var1_int_allf.o get_var1_realf.o get_var1_real_allf.o get_var1_doublef.o get_var1_double_allf.o get_var1_int8f.o get_var1_int8_allf.o put_varf.o put_var_allf.o put_var_textf.o put_var_text_allf.o put_var_int1f.o put_var_int1_allf.o put_var_int2f.o put_var_int2_allf.o put_var_intf.o put_var_int_allf.o put_var_realf.o put_var_real_allf.o put_var_doublef.o put_var_double_allf.o put_var_int8f.o put_var_int8_allf.o get_varf.o get_var_allf.o get_var_textf.o get_var_text_allf.o get_var_int1f.o get_var_int1_allf.o get_var_int2f.o get_var_int2_allf.o get_var_intf.o get_var_int_allf.o get_var_realf.o get_var_real_allf.o get_var_doublef.o get_var_double_allf.o get_var_int8f.o get_var_int8_allf.o put_varaf.o put_vara_allf.o put_vara_textf.o put_vara_text_allf.o put_vara_int1f.o put_vara_int1_allf.o put_vara_int2f.o put_vara_int2_allf.o put_vara_intf.o put_vara_int_allf.o put_vara_realf.o put_vara_real_allf.o put_vara_doublef.o put_vara_double_allf.o put_vara_int8f.o put_vara_int8_allf.o get_varaf.o get_vara_allf.o get_vara_textf.o get_vara_text_allf.o get_vara_int1f.o get_vara_int1_allf.o get_vara_int2f.o get_vara_int2_allf.o get_vara_intf.o get_vara_int_allf.o get_vara_realf.o get_vara_real_allf.o get_vara_doublef.o get_vara_double_allf.o get_vara_int8f.o get_vara_int8_allf.o put_varsf.o put_vars_allf.o put_vars_textf.o put_vars_text_allf.o put_vars_int1f.o put_vars_int1_allf.o put_vars_int2f.o put_vars_int2_allf.o put_vars_intf.o put_vars_int_allf.o put_vars_realf.o put_vars_real_allf.o put_vars_doublef.o put_vars_double_allf.o put_vars_int8f.o put_vars_int8_allf.o get_varsf.o get_vars_allf.o get_vars_int1f.o get_vars_int1_allf.o get_vars_textf.o get_vars_text_allf.o get_vars_int2f.o get_vars_int2_allf.o get_vars_intf.o get_vars_int_allf.o get_vars_realf.o get_vars_real_allf.o get_vars_doublef.o get_vars_double_allf.o get_vars_int8f.o get_vars_int8_allf.o put_varmf.o put_varm_allf.o put_varm_textf.o put_varm_text_allf.o put_varm_int1f.o put_varm_int1_allf.o put_varm_int2f.o put_varm_int2_allf.o put_varm_intf.o put_varm_int_allf.o put_varm_realf.o put_varm_real_allf.o put_varm_doublef.o put_varm_double_allf.o put_varm_int8f.o put_varm_int8_allf.o get_varmf.o get_varm_allf.o get_varm_int1f.o get_varm_int1_allf.o get_varm_textf.o get_varm_text_allf.o get_varm_int2f.o get_varm_int2_allf.o get_varm_intf.o get_varm_int_allf.o get_varm_realf.o get_varm_real_allf.o get_varm_doublef.o get_varm_double_allf.o get_varm_int8f.o get_varm_int8_allf.o waitf.o wait_allf.o cancelf.o iput_var1f.o iput_var1_textf.o iput_var1_int1f.o iput_var1_int2f.o iput_var1_intf.o iput_var1_realf.o iput_var1_doublef.o iput_var1_int8f.o iget_var1f.o iget_var1_textf.o iget_var1_int1f.o iget_var1_int2f.o iget_var1_intf.o iget_var1_realf.o iget_var1_doublef.o iget_var1_int8f.o bput_var1f.o bput_var1_textf.o bput_var1_int1f.o bput_var1_int2f.o bput_var1_intf.o bput_var1_realf.o bput_var1_doublef.o bput_var1_int8f.o iput_varf.o iput_var_textf.o iput_var_int1f.o iput_var_int2f.o iput_var_intf.o iput_var_realf.o iput_var_doublef.o iput_var_int8f.o iget_varf.o iget_var_textf.o iget_var_int1f.o iget_var_int2f.o iget_var_intf.o iget_var_realf.o iget_var_doublef.o iget_var_int8f.o bput_varf.o bput_var_textf.o bput_var_int1f.o bput_var_int2f.o bput_var_intf.o bput_var_realf.o bput_var_doublef.o bput_var_int8f.o iput_varaf.o iput_vara_textf.o iput_vara_int1f.o iput_vara_int2f.o iput_vara_intf.o iput_vara_realf.o iput_vara_doublef.o iput_vara_int8f.o iget_varaf.o iget_vara_textf.o iget_vara_int1f.o iget_vara_int2f.o iget_vara_intf.o iget_vara_realf.o iget_vara_doublef.o iget_vara_int8f.o bput_varaf.o bput_vara_textf.o bput_vara_int1f.o bput_vara_int2f.o bput_vara_intf.o bput_vara_realf.o bput_vara_doublef.o bput_vara_int8f.o iput_varsf.o iput_vars_textf.o iput_vars_int1f.o iput_vars_int2f.o iput_vars_intf.o iput_vars_realf.o iput_vars_doublef.o iput_vars_int8f.o iget_varsf.o iget_vars_textf.o iget_vars_int1f.o iget_vars_int2f.o iget_vars_intf.o iget_vars_realf.o iget_vars_doublef.o iget_vars_int8f.o bput_varsf.o bput_vars_textf.o bput_vars_int1f.o bput_vars_int2f.o bput_vars_intf.o bput_vars_realf.o bput_vars_doublef.o bput_vars_int8f.o iput_varmf.o iput_varm_textf.o iput_varm_int1f.o iput_varm_int2f.o iput_varm_intf.o iput_varm_realf.o iput_varm_doublef.o iput_varm_int8f.o iget_varmf.o iget_varm_textf.o iget_varm_int1f.o iget_varm_int2f.o iget_varm_intf.o iget_varm_realf.o iget_varm_doublef.o iget_varm_int8f.o bput_varmf.o bput_varm_textf.o bput_varm_int1f.o bput_varm_int2f.o bput_varm_intf.o bput_varm_realf.o bput_varm_doublef.o bput_varm_int8f.o bufattachf.o bufdetachf.o inq_buffer_usagef.o inq_buffer_sizef.o inq_put_sizef.o inq_get_sizef.o inq_header_sizef.o inq_header_extentf.o inq_malloc_sizef.o inq_malloc_max_sizef.o inq_malloc_listf.o inq_files_openedf.o inq_nreqsf.o inq_recsizef.o get_varnf.o get_varn_allf.o get_varn_textf.o get_varn_text_allf.o get_varn_int1f.o get_varn_int1_allf.o get_varn_int2f.o get_varn_int2_allf.o get_varn_intf.o get_varn_int_allf.o get_varn_realf.o get_varn_real_allf.o get_varn_doublef.o get_varn_double_allf.o get_varn_int8f.o get_varn_int8_allf.o put_varnf.o put_varn_allf.o put_varn_textf.o put_varn_text_allf.o put_varn_int1f.o put_varn_int1_allf.o put_varn_int2f.o put_varn_int2_allf.o put_varn_intf.o put_varn_int_allf.o put_varn_realf.o put_varn_real_allf.o put_varn_doublef.o put_varn_double_allf.o put_varn_int8f.o put_varn_int8_allf.o iget_varnf.o iget_varn_textf.o iget_varn_int1f.o iget_varn_int2f.o iget_varn_intf.o iget_varn_realf.o iget_varn_doublef.o iget_varn_int8f.o iput_varnf.o iput_varn_textf.o iput_varn_int1f.o iput_varn_int2f.o iput_varn_intf.o iput_varn_realf.o iput_varn_doublef.o iput_varn_int8f.o bput_varnf.o bput_varn_textf.o bput_varn_int1f.o bput_varn_int2f.o bput_varn_intf.o bput_varn_realf.o bput_varn_doublef.o bput_varn_int8f.o get_vardf.o get_vard_allf.o put_vardf.o put_vard_allf.o issyserrf.o nfxutil.o xstrerrorf.o xinq_libversf.o strerrorf.o inq_libversf.o
+ranlib ../lib/libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf'
+make -w -C libf90
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf90'
+m4  -DINTENTV=INOUT getput_text.m4 >getput_text.f90
+m4  -DINTENTV=INOUT getput_var.m4 >getput_var.f90
+m4  -DINTENTV=INOUT getput_varn.m4 >getput_varn.f90
+m4  -DINTENTV=INOUT getput_vard.m4 >getput_vard.f90
+/share/apps/openmpi/1.8.3/gcc/4.9.2/bin/mpif90  -I. -I.   -g -O2  -J. -c pnetcdf.f90
+ar cru ../lib/libpnetcdf.a pnetcdf.o
+ranlib ../lib/libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf90'
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libcxx'
+ar cru ../lib/libpnetcdf.a ncmpi_notyet.o ncmpiCheck.o ncmpiType.o ncmpiAtt.o ncmpiEnumType.o ncmpiGroupAtt.o ncmpiGroup.o ncmpiByte.o ncmpiChar.o ncmpiCompoundType.o ncmpiDouble.o ncmpiFloat.o ncmpiInt.o ncmpiInt64.o ncmpiOpaqueType.o ncmpiShort.o ncmpiUbyte.o ncmpiUint.o ncmpiUint64.o ncmpiUshort.o ncmpiException.o ncmpiDim.o ncmpiFile.o ncmpiVarAtt.o ncmpiVar.o ncmpiVlenType.o
+ranlib ../lib/libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libcxx'
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf'
+ar cru ../lib/libpnetcdf.a createf.o openf.o inq_file_infof.o get_file_infof.o deletef.o enddeff.o _enddeff.o redeff.o set_default_formatf.o inq_default_formatf.o syncf.o sync_numrecsf.o abortf.o begin_indep_dataf.o end_indep_dataf.o closef.o set_fillf.o def_var_fillf.o inq_var_fillf.o fill_var_recf.o def_dimf.o def_varf.o rename_dimf.o rename_varf.o inqf.o inq_formatf.o inq_file_formatf.o inq_versionf.o inq_stripingf.o inq_ndimsf.o inq_nvarsf.o inq_num_rec_varsf.o inq_num_fix_varsf.o inq_nattsf.o inq_unlimdimf.o inq_dimidf.o inq_dimf.o inq_dimnamef.o inq_dimlenf.o inq_varf.o inq_varidf.o inq_varnamef.o inq_vartypef.o inq_varndimsf.o inq_vardimidf.o inq_varnattsf.o inq_varoffsetf.o inq_attf.o inq_attidf.o inq_atttypef.o inq_attlenf.o inq_attnamef.o copy_attf.o rename_attf.o del_attf.o put_attf.o put_att_textf.o put_att_int1f.o put_att_int2f.o put_att_intf.o put_att_realf.o put_att_doublef.o put_att_int8f.o get_attf.o get_att_textf.o get_att_int1f.o get_att_int2f.o get_att_intf.o get_att_realf.o get_att_doublef.o get_att_int8f.o put_var1f.o put_var1_allf.o put_var1_textf.o put_var1_text_allf.o put_var1_int1f.o put_var1_int1_allf.o put_var1_int2f.o put_var1_int2_allf.o put_var1_intf.o put_var1_int_allf.o put_var1_realf.o put_var1_real_allf.o put_var1_doublef.o put_var1_double_allf.o put_var1_int8f.o put_var1_int8_allf.o get_var1f.o get_var1_allf.o get_var1_textf.o get_var1_text_allf.o get_var1_int1f.o get_var1_int1_allf.o get_var1_int2f.o get_var1_int2_allf.o get_var1_intf.o get_var1_int_allf.o get_var1_realf.o get_var1_real_allf.o get_var1_doublef.o get_var1_double_allf.o get_var1_int8f.o get_var1_int8_allf.o put_varf.o put_var_allf.o put_var_textf.o put_var_text_allf.o put_var_int1f.o put_var_int1_allf.o put_var_int2f.o put_var_int2_allf.o put_var_intf.o put_var_int_allf.o put_var_realf.o put_var_real_allf.o put_var_doublef.o put_var_double_allf.o put_var_int8f.o put_var_int8_allf.o get_varf.o get_var_allf.o get_var_textf.o get_var_text_allf.o get_var_int1f.o get_var_int1_allf.o get_var_int2f.o get_var_int2_allf.o get_var_intf.o get_var_int_allf.o get_var_realf.o get_var_real_allf.o get_var_doublef.o get_var_double_allf.o get_var_int8f.o get_var_int8_allf.o put_varaf.o put_vara_allf.o put_vara_textf.o put_vara_text_allf.o put_vara_int1f.o put_vara_int1_allf.o put_vara_int2f.o put_vara_int2_allf.o put_vara_intf.o put_vara_int_allf.o put_vara_realf.o put_vara_real_allf.o put_vara_doublef.o put_vara_double_allf.o put_vara_int8f.o put_vara_int8_allf.o get_varaf.o get_vara_allf.o get_vara_textf.o get_vara_text_allf.o get_vara_int1f.o get_vara_int1_allf.o get_vara_int2f.o get_vara_int2_allf.o get_vara_intf.o get_vara_int_allf.o get_vara_realf.o get_vara_real_allf.o get_vara_doublef.o get_vara_double_allf.o get_vara_int8f.o get_vara_int8_allf.o put_varsf.o put_vars_allf.o put_vars_textf.o put_vars_text_allf.o put_vars_int1f.o put_vars_int1_allf.o put_vars_int2f.o put_vars_int2_allf.o put_vars_intf.o put_vars_int_allf.o put_vars_realf.o put_vars_real_allf.o put_vars_doublef.o put_vars_double_allf.o put_vars_int8f.o put_vars_int8_allf.o get_varsf.o get_vars_allf.o get_vars_int1f.o get_vars_int1_allf.o get_vars_textf.o get_vars_text_allf.o get_vars_int2f.o get_vars_int2_allf.o get_vars_intf.o get_vars_int_allf.o get_vars_realf.o get_vars_real_allf.o get_vars_doublef.o get_vars_double_allf.o get_vars_int8f.o get_vars_int8_allf.o put_varmf.o put_varm_allf.o put_varm_textf.o put_varm_text_allf.o put_varm_int1f.o put_varm_int1_allf.o put_varm_int2f.o put_varm_int2_allf.o put_varm_intf.o put_varm_int_allf.o put_varm_realf.o put_varm_real_allf.o put_varm_doublef.o put_varm_double_allf.o put_varm_int8f.o put_varm_int8_allf.o get_varmf.o get_varm_allf.o get_varm_int1f.o get_varm_int1_allf.o get_varm_textf.o get_varm_text_allf.o get_varm_int2f.o get_varm_int2_allf.o get_varm_intf.o get_varm_int_allf.o get_varm_realf.o get_varm_real_allf.o get_varm_doublef.o get_varm_double_allf.o get_varm_int8f.o get_varm_int8_allf.o waitf.o wait_allf.o cancelf.o iput_var1f.o iput_var1_textf.o iput_var1_int1f.o iput_var1_int2f.o iput_var1_intf.o iput_var1_realf.o iput_var1_doublef.o iput_var1_int8f.o iget_var1f.o iget_var1_textf.o iget_var1_int1f.o iget_var1_int2f.o iget_var1_intf.o iget_var1_realf.o iget_var1_doublef.o iget_var1_int8f.o bput_var1f.o bput_var1_textf.o bput_var1_int1f.o bput_var1_int2f.o bput_var1_intf.o bput_var1_realf.o bput_var1_doublef.o bput_var1_int8f.o iput_varf.o iput_var_textf.o iput_var_int1f.o iput_var_int2f.o iput_var_intf.o iput_var_realf.o iput_var_doublef.o iput_var_int8f.o iget_varf.o iget_var_textf.o iget_var_int1f.o iget_var_int2f.o iget_var_intf.o iget_var_realf.o iget_var_doublef.o iget_var_int8f.o bput_varf.o bput_var_textf.o bput_var_int1f.o bput_var_int2f.o bput_var_intf.o bput_var_realf.o bput_var_doublef.o bput_var_int8f.o iput_varaf.o iput_vara_textf.o iput_vara_int1f.o iput_vara_int2f.o iput_vara_intf.o iput_vara_realf.o iput_vara_doublef.o iput_vara_int8f.o iget_varaf.o iget_vara_textf.o iget_vara_int1f.o iget_vara_int2f.o iget_vara_intf.o iget_vara_realf.o iget_vara_doublef.o iget_vara_int8f.o bput_varaf.o bput_vara_textf.o bput_vara_int1f.o bput_vara_int2f.o bput_vara_intf.o bput_vara_realf.o bput_vara_doublef.o bput_vara_int8f.o iput_varsf.o iput_vars_textf.o iput_vars_int1f.o iput_vars_int2f.o iput_vars_intf.o iput_vars_realf.o iput_vars_doublef.o iput_vars_int8f.o iget_varsf.o iget_vars_textf.o iget_vars_int1f.o iget_vars_int2f.o iget_vars_intf.o iget_vars_realf.o iget_vars_doublef.o iget_vars_int8f.o bput_varsf.o bput_vars_textf.o bput_vars_int1f.o bput_vars_int2f.o bput_vars_intf.o bput_vars_realf.o bput_vars_doublef.o bput_vars_int8f.o iput_varmf.o iput_varm_textf.o iput_varm_int1f.o iput_varm_int2f.o iput_varm_intf.o iput_varm_realf.o iput_varm_doublef.o iput_varm_int8f.o iget_varmf.o iget_varm_textf.o iget_varm_int1f.o iget_varm_int2f.o iget_varm_intf.o iget_varm_realf.o iget_varm_doublef.o iget_varm_int8f.o bput_varmf.o bput_varm_textf.o bput_varm_int1f.o bput_varm_int2f.o bput_varm_intf.o bput_varm_realf.o bput_varm_doublef.o bput_varm_int8f.o bufattachf.o bufdetachf.o inq_buffer_usagef.o inq_buffer_sizef.o inq_put_sizef.o inq_get_sizef.o inq_header_sizef.o inq_header_extentf.o inq_malloc_sizef.o inq_malloc_max_sizef.o inq_malloc_listf.o inq_files_openedf.o inq_nreqsf.o inq_recsizef.o get_varnf.o get_varn_allf.o get_varn_textf.o get_varn_text_allf.o get_varn_int1f.o get_varn_int1_allf.o get_varn_int2f.o get_varn_int2_allf.o get_varn_intf.o get_varn_int_allf.o get_varn_realf.o get_varn_real_allf.o get_varn_doublef.o get_varn_double_allf.o get_varn_int8f.o get_varn_int8_allf.o put_varnf.o put_varn_allf.o put_varn_textf.o put_varn_text_allf.o put_varn_int1f.o put_varn_int1_allf.o put_varn_int2f.o put_varn_int2_allf.o put_varn_intf.o put_varn_int_allf.o put_varn_realf.o put_varn_real_allf.o put_varn_doublef.o put_varn_double_allf.o put_varn_int8f.o put_varn_int8_allf.o iget_varnf.o iget_varn_textf.o iget_varn_int1f.o iget_varn_int2f.o iget_varn_intf.o iget_varn_realf.o iget_varn_doublef.o iget_varn_int8f.o iput_varnf.o iput_varn_textf.o iput_varn_int1f.o iput_varn_int2f.o iput_varn_intf.o iput_varn_realf.o iput_varn_doublef.o iput_varn_int8f.o bput_varnf.o bput_varn_textf.o bput_varn_int1f.o bput_varn_int2f.o bput_varn_intf.o bput_varn_realf.o bput_varn_doublef.o bput_varn_int8f.o get_vardf.o get_vard_allf.o put_vardf.o put_vard_allf.o issyserrf.o nfxutil.o xstrerrorf.o xinq_libversf.o strerrorf.o inq_libversf.o
+ranlib ../lib/libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf'
+make[2]: Entering directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf90'
+ar cru ../lib/libpnetcdf.a pnetcdf.o
+ranlib ../lib/libpnetcdf.a
+make[2]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src/libf90'
+make[1]: Leaving directory `/home/manz551/distro_tfr0.12_puma/parallel-netcdf-1.7.0/src'

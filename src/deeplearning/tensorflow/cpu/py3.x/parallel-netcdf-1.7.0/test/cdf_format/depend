@@ -1,0 +1,3 @@
+test_inq_format.o: test_inq_format.c
+cdf_type.o: cdf_type.c
+dim_cdf12.o: dim_cdf12.c

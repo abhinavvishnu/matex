@@ -1,0 +1,203 @@
+%
+% DATASET FUNCTIONS
+%
+\subsection*{A.1  Dataset Functions}
+
+\begin{verbatim}
+int ncmpi_create(MPI_Comm comm, const char *path, int cmode, MPI_Info info, int *ncidp);
+
+int ncmpi_open(MPI_Comm comm, const char *path, int omode, MPI_Info info, int *ncidp);
+
+int ncmpi_enddef(int ncid);
+
+int ncmpi_redef(int ncid);
+
+int ncmpi_get_file_info(int ncid, MPI_Info *info_used);
+
+int ncmpi_sync(int ncid);
+
+int ncmpi_abort(int ncid);
+
+int ncmpi_begin_indep_data(int ncid);
+
+int ncmpi_end_indep_data(int ncid);
+
+int ncmpi_close(int ncid);
+\end{verbatim}
+
+% ncmpi_set_fill has not yet implemented
+% int ncmpi_set_fill(int ncid, int fillmode, int *old_modep);
+
+%
+% DEFINE FUNCTIONS
+%
+\subsection*{A.2  Define Mode Functions}
+
+\begin{verbatim}
+int ncmpi_def_dim(int ncid, const char *name, MPI_Offset len, int *idp);
+
+int ncmpi_def_var(int ncid, const char *name, nc_type xtype, int ndims, 
+                  const int *dimidsp, int *varidp);
+
+int ncmpi_rename_dim(int ncid, int dimid, const char *name);
+
+int ncmpi_rename_var(int ncid, int varid, const char *name);
+\end{verbatim}
+
+%
+% INQUIRY FUNCTIONS
+%
+\subsection*{A.3  Inquiry Functions}
+
+\begin{verbatim}
+int ncmpi_inq(int ncid, int *ndimsp, int *nvarsp, int *ngattsp, int *unlimdimidp); 
+
+int ncmpi_inq_ndims(int ncid, int *ndimsp);
+
+int ncmpi_inq_nvars(int ncid, int *nvarsp);
+
+int ncmpi_inq_natts(int ncid, int *ngattsp);
+
+int ncmpi_inq_unlimdim(int ncid, int *unlimdimidp);
+
+int ncmpi_inq_dimid(int ncid, const char *name, int *idp);
+
+int ncmpi_inq_dim(int ncid, int dimid, char *name, MPI_Offset *lenp);
+
+int ncmpi_inq_dimname(int ncid, int dimid, char *name);
+
+int ncmpi_inq_dimlen(int ncid, int dimid, MPI_Offset *lenp);
+
+int ncmpi_inq_var(int ncid, int varid, char *name, nc_type *xtypep, 
+                  int *ndimsp, int *dimidsp, int *nattsp);
+
+int ncmpi_inq_varid(int ncid, const char *name, int *varidp);
+
+int ncmpi_inq_varname(int ncid, int varid, char *name);
+
+int ncmpi_inq_vartype(int ncid, int varid, nc_type *xtypep);
+
+int ncmpi_inq_varndims(int ncid, int varid, int *ndimsp);
+
+int ncmpi_inq_vardimid(int ncid, int varid, int *dimidsp);
+
+int ncmpi_inq_varnatts(int ncid, int varid, int *nattsp);
+
+\end{verbatim}
+
+%
+% ATTRIBUTE FUNCTIONS
+%
+\subsection*{A.4  Attribute Functions}
+
+\begin{verbatim}
+int ncmpi_inq_att(int ncid, int varid, const char *name, nc_type *xtypep,
+                  MPI_Offset *lenp);
+
+int ncmpi_inq_attid(int ncid, int varid, const char *name, int *idp);
+
+int ncmpi_inq_atttype(int ncid, int varid, const char *name, nc_type *xtypep);
+
+int ncmpi_inq_attlen(int ncid, int varid, const char *name, MPI_Offset *lenp);
+
+int ncmpi_inq_attname(int ncid, int varid, int attnum, char *name);
+
+int ncmpi_copy_att(int ncid_in, int varid_in, const char *name, int ncid_out,
+                   int varid_out);
+
+int ncmpi_rename_att(int ncid, int varid, const char *name, const char *newname);
+
+int ncmpi_del_att(int ncid, int varid, const char *name);
+
+int ncmpi_put_att_text(int ncid, int varid, const char *name, MPI_Offset len,
+                       const char *op);
+
+int ncmpi_get_att_text(int ncid, int varid, const char *name, char *ip);
+
+int ncmpi_put_att_uchar(int ncid, int varid, const char *name, nc_type xtype,
+                        MPI_Offset len, const unsigned char *op);
+
+int ncmpi_get_att_uchar(int ncid, int varid, const char *name, unsigned char *ip);
+
+int ncmpi_put_att_schar(int ncid, int varid, const char *name, nc_type xtype, 
+                        MPI_Offset len, const signed char *op);
+
+int ncmpi_get_att_schar(int ncid, int varid, const char *name, signed char *ip);
+
+int ncmpi_put_att_short(int ncid, int varid, const char *name, nc_type xtype,
+                        MPI_Offset len, const short *op);
+
+int ncmpi_get_att_short(int ncid, int varid, const char *name, short *ip);
+
+int ncmpi_put_att_int(int ncid, int varid, const char *name, nc_type xtype, 
+                      MPI_Offset len, const int *op);
+
+int ncmpi_get_att_int(int ncid, int varid, const char *name, int *ip);
+
+int ncmpi_put_att_long(int ncid, int varid, const char *name,
+                       nc_type xtype, MPI_Offset len, const long *op);
+
+int ncmpi_get_att_long(int ncid, int varid, const char *name, long *ip);
+
+int ncmpi_put_att_float(int ncid, int varid, const char *name,
+                        nc_type xtype, MPI_Offset len, const float *op);
+
+int ncmpi_get_att_float(int ncid, int varid, const char *name, float *ip);
+
+int ncmpi_put_att_double(int ncid, int varid, const char *name, nc_type xtype,
+                         MPI_Offset len, const double *op);
+
+int ncmpi_get_att_double(int ncid, int varid, const char *name, double *ip);
+\end{verbatim}
+
+%
+% DATA FUNCTIONS
+%
+\subsection*{A.5  Data Mode Functions}
+
+Recall that the data mode functions are split into the High Level data mode interface and the
+Flexible data mode interface.
+
+\subsubsection*{A.5.1  High Level Data Mode Interface}
+
+The High Level functions most closely mimic the original NetCDF data mode interface.
+
+% \emph{What about the single variable and varm functions?  Are they important?}
+
+\input data_mode_api
+
+\subsubsection*{A.5.2  Flexible Data Mode Interface}
+
+Note that there are considerably fewer functions in the flexible data mode
+inteface, because these functions can handle all different types with the same
+call.  All of the high level functions are written in terms of these
+functions.
+
+\input flexible_api
+
+\subsubsection*{A.5.3  Multiple Variable Data Mode Interface}
+
+\input multiple_io
+
+\subsubsection*{A.5.4  Nonblocking Data Mode Interface}
+
+\input nonblocking
+
+\subsubsection*{A.6  Other Utility Interface}
+
+\begin{verbatim}
+const char* ncmpi_strerror(int err);
+
+int ncmpi_delete(char *filename, MPI_Info info);
+
+int ncmpi_set_default_format(int format, int *old_formatp);
+
+const char* ncmpi_inq_libvers(void);
+
+int ncmpi_inq_format(int ncid, int *formatp);
+
+int ncmpi_inq_file_format(char *filename, int *formatp);
+
+int ncmpi_inq_version(int ncid, int *NC_mode);
+\end{verbatim}
+

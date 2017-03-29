@@ -1,0 +1,110 @@
+# $Id: README.CRAY 1605 2014-05-01 20:22:23Z wkliao $
+
+===============================================================================
+    Cray XC30
+===============================================================================
+
+Building PnetCDF on the Cray XC30 (tested on Edison @ NERSC)
+http://www.nersc.gov/systems/edison-cray-xc30/
+
+The configure options are the same as Cray XE6, except when using the Intel
+compiler (the default on Edison) with optimization flag "-fast". According
+to the NERSC URL below, the flag "-no-ipo" must be used together with flag
+"-fast" to build a library.
+http://www.nersc.gov/users/software/compilers/intel-fortran-c-and-c/
+
+./configure --prefix=/path/to/install \
+            --with-mpi=/path/to/mpi/implementation \
+            CFLAGS="-fast -no-ipo" CXXFLAGS="-fast -no-ipo" \
+            FFLAGS="-fast -no-ipo" FCFLAGS="-fast -no-ipo"
+
+
+Note if running make is slow, try parallel make, e.g.
+
+    make -j8
+
+===============================================================================
+    Cray XE6
+===============================================================================
+
+Building PnetCDF on the Cray XE6 (tested on Hopper @ NERSC)
+http://www.nersc.gov/systems/hopper-cray-xe6/
+
+./configure --prefix=/path/to/install \
+            --with-mpi=/path/to/mpi/implementation \
+            CFLAGS=-fast CXXFLAGS=-fast FFLAGS=-fast FCFLAGS=-fast
+
+
+The configure command above works for PGI, GNU, and Intel
+compilers, i.e. when one of the module load commands below is used:
+
+    module load PrgEnv-pgi
+    module load PrgEnv-gnu
+    module load PrgEnv-intel
+
+
+For Pathscale compilers, i.e.
+    module load PrgEnv-pathscale
+    use command below:
+    ./configure --prefix=/path/to/install \
+                --with-mpi=/path/to/mpi/implementation \
+                CFLAGS=-Ofast CXXFLAGS=-Ofast FFLAGS=-Ofast FCFLAGS=-Ofast
+
+
+For Cray compilers, i.e.
+    module load PrgEnv-cray
+    use command below:
+    ./configure --prefix=/path/to/install \
+                --with-mpi=/path/to/mpi/implementation \
+                CFLAGS=-O2 CXXFLAGS=-O2 FFLAGS=-O2 FCFLAGS="-O2 -emf" \
+                LDFLAGS=-Wl,-z,muldefs
+
+    Check crayftn man page for using option "-emf" in FCFLAGS:
+    to creates .mod files to hold module and allows the creation
+    of lower-case module .mod file names.
+
+    Option "-Wl,-z,muldefs" in LDFLAGS is to get around the
+    error of multiple definitions of `tc_version', etc.
+
+
+===============================================================================
+    Cray X1
+===============================================================================
+
+2 May 2005
+
+I performed the following steps to get Parallel-NetCDF to build on the Cray X1
+at Oak Ridge (phoenix.ccs.ornl.gov).   Note that out-of-tree (or VPATH) builds
+do not work for the Fortran interface as of 1.0.0-pre2, but we will try to
+address this issue in a future release.  
+
+prompt:$ module load mpt
+prompt:$ export CC=cc
+prompt:$ export FC=ftn
+prompt:$ export MPIF77=$FC
+prompt:$ export MPICC=$CC
+prompt:$ export FFLAGS="-eh"
+prompt:$ ./configure --prefix=/path/to/install
+# note: configure takes a fairly long time. 
+prompt:$ make
+
+The "nc_test" test will exhaust the available MPI datatypes on the X1.  Your
+application might see this error:
+
+   MPI has run out of internal datatype entries.                  
+   Please set the environment variable MPI_TYPE_MAX for additional space.
+   The current value of MPI_TYPE_MAX is 2098                      
+
+I did as asked and nc_test completed with MPI_TYPE_MAX set to 4096
+
+If you run on the login node, expect to see a lot of these messages:
+
+  Process [nc_test] 89345 generated trap, but has signal 8 held or ignored
+        epc 0x1219bb4 ra 0x1219b94 badvaddr 0x40004f0004000020 
+
+The messages don't *appear* to impact the program results, and additionally do
+not show up if you submit the job to PBS.
+
+Fortran codes should use '-eh' so that the Cray ftn compiler will use 1 byte
+for int*1 and 2 bytes for int*2.  Otherwise, our Fortran bindings will pass
+incorrect values to the C routines.   

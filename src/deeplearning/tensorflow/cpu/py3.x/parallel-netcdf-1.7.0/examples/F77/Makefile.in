@@ -1,0 +1,135 @@
+#
+# Copyright (C) 2012, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2236 2015-12-18 03:49:41Z wkliao $
+#
+# @configure_input@
+
+srcdir  = @srcdir@
+VPATH   = @srcdir@
+
+include ../../macros.make
+
+# note the order of -L list matters
+INCLUDES  = -I../../src/lib -I../../src/libf
+ifeq (@SIZEOF_MPI_AINT_IS_4@, yes)
+FPPFLAGS += -DSIZEOF_MPI_AINT_IS_4
+endif
+FLDFLAGS := -L../../src/lib $(FLDFLAGS) $(LDFLAGS)
+LIBS     := -lpnetcdf $(LIBS)
+
+F77_SRCS  = nonblocking_write.f \
+            column_wise.f \
+            block_cyclic.f \
+            flexible_api.f \
+            get_info.f \
+            hints.f \
+            put_vara.f \
+            put_varn_real.f \
+            put_varn_int.f \
+            transpose.f \
+            i_varn_real.f \
+            bput_varn_int8.f \
+            fill_mode.f
+
+F77F_SRCS = vard_int.F
+
+PROGS     = $(F77_SRCS:.f=)   $(F77F_SRCS:.F=)
+OBJS      = $(F77_SRCS:.f=.o) $(F77F_SRCS:.F=.o)
+
+UTIL_SRCS  = utils.F90
+UTIL_OBJS  = $(UTIL_SRCS:.F90=.o)
+
+GARBAGE      = $(PROGS) *.nc
+
+PACKING_LIST = $(F77_SRCS) $(F77F_SRCS) $(UTIL_SRCS) depend Makefile.in
+
+all: $(PROGS)
+
+install:
+
+uninstall:
+
+nonblocking_write: nonblocking_write.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+get_info: get_info.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+column_wise: column_wise.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+block_cyclic: block_cyclic.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+put_vara: put_vara.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+hints: hints.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+flexible_api: flexible_api.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+put_varn_int: put_varn_int.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+put_varn_real: put_varn_real.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+transpose: transpose.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+vard_int: vard_int.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+i_varn_real: i_varn_real.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+bput_varn_int8: bput_varn_int8.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+fill_mode: fill_mode.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(FLDFLAGS) $(LIBS)
+
+TEST_MPIRUN_4  = $(subst NP,4,$(TEST_MPIRUN))
+TEST_MPIRUN_8  = $(subst NP,8,$(TEST_MPIRUN))
+TEST_MPIRUN_3  = $(subst NP,3,$(TEST_MPIRUN))
+
+ptest4: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_4) ./$$i -q $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS: F77 parallel run on 4 processes --------------- $$i"; \
+        else \
+           echo "FAILED: F77 parallel run on 4 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest8: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_8) ./$$i -q $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS: F77 parallel run on 8 processes --------------- $$i"; \
+        else \
+           echo "FAILED: F77 parallel run on 8 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest3: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_3) ./$$i -q $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS: F77 parallel run on 3 processes --------------- $$i"; \
+        else \
+           echo "FAILED: F77 parallel run on 3 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest: ptest4
+ptests: ptest3 ptest4 ptest8
+ptest2 ptest6 ptest10:
+
+include $(srcdir)/depend
+include $(srcdir)/../../rules.make
+
+$(LIBRARY): ;
+

@@ -1,0 +1,56 @@
+#
+# Copyright (C) 2012, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2318 2016-02-04 00:18:26Z wkliao $
+#
+# @configure_input@
+
+srcdir  = @srcdir@
+VPATH   = @srcdir@
+
+include ../macros.make
+
+SUBDIRS = C
+
+ifeq (@has_fortran@, yes)
+ifeq (@mpi_mod@, yes)
+SUBDIRS += FLASH-IO
+endif
+endif
+
+PACKING_LIST = Makefile.in README
+
+PACKING_SUBDIRS = C FLASH-IO
+
+GARBAGE =
+
+all: $(SUBDIRS)
+$(SUBDIRS):
+	$(MAKE) $(MFLAGS) -C $@
+
+PTEST_DIRS = $(SUBDIRS:%=ptest-%)
+ptest: all $(PTEST_DIRS)
+$(PTEST_DIRS):
+ifeq (@enable_coverage@, yes)
+	echo "Parallel test is disabled because coverage analysis was enabled"
+else
+	$(MAKE) $(MFLAGS) -C $(@:ptest-%=%) ptest
+endif
+# make sure ptest runs one directory after another
+ptest-FLASH-IO: ptest-C
+
+ptests: ptest
+
+INSTALLDIRS = $(SUBDIRS:%=install-%)
+install: all $(INSTALLDIRS)
+$(INSTALLDIRS): 
+	$(MAKE) $(MFLAGS) -C $(@:install-%=%) install
+
+UNINSTALLDIRS = $(SUBDIRS:%=uninstall-%)
+uninstall: $(UNINSTALLDIRS)
+$(UNINSTALLDIRS): 
+	$(MAKE) $(MFLAGS) -C $(@:uninstall-%=%) uninstall
+
+include $(srcdir)/../rules.make
+

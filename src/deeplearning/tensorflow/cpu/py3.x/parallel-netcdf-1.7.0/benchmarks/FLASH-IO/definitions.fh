@@ -1,0 +1,98 @@
+!*******************************************************************************
+
+!  File:        definitions.h
+!  Purpose:        Define constants used for array indices, boundary conditions,
+!                geometries, etc.
+
+!                Pointers for the unk array (AMR fluid variable data structure)
+
+      integer idens, ivelx, ively, ivelz, ipres, iener, itemp, &
+             igame, igamc, ienuc, igpot, inuc_begin
+
+      parameter (idens = 1, &
+                ivelx = 2, &
+                      ively = 3, &
+                ivelz = 4, &
+                ipres = 5, &
+                iener = 6, &
+                itemp = 7, &
+                igamc = 8, &
+                igame = 9, &
+                ienuc = 10, &
+                      igpot = 11, &
+                inuc_begin = 12)
+
+! labels for the hydro variables, for storage in the HDF output files
+! the abundance labels are defined in the nuclear burner
+      character*4 varnam(nvar-nuc2)
+
+      data varnam /'dens', &
+                  'velx',  &
+                  'vely',  &
+                  'velz',  &
+                  'pres',  &
+                  'ener',  &
+                  'temp',  &
+                  'gamc',  & 
+                  'game',  &
+                  'enuc',  &
+                        'gpot'/
+
+!-------------------------------------------------------------------------------
+
+!                Pointers for the unk2 array (x coordinate information)
+
+      integer ixznl, ixzn, ixznr, iugridx
+
+      parameter (ixznl   = 1, &
+                ixzn    = 2, &
+                ixznr   = 3, &
+                iugridx = 4)
+
+!                Pointers for the unk3 array (y coordinate information)
+
+      integer iyznl, iyzn, iyznr, iugridy
+
+      parameter (iyznl   = 1, &
+                iyzn    = 2,  &
+                iyznr   = 3,  &
+                iugridy = 4)
+
+!                Pointers for the unk4 array (z coordinate information)
+
+      integer izznl, izzn, izznr, iugridz
+
+      parameter (izznl   = 1, &
+                izzn    = 2, &
+                izznr   = 3, &
+                iugridz = 4)
+
+
+!                Constants for use by geometry-dependent code
+
+      integer geom_cartesian, geom_planar, geom_cylrad, geom_sphrad, &
+                   geom_cylang, geom_sphtheta, geom_sphphi
+
+      parameter (geom_cartesian = 0, &
+                      geom_planar        = 0, &
+                      geom_cylrad        = 1, &
+                      geom_sphrad        = 2, &
+                      geom_cylang        = 3, &
+                      geom_sphtheta        = 4, &
+                      geom_sphphi        = 5)
+
+!-------------------------------------------------------------------------------
+
+!                Constants to indicate which sweep we're doing, for
+!                dimensionally split hydro solvers
+
+      integer sweep_x, sweep_y, sweep_z, sweep_order_xyz, &
+                   sweep_order_zyx, sweep_all
+
+      parameter (sweep_all         = 0, &
+                      sweep_x         = 1, &
+                      sweep_y         = 2, &
+                      sweep_z         = 3, &
+                      sweep_order_xyz = 1, &
+                      sweep_order_zyx = 2)
+

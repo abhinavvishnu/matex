@@ -1,0 +1,255 @@
+#
+# Copyright (C) 2003, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2318 2016-02-04 00:18:26Z wkliao $
+#
+# @configure_input@
+
+srcdir = @srcdir@
+VPATH  = @srcdir@
+
+include ../../macros.make
+
+INCLUDES  = -I../../src/lib -I$(srcdir)/../common
+FPPFLAGS += -I../../src/libf @FC_MODINC@../../src/libf90
+ifeq (@SIZEOF_MPI_AINT_IS_4@, yes)
+FPPFLAGS += -DSIZEOF_MPI_AINT_IS_4
+endif
+LDFLAGS  := $(LDFLAGS) -L../common
+LIBS     := $(LIBRARY) -ltestutils $(LIBS) @LCOV_LIB@
+ifeq (@PNC_DEBUG@, yes)
+CPPFLAGS := $(CPPFLAGS) -DPNC_DEBUG
+endif
+
+NCMPIGEN  = ../../src/utils/ncmpigen/ncmpigen
+NCMPIDIFF = ../../src/utils/ncmpidiff/ncmpidiff
+
+C_SRCS   = ncmpi_vars_null_stride.c \
+           vectors.c \
+           collective_error.c \
+           test_varm.c \
+           alignment_test.c \
+           flexible.c \
+           flexible2.c \
+           flexible_varm.c \
+           nonblocking.c \
+           noclobber.c \
+           record.c \
+           inq_num_vars.c \
+           varn_int.c \
+           modes.c \
+           one_record.c \
+           inq_recsize.c \
+           test_vard.c \
+           varn_contig.c \
+           ivarn.c \
+           check_striping.c \
+           add_var.c \
+           buftype_free.c \
+           last_large_var.c \
+           check_type.c \
+           test_erange.c \
+           redef1.c
+
+F77_SRCS = varn_intf.f \
+           attrf.f \
+           buftype_freef.f \
+           put_parameter.f
+
+F77F_SRCS = test_vardf.F
+
+F90_SRCS = inq_num_varsf.f90 \
+           inq_recsizef.f90 \
+           test_vardf90.f90 \
+           varn_real.f90
+
+PROGS    = $(C_SRCS:.c=)
+OBJS     = $(C_SRCS:.c=.o)
+
+ifeq (@has_fortran@, yes)
+PROGS   += $(F77_SRCS:.f=)   $(F77F_SRCS:.F=)
+OBJS    += $(F77_SRCS:.f=.o) $(F77F_SRCS:.F=.o)
+ifeq (@mpi_mod@, yes)
+PROGS   += $(F90_SRCS:.f90=)
+OBJS    += $(F90_SRCS:.f90=.o)
+endif
+ifeq (@large_file_test@, yes)
+PROGS   += bigrecords
+OBJS    += bigrecords.o
+endif
+endif
+
+GARBAGE      = $(PROGS) *.nc
+PACKING_LIST = $(C_SRCS) $(F77_SRCS) $(F77F_SRCS) $(F90_SRCS) \
+               bigrecords.f \
+               Makefile.in depend \
+               geopotential.ncdump \
+               redef-good.ncdump \
+               interop1.sh \
+               redef1.sh
+
+all: $(PROGS)
+
+$(C_SRCS:.c=.o): $(srcdir)/../common/testutils.h
+
+$(PROGS): ../common/libtestutils.a
+
+../common/libtestutils.a:
+	set -e; cd ../common && $(MAKE) $(MFLAGS) all
+
+ncmpi_vars_null_stride: ncmpi_vars_null_stride.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+vectors: vectors.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+bigrecords: bigrecords.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+redef1: redef1.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+collective_error: collective_error.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+test_varm: test_varm.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+alignment_test: alignment_test.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+flexible: flexible.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+flexible2: flexible2.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+flexible_varm: flexible_varm.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+nonblocking: nonblocking.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+noclobber: noclobber.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+record: record.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+inq_num_vars: inq_num_vars.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+varn_int: varn_int.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+varn_contig: varn_contig.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+modes: modes.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+one_record: one_record.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+inq_recsize: inq_recsize.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+test_vard: test_vard.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+profile: profile.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+ivarn: ivarn.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+check_striping: check_striping.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+add_var: add_var.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+buftype_free: buftype_free.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+last_large_var: last_large_var.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+check_type: check_type.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+test_erange: test_erange.o $(LIBRARY)
+	$(LINK.c) $< $(LDFLAGS) $(LIBS)
+
+inq_num_varsf: inq_num_varsf.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+inq_recsizef: inq_recsizef.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+test_vardf: test_vardf.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+varn_intf: varn_intf.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+attrf: attrf.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+buftype_freef: buftype_freef.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+put_parameter: put_parameter.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+test_vardf90: test_vardf90.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+varn_real: varn_real.o $(LIBRARY)
+	$(LINK.F90) $< $(LDFLAGS) $(LIBS)
+
+testing check verbose_testing : $(PROGS)
+	$(RM) -f $(TEST_OUTDIR)/testfile.nc $(TEST_OUTDIR)/redef1.nc
+	for i in $(PROGS); do ( \
+	$(TEST_SEQRUN) ./$$i $(TEST_OUTDIR)/testfile.nc \
+	; ) ; done
+	$(TEST_SEQRUN) ./redef1 $(TEST_OUTDIR)/testfile.nc
+	$(TEST_SEQRUN) $(NCMPIGEN) -v 2 -o $(TEST_OUTDIR)/redef1.nc $(srcdir)/redef-good.ncdump
+	$(TEST_SEQRUN) $(NCMPIDIFF) $(TEST_OUTDIR)/testfile.nc $(TEST_OUTDIR)/redef1.nc
+
+# Some of these tests are designed to run on one process,
+# Run them on 4 processes to see if they can handle well
+# Some of these tests are designed to run on 4 processes,
+# Run them on 2, 4, and 6 processes to see if they can handle well
+TEST_MPIRUN_2  = $(subst NP,2,$(TEST_MPIRUN))
+TEST_MPIRUN_4  = $(subst NP,4,$(TEST_MPIRUN))
+TEST_MPIRUN_6  = $(subst NP,6,$(TEST_MPIRUN))
+
+ptest4: $(PROGS)
+	$(RM) -f $(TEST_OUTDIR)/testfile.nc $(TEST_OUTDIR)/redef1.nc
+	for i in $(PROGS); do ( \
+	$(TEST_MPIRUN_4) ./$$i $(TEST_OUTDIR)/testfile.nc \
+	; ) ; done
+
+ptest2: $(PROGS)
+	$(RM) -f $(TEST_OUTDIR)/testfile.nc $(TEST_OUTDIR)/redef1.nc
+	for i in $(PROGS); do ( \
+	$(TEST_MPIRUN_2) ./$$i $(TEST_OUTDIR)/testfile.nc \
+	; ) ; done
+
+ptest6: $(PROGS)
+	$(RM) -f $(TEST_OUTDIR)/testfile.nc $(TEST_OUTDIR)/redef1.nc
+	for i in $(PROGS); do ( \
+	$(TEST_MPIRUN_6) ./$$i $(TEST_OUTDIR)/testfile.nc \
+	; ) ; done
+
+ptest: ptest4
+ptests: ptest2 ptest4 ptest6
+ptest8 ptest10:
+
+include $(srcdir)/../../rules.make
+include $(srcdir)/depend
+
+$(LIBRARY): ;
+

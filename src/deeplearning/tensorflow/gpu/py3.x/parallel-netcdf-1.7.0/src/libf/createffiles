@@ -1,0 +1,24 @@
+#! /bin/sh
+# -*- Mode: shell-script-mode; -*-
+#
+# $Id: createffiles 1162 2013-02-12 20:04:25Z wkliao $
+
+# This is a simple script that creates the Fortran interface files.
+# Usually, it is MPICH_DISTRIBUTION/src/binding/f77/buildiface
+# It makes use of an interface builder developed for MPICH2 and a set of 
+# NetCDF-specific descriptions in the file "defs".
+
+if [ -z "$BUILDIFACE" ] ; then
+    BUILDIFACE=./buildiface
+fi
+
+# Build the files 
+$BUILDIFACE -infile=../lib/pnetcdf.h -deffile=defs $@
+# Update to the old name
+for file in *f.c mpifnetcdf.h ; do
+    if grep FORT_DLL_SPEC $file >/dev/null 2>&1 ; then 
+	rm -f .tmp
+        sed -e 's/FORT_DLL_SPEC/FORTRAN_API/g' $file > .tmp
+	mv .tmp $file
+    fi
+done

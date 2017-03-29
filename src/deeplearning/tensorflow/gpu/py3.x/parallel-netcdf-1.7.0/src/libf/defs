@@ -1,0 +1,2547 @@
+#
+#  Copyright (C) 2003, Northwestern University and Argonne National Laboratory
+#  See COPYRIGHT notice in top-level directory.
+#
+# $Id: defs 2071 2015-08-11 04:39:53Z wkliao $
+
+$routine_prefix = "ncmpi_";
+$routine_pattern = "[a-z0-9_]*";
+$out_prefix = "nfmpi_";
+$do_weak = 0;
+$do_profiling = 0;
+
+## Need MPI_Offset / INTEGER(KIND=MPI_OFFSET_KIND) Fortran interface
+# $tof77{"MPI_Offset"} = "int *";
+# $tof77{"MPI_Offset *"} = "int *";
+# $tof77{"MPI_Offset*"} = "int *";
+# $tof77{"MPI_Offset\[\]"} = "int";
+
+$tof77{"int"} = "int *";
+$tof77{"int64_t"} = "int64_t *";
+$tof77{"int64_t *"} = "int64_t *";
+$tof77{"nc_type"} = "int *";
+$tof77{"nc_type *"} = "int *";
+$tof77{"nc_type*"} = "int *";
+$malloc = "malloc";
+$calloc = "calloc";
+$free   = "free";
+$header_file = "mpinetcdf_impl.h";
+
+# $tof77{"NCMPI_Request*"} = "MPI_Fint *";
+# $tof77{"NCMPI_Request*"} = "MPI_Fint *";
+# $tof77{"NCMPI_Request\[\]"} = "int *";
+# $tof77{"MPI_Offset**"} = "MPI_Offset *";
+
+# Error return handling
+$errparmtype = "";
+$errparm = "";
+$errparmlval = "ierr";
+$errparmrval = "ierr";
+$returnErrval = 1;
+$returnType   = "int";
+
+#%
+#% Change the handling of input MPI handles
+%argsneedcast = ( 'MPI_Request *' 	=> '(fixme][)(ARG)',
+		  'MPI_Status *'  	=> '(MPI_Status *)(ARG)',
+		  'MPI_File' 		=> 'MPI_File_f2c(ARG)',
+		  'MPI_Comm' 		=> 'MPI_Comm_f2c(ARG)',
+		  'MPI_Comm *' 		=> '(fixme][)(ARG)',
+		  'MPI_Datatype' 	=> 'MPI_Type_f2c(ARG)',
+		  'MPI_Datatype *' 	=> '(fixme][ *)(ARG)',
+		  'MPI_Info *' 		=> '(fixme][)(ARG)',
+		  'MPI_Info' 		=> 'MPI_Info_f2c(ARG)'
+);
+
+# Map some of the names from C to Fortran to replace float with real,
+# schar with int1, short with int2, longlong with int8
+%CtoFName = (
+	'put_att_schar'		=> 'put_att_int1',
+	'get_att_schar'		=> 'get_att_int1',
+	'put_var1_schar'	=> 'put_var1_int1',
+	'get_var1_schar'	=> 'get_var1_int1',
+	'put_var1_schar_all'	=> 'put_var1_int1_all',
+	'get_var1_schar_all'	=> 'get_var1_int1_all',
+	'put_var_schar'		=> 'put_var_int1',
+	'get_var_schar'		=> 'get_var_int1',
+	'put_var_schar_all'	=> 'put_var_int1_all',
+	'get_var_schar_all'	=> 'get_var_int1_all',
+	'put_vara_schar'	=> 'put_vara_int1',
+	'get_vara_schar'	=> 'get_vara_int1',
+	'put_vara_schar_all'	=> 'put_vara_int1_all',
+	'get_vara_schar_all'	=> 'get_vara_int1_all',
+	'put_vars_schar'	=> 'put_vars_int1',
+	'get_vars_schar'	=> 'get_vars_int1',
+	'put_vars_schar_all'	=> 'put_vars_int1_all',
+	'get_vars_schar_all'	=> 'get_vars_int1_all',
+	'put_varm_schar'	=> 'put_varm_int1',
+	'get_varm_schar'	=> 'get_varm_int1',
+	'put_varm_schar_all'	=> 'put_varm_int1_all',
+	'get_varm_schar_all'	=> 'get_varm_int1_all',
+
+	'put_att_short'		=> 'put_att_int2',
+	'get_att_short'		=> 'get_att_int2',
+	'put_var1_short'	=> 'put_var1_int2',
+	'get_var1_short'	=> 'get_var1_int2',
+	'put_var1_short_all'	=> 'put_var1_int2_all',
+	'get_var1_short_all'	=> 'get_var1_int2_all',
+	'put_var_short'		=> 'put_var_int2',
+	'get_var_short'		=> 'get_var_int2',
+	'put_var_short_all'	=> 'put_var_int2_all',
+	'get_var_short_all'	=> 'get_var_int2_all',
+	'put_vara_short'	=> 'put_vara_int2',
+	'get_vara_short'	=> 'get_vara_int2',
+	'put_vara_short_all'	=> 'put_vara_int2_all',
+	'get_vara_short_all'	=> 'get_vara_int2_all',
+	'put_vars_short'	=> 'put_vars_int2',
+	'get_vars_short'	=> 'get_vars_int2',
+	'put_vars_short_all'	=> 'put_vars_int2_all',
+	'get_vars_short_all'	=> 'get_vars_int2_all',
+	'put_varm_short'	=> 'put_varm_int2',
+	'get_varm_short'	=> 'get_varm_int2',
+	'put_varm_short_all'	=> 'put_varm_int2_all',
+	'get_varm_short_all'	=> 'get_varm_int2_all',
+
+	'put_att_float'		=> 'put_att_real',
+	'get_att_float'		=> 'get_att_real',
+	'put_var1_float'	=> 'put_var1_real',
+	'get_var1_float'	=> 'get_var1_real',
+	'put_var1_float_all'	=> 'put_var1_real_all',
+	'get_var1_float_all'	=> 'get_var1_real_all',
+	'put_var_float'		=> 'put_var_real',
+	'get_var_float'		=> 'get_var_real',
+	'put_var_float_all'	=> 'put_var_real_all',
+	'get_var_float_all'	=> 'get_var_real_all',
+	'put_vara_float'	=> 'put_vara_real',
+	'get_vara_float'	=> 'get_vara_real',
+	'put_vara_float_all'	=> 'put_vara_real_all',
+	'get_vara_float_all'	=> 'get_vara_real_all',
+	'put_vars_float'	=> 'put_vars_real',
+	'get_vars_float'	=> 'get_vars_real',
+	'put_vars_float_all'	=> 'put_vars_real_all',
+	'get_vars_float_all'	=> 'get_vars_real_all',
+	'put_varm_float'	=> 'put_varm_real',
+	'get_varm_float'	=> 'get_varm_real',
+	'put_varm_float_all'	=> 'put_varm_real_all',
+	'get_varm_float_all'	=> 'get_varm_real_all',
+
+	'put_att_longlong'	=> 'put_att_int8',
+	'get_att_longlong'	=> 'get_att_int8',
+	'put_var1_longlong'	=> 'put_var1_int8',
+	'get_var1_longlong'	=> 'get_var1_int8',
+	'put_var1_longlong_all'	=> 'put_var1_int8_all',
+	'get_var1_longlong_all'	=> 'get_var1_int8_all',
+	'put_var_longlong'	=> 'put_var_int8',
+	'get_var_longlong'	=> 'get_var_int8',
+	'put_var_longlong_all'	=> 'put_var_int8_all',
+	'get_var_longlong_all'	=> 'get_var_int8_all',
+	'put_vara_longlong'	=> 'put_vara_int8',
+	'get_vara_longlong'	=> 'get_vara_int8',
+	'put_vara_longlong_all'	=> 'put_vara_int8_all',
+	'get_vara_longlong_all'	=> 'get_vara_int8_all',
+	'put_vars_longlong'	=> 'put_vars_int8',
+	'get_vars_longlong'	=> 'get_vars_int8',
+	'put_vars_longlong_all'	=> 'put_vars_int8_all',
+	'get_vars_longlong_all'	=> 'get_vars_int8_all',
+	'put_varm_longlong'	=> 'put_varm_int8',
+	'get_varm_longlong'	=> 'get_varm_int8',
+	'put_varm_longlong_all'	=> 'put_varm_int8_all',
+	'get_varm_longlong_all'	=> 'get_varm_int8_all',
+
+	'put_varn_schar'	=> 'put_varn_int1',
+	'get_varn_schar'	=> 'get_varn_int1',
+	'put_varn_schar_all'	=> 'put_varn_int1_all',
+	'get_varn_schar_all'	=> 'get_varn_int1_all',
+	'put_varn_short'	=> 'put_varn_int2',
+	'get_varn_short'	=> 'get_varn_int2',
+	'put_varn_short_all'	=> 'put_varn_int2_all',
+	'get_varn_short_all'	=> 'get_varn_int2_all',
+	'put_varn_float'	=> 'put_varn_real',
+	'get_varn_float'	=> 'get_varn_real',
+	'put_varn_float_all'	=> 'put_varn_real_all',
+	'get_varn_float_all'	=> 'get_varn_real_all',
+	'put_varn_longlong'	=> 'put_varn_int8',
+	'get_varn_longlong'	=> 'get_varn_int8',
+	'put_varn_longlong_all'	=> 'put_varn_int8_all',
+	'get_varn_longlong_all'	=> 'get_varn_int8_all',
+
+	'iput_var1_schar'	=> 'iput_var1_int1',
+	'iget_var1_schar'	=> 'iget_var1_int1',
+	'iput_var_schar'	=> 'iput_var_int1',
+	'iget_var_schar'	=> 'iget_var_int1',
+	'iput_vara_schar'	=> 'iput_vara_int1',
+	'iget_vara_schar'	=> 'iget_vara_int1',
+	'iput_vars_schar'	=> 'iput_vars_int1',
+	'iget_vars_schar'	=> 'iget_vars_int1',
+	'iput_varm_schar'	=> 'iput_varm_int1',
+	'iget_varm_schar'	=> 'iget_varm_int1',
+
+	'iput_var1_short'	=> 'iput_var1_int2',
+	'iget_var1_short'	=> 'iget_var1_int2',
+	'iput_var_short'	=> 'iput_var_int2',
+	'iget_var_short'	=> 'iget_var_int2',
+	'iput_vara_short'	=> 'iput_vara_int2',
+	'iget_vara_short'	=> 'iget_vara_int2',
+	'iput_vars_short'	=> 'iput_vars_int2',
+	'iget_vars_short'	=> 'iget_vars_int2',
+	'iput_varm_short'	=> 'iput_varm_int2',
+	'iget_varm_short'	=> 'iget_varm_int2',
+
+	'iput_var1_float'	=> 'iput_var1_real',
+	'iget_var1_float'	=> 'iget_var1_real',
+	'iput_var_float'	=> 'iput_var_real',
+	'iget_var_float'	=> 'iget_var_real',
+	'iput_vara_float'	=> 'iput_vara_real',
+	'iget_vara_float'	=> 'iget_vara_real',
+	'iput_vars_float'	=> 'iput_vars_real',
+	'iget_vars_float'	=> 'iget_vars_real',
+	'iput_varm_float'	=> 'iput_varm_real',
+	'iget_varm_float'	=> 'iget_varm_real',
+
+	'iput_var1_longlong'	=> 'iput_var1_int8',
+	'iget_var1_longlong'	=> 'iget_var1_int8',
+	'iput_var_longlong'	=> 'iput_var_int8',
+	'iget_var_longlong'	=> 'iget_var_int8',
+	'iput_vara_longlong'	=> 'iput_vara_int8',
+	'iget_vara_longlong'	=> 'iget_vara_int8',
+	'iput_vars_longlong'	=> 'iput_vars_int8',
+	'iget_vars_longlong'	=> 'iget_vars_int8',
+	'iput_varm_longlong'	=> 'iput_varm_int8',
+	'iget_varm_longlong'	=> 'iget_varm_int8',
+
+	'iput_varn_schar'	=> 'iput_varn_int1',
+	'iget_varn_schar'	=> 'iget_varn_int1',
+	'iput_varn_short'	=> 'iput_varn_int2',
+	'iget_varn_short'	=> 'iget_varn_int2',
+	'iput_varn_float'	=> 'iput_varn_real',
+	'iget_varn_float'	=> 'iget_varn_real',
+	'iput_varn_longlong'	=> 'iput_varn_int8',
+	'iget_varn_longlong'	=> 'iget_varn_int8',
+
+	'bput_varn_schar'	=> 'bput_varn_int1',
+	'bput_varn_short'	=> 'bput_varn_int2',
+	'bput_varn_float'	=> 'bput_varn_real',
+	'bput_varn_longlong'	=> 'bput_varn_int8',
+
+	'bput_var1_schar'	=> 'bput_var1_int1',
+	'bput_var_schar'	=> 'bput_var_int1',
+	'bput_vara_schar'	=> 'bput_vara_int1',
+	'bput_vars_schar'	=> 'bput_vars_int1',
+	'bput_varm_schar'	=> 'bput_varm_int1',
+
+	'bput_var1_short'	=> 'bput_var1_int2',
+	'bput_var_short'	=> 'bput_var_int2',
+	'bput_vara_short'	=> 'bput_vara_int2',
+	'bput_vars_short'	=> 'bput_vars_int2',
+	'bput_varm_short'	=> 'bput_varm_int2',
+
+	'bput_var1_float'	=> 'bput_var1_real',
+	'bput_var_float'	=> 'bput_var_real',
+	'bput_vara_float'	=> 'bput_vara_real',
+	'bput_vars_float'	=> 'bput_vars_real',
+	'bput_varm_float'	=> 'bput_varm_real',
+
+	'bput_var1_longlong'	=> 'bput_var1_int8',
+	'bput_var_longlong'	=> 'bput_var_int8',
+	'bput_vara_longlong'	=> 'bput_vara_int8',
+	'bput_vars_longlong'	=> 'bput_vars_int8',
+	'bput_varm_longlong'	=> 'bput_varm_int8'
+);
+
+#
+# We really need a easier way to force a default for a particular data type
+# (e.g., so that we can say "use 'in:intToOffset' for MPI_Offset.  For arrays,
+# we still need an argument for the array size
+#
+# Other transformations:
+#   variable ids and dimension ids must be shifted by 1 (0... in C, 1... in
+#   Fortran.  This is done with out:OffsetIndex and in:IntIndexIn or
+#   out:IntIndex and in:IntIndexIn).
+#   Arrays of ids are handled with in:IntIndexInArr:dimension
+
+%special_args = (
+	'copy_att' => '2:3:5',
+		'copy_att-2'	=> 'in:IntIndexIn',
+		'copy_att-3'	=> 'in:addnull',
+		'copy_att-5'	=> 'in:IntIndexIn',
+	'create' => 2,
+		'create-2'	=> 'in:addnull',
+	'def_dim' => '2:4',
+		'def_dim-2'	=> 'in:addnull',
+		'def_dim-4'	=> 'out:IntIndex',
+	'def_var' => '2:5:6',
+		'def_var-2'	=> 'in:addnull',
+		'def_var-5'	=> 'in:IntIndexInArr:*v4',
+		'def_var-6'	=> 'out:IntIndex',
+	'del_att' => '2:3',
+		'del_att-2'	=> 'in:IntIndexIn',
+		'del_att-3'	=> 'in:addnull',
+
+	'get_att_text' => '2:3:4',
+		'get_att_text-2'	=> 'in:IntIndexIn',
+		'get_att_text-3'	=> 'in:addnull',
+		'get_att_text-4'	=> 'out:charBufferOut',
+	'get_att_schar' => '2:3:4',
+		'get_att_schar-2'	=> 'in:IntIndexIn',
+		'get_att_schar-3'	=> 'in:addnull',
+		'get_att_schar-4'	=> 'out:int1toschar',
+	'get_att_short' => '2:3',
+		'get_att_short-2'	=> 'in:IntIndexIn',
+		'get_att_short-3'	=> 'in:addnull',
+	'get_att_int' => '2:3',
+		'get_att_int-2'		=> 'in:IntIndexIn',
+		'get_att_int-3'		=> 'in:addnull',
+## Skip long for fortran binding iface
+#	'get_att_long' => '2:3',
+#		'get_att_long-2'	=> 'in:IntIndexIn',
+#		'get_att_long-3'	=> 'in:addnull',
+	'get_att_float' => '2:3',
+		'get_att_float-2'	=> 'in:IntIndexIn',
+		'get_att_float-3'	=> 'in:addnull',
+	'get_att_double' => '2:3',
+		'get_att_double-2'	=> 'in:IntIndexIn',
+		'get_att_double-3'	=> 'in:addnull',
+	'get_att_longlong' => '2:3',
+		'get_att_longlong-2'	=> 'in:IntIndexIn',
+		'get_att_longlong-3'	=> 'in:addnull',
+
+## Skip uchar for fortran binding iface
+#	'get_att_uchar' => '2:3:4',
+# 		'get_att_uchar-2'	=> 'in:IntIndexIn',
+#		'get_att_uchar-3'	=> 'in:addnull',
+#		'get_att_uchar-4'	=> 'out:charBufferOut',
+
+	'get_var1' => '2:3',
+		'get_var1-2'		=> 'in:IntIndexIn',
+		'get_var1-3'		=> 'in:reorderOffsetArr:true',
+	'get_var1_all' => '2:3',
+		'get_var1_all-2'	=> 'in:IntIndexIn',
+		'get_var1_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_text' => '2:3:4',
+		'get_var1_text-2'	=> 'in:IntIndexIn',
+		'get_var1_text-4'	=> 'out:charBufferOut',
+		'get_var1_text-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_text_all' => '2:3:4',
+		'get_var1_text_all-2'	=> 'in:IntIndexIn',
+		'get_var1_text_all-4'	=> 'out:charBufferOut',
+		'get_var1_text_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_schar' => '2:3',
+		'get_var1_schar-2'	=> 'in:IntIndexIn',
+		'get_var1_schar-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_schar_all' => '2:3',
+		'get_var1_schar_all-2'	=> 'in:IntIndexIn',
+		'get_var1_schar_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_short' => '2:3',
+		'get_var1_short-2'	=> 'in:IntIndexIn',
+		'get_var1_short-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_short_all' => '2:3',
+		'get_var1_short_all-2'	=> 'in:IntIndexIn',
+		'get_var1_short_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_int' => '2:3',
+		'get_var1_int-2'	=> 'in:IntIndexIn',
+		'get_var1_int-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_int_all' => '2:3',
+		'get_var1_int_all-2'	=> 'in:IntIndexIn',
+		'get_var1_int_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_float' => '2:3',
+		'get_var1_float-2'	=> 'in:IntIndexIn',
+		'get_var1_float-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_float_all' => '2:3',
+		'get_var1_float_all-2'	=> 'in:IntIndexIn',
+		'get_var1_float_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_double' => '2:3',
+		'get_var1_double-2'	=> 'in:IntIndexIn',
+		'get_var1_double-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_double_all' => '2:3',
+		'get_var1_double_all-2'	=> 'in:IntIndexIn',
+		'get_var1_double_all-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_longlong' => '2:3',
+		'get_var1_longlong-2'	=> 'in:IntIndexIn',
+		'get_var1_longlong-3'	=> 'in:reorderOffsetArr:true',
+	'get_var1_longlong_all' => '2:3',
+		'get_var1_longlong_all-2'	=> 'in:IntIndexIn',
+		'get_var1_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+
+	'get_var' => '2',
+		'get_var-2'		=> 'in:IntIndexIn',
+	'get_var_all' => '2',
+		'get_var_all-2'		=> 'in:IntIndexIn',
+	'get_var_text' => '2:3',
+		'get_var_text-2'	=> 'in:IntIndexIn',
+		'get_var_text-3'	=> 'out:charBufferOut',
+	'get_var_text_all' => '2:3',
+		'get_var_text_all-2'	=> 'in:IntIndexIn',
+		'get_var_text_all-3'	=> 'out:charBufferOut',
+	'get_var_schar' => '2',
+		'get_var_schar-2'	=> 'in:IntIndexIn',
+	'get_var_schar_all' => '2',
+		'get_var_schar_all-2'	=> 'in:IntIndexIn',
+	'get_var_short' => '2',
+		'get_var_short-2'	=> 'in:IntIndexIn',
+	'get_var_short_all' => '2',
+		'get_var_short_all-2'	=> 'in:IntIndexIn',
+	'get_var_int' => '2',
+		'get_var_int-2'		=> 'in:IntIndexIn',
+	'get_var_int_all' => '2',
+		'get_var_int_all-2'	=> 'in:IntIndexIn',
+	'get_var_float' => '2',
+		'get_var_float-2'	=> 'in:IntIndexIn',
+	'get_var_float_all' => '2',
+		'get_var_float_all-2'	=> 'in:IntIndexIn',
+	'get_var_double' => '2',
+		'get_var_double-2'	=> 'in:IntIndexIn',
+	'get_var_double_all' => '2',
+		'get_var_double_all-2'	=> 'in:IntIndexIn',
+	'get_var_longlong' => '2',
+		'get_var_longlong-2'	=> 'in:IntIndexIn',
+	'get_var_longlong_all' => '2',
+		'get_var_longlong_all-2'	=> 'in:IntIndexIn',
+
+	'get_vara' => '2:3:4',
+		'get_vara-2'		=> 'in:IntIndexIn',
+		'get_vara-3'		=> 'in:reorderOffsetArr:true',
+		'get_vara-4'		=> 'in:reorderOffsetArr',
+	'get_vara_all' => '2:3:4',
+		'get_vara_all-2'	=> 'in:IntIndexIn',
+		'get_vara_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_all-4'	=> 'in:reorderOffsetArr',
+	'get_vara_text' => '2:3:4:5',
+		'get_vara_text-2'	=> 'in:IntIndexIn',
+		'get_vara_text-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_text-4'	=> 'in:reorderOffsetArr',
+		'get_vara_text-5'	=> 'out:charBufferOut',
+	'get_vara_text_all' => '2:3:4:5',
+		'get_vara_text_all-2'	=> 'in:IntIndexIn',
+		'get_vara_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_text_all-4'	=> 'in:reorderOffsetArr',
+		'get_vara_text_all-5'	=> 'out:charBufferOut',
+	'get_vara_schar' => '2:3:4',
+		'get_vara_schar-2'	=> 'in:IntIndexIn',
+		'get_vara_schar-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_schar-4'	=> 'in:reorderOffsetArr',
+	'get_vara_schar_all' => '2:3:4',
+		'get_vara_schar_all-2'	=> 'in:IntIndexIn',
+		'get_vara_schar_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_schar_all-4'	=> 'in:reorderOffsetArr',
+	'get_vara_short' => '2:3:4',
+		'get_vara_short-2'	=> 'in:IntIndexIn',
+		'get_vara_short-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_short-4'	=> 'in:reorderOffsetArr',
+	'get_vara_short_all' => '2:3:4',
+		'get_vara_short_all-2'	=> 'in:IntIndexIn',
+		'get_vara_short_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_short_all-4'	=> 'in:reorderOffsetArr',
+	'get_vara_int' => '2:3:4',
+		'get_vara_int-2'	=> 'in:IntIndexIn',
+		'get_vara_int-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_int-4'	=> 'in:reorderOffsetArr',
+	'get_vara_int_all' => '2:3:4',
+		'get_vara_int_all-2'	=> 'in:IntIndexIn',
+		'get_vara_int_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_int_all-4'	=> 'in:reorderOffsetArr',
+	'get_vara_float' => '2:3:4',
+		'get_vara_float-2'	=> 'in:IntIndexIn',
+		'get_vara_float-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_float-4'	=> 'in:reorderOffsetArr',
+	'get_vara_float_all' => '2:3:4',
+		'get_vara_float_all-2'	=> 'in:IntIndexIn',
+		'get_vara_float_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_float_all-4'	=> 'in:reorderOffsetArr',
+	'get_vara_double' => '2:3:4',
+		'get_vara_double-2'	=> 'in:IntIndexIn',
+		'get_vara_double-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_double-4'	=> 'in:reorderOffsetArr',
+	'get_vara_double_all' => '2:3:4',
+		'get_vara_double_all-2'	=> 'in:IntIndexIn',
+		'get_vara_double_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_double_all-4'	=> 'in:reorderOffsetArr',
+	'get_vara_longlong' => '2:3:4',
+		'get_vara_longlong-2'	=> 'in:IntIndexIn',
+		'get_vara_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_longlong-4'	=> 'in:reorderOffsetArr',
+	'get_vara_longlong_all' => '2:3:4',
+		'get_vara_longlong_all-2'	=> 'in:IntIndexIn',
+		'get_vara_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vara_longlong_all-4'	=> 'in:reorderOffsetArr',
+
+	'get_vars' => '2:3:4:5',
+		'get_vars-2'		=> 'in:IntIndexIn',
+		'get_vars-3'		=> 'in:reorderOffsetArr:true',
+		'get_vars-4'		=> 'in:reorderOffsetArr',
+		'get_vars-5'		=> 'in:reorderOffsetArr',
+	'get_vars_all' => '2:3:4:5',
+		'get_vars_all-2'	=> 'in:IntIndexIn',
+		'get_vars_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_all-5'	=> 'in:reorderOffsetArr',
+	'get_vars_text' => '2:3:4:5:6',
+		'get_vars_text-2'	=> 'in:IntIndexIn',
+		'get_vars_text-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_text-4'	=> 'in:reorderOffsetArr',
+		'get_vars_text-5'	=> 'in:reorderOffsetArr',
+		'get_vars_text-6'	=> 'out:charBufferOut',
+	'get_vars_text_all' => '2:3:4:5:6',
+		'get_vars_text_all-2'	=> 'in:IntIndexIn',
+		'get_vars_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_text_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_text_all-5'	=> 'in:reorderOffsetArr',
+		'get_vars_text_all-6'	=> 'out:charBufferOut',
+	'get_vars_schar' => '2:3:4:5',
+		'get_vars_schar-2'	=> 'in:IntIndexIn',
+		'get_vars_schar-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_schar-4'	=> 'in:reorderOffsetArr',
+		'get_vars_schar-5'	=> 'in:reorderOffsetArr',
+	'get_vars_schar_all' => '2:3:4:5',
+		'get_vars_schar_all-2'	=> 'in:IntIndexIn',
+		'get_vars_schar_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_schar_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_schar_all-5'	=> 'in:reorderOffsetArr',
+	'get_vars_short' => '2:3:4:5',
+		'get_vars_short-2'	=> 'in:IntIndexIn',
+		'get_vars_short-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_short-4'	=> 'in:reorderOffsetArr',
+		'get_vars_short-5'	=> 'in:reorderOffsetArr',
+	'get_vars_short_all' => '2:3:4:5',
+		'get_vars_short_all-2'	=> 'in:IntIndexIn',
+		'get_vars_short_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_short_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_short_all-5'	=> 'in:reorderOffsetArr',
+	'get_vars_int' => '2:3:4:5',
+		'get_vars_int-2'	=> 'in:IntIndexIn',
+		'get_vars_int-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_int-4'	=> 'in:reorderOffsetArr',
+		'get_vars_int-5'	=> 'in:reorderOffsetArr',
+	'get_vars_int_all' => '2:3:4:5',
+		'get_vars_int_all-2'	=> 'in:IntIndexIn',
+		'get_vars_int_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_int_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_int_all-5'	=> 'in:reorderOffsetArr',
+	'get_vars_float' => '2:3:4:5',
+		'get_vars_float-2'	=> 'in:IntIndexIn',
+		'get_vars_float-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_float-4'	=> 'in:reorderOffsetArr',
+		'get_vars_float-5'	=> 'in:reorderOffsetArr',
+	'get_vars_float_all' => '2:3:4:5',
+		'get_vars_float_all-2'	=> 'in:IntIndexIn',
+		'get_vars_float_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_float_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_float_all-5'	=> 'in:reorderOffsetArr',
+	'get_vars_double' => '2:3:4:5',
+		'get_vars_double-2'	=> 'in:IntIndexIn',
+		'get_vars_double-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_double-4'	=> 'in:reorderOffsetArr',
+		'get_vars_double-5'	=> 'in:reorderOffsetArr',
+	'get_vars_double_all' => '2:3:4:5',
+		'get_vars_double_all-2'	=> 'in:IntIndexIn',
+		'get_vars_double_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_double_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_double_all-5'	=> 'in:reorderOffsetArr',
+	'get_vars_longlong' => '2:3:4:5',
+		'get_vars_longlong-2'	=> 'in:IntIndexIn',
+		'get_vars_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_longlong-4'	=> 'in:reorderOffsetArr',
+		'get_vars_longlong-5'	=> 'in:reorderOffsetArr',
+	'get_vars_longlong_all' => '2:3:4:5',
+		'get_vars_longlong_all-2'	=> 'in:IntIndexIn',
+		'get_vars_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_vars_longlong_all-4'	=> 'in:reorderOffsetArr',
+		'get_vars_longlong_all-5'	=> 'in:reorderOffsetArr',
+
+	'get_varm' => '2:3:4:5:6',
+		'get_varm-2'		=> 'in:IntIndexIn',
+		'get_varm-3'		=> 'in:reorderOffsetArr:true',
+		'get_varm-4'		=> 'in:reorderOffsetArr',
+		'get_varm-5'		=> 'in:reorderOffsetArr',
+		'get_varm-6'		=> 'in:reorderOffsetArr',
+	'get_varm_all' => '2:3:4:5:6',
+		'get_varm_all-2'	=> 'in:IntIndexIn',
+		'get_varm_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_all-6'	=> 'in:reorderOffsetArr',
+	'get_varm_text' => '2:3:4:5:6:7',
+		'get_varm_text-2'	=> 'in:IntIndexIn',
+		'get_varm_text-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_text-4'	=> 'in:reorderOffsetArr',
+		'get_varm_text-5'	=> 'in:reorderOffsetArr',
+		'get_varm_text-6'	=> 'in:reorderOffsetArr',
+		'get_varm_text-7'	=> 'out:charBufferOut',
+	'get_varm_text_all' => '2:3:4:5:6:7',
+		'get_varm_text_all-2'	=> 'in:IntIndexIn',
+		'get_varm_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_text_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_text_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_text_all-6'	=> 'in:reorderOffsetArr',
+		'get_varm_text_all-7'	=> 'out:charBufferOut',
+	'get_varm_schar' => '2:3:4:5:6',
+		'get_varm_schar-2'	=> 'in:IntIndexIn',
+		'get_varm_schar-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_schar-4'	=> 'in:reorderOffsetArr',
+		'get_varm_schar-5'	=> 'in:reorderOffsetArr',
+		'get_varm_schar-6'	=> 'in:reorderOffsetArr',
+	'get_varm_schar_all' => '2:3:4:5:6',
+		'get_varm_schar_all-2'	=> 'in:IntIndexIn',
+		'get_varm_schar_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_schar_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_schar_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_schar_all-6'	=> 'in:reorderOffsetArr',
+	'get_varm_short' => '2:3:4:5:6',
+		'get_varm_short-2'	=> 'in:IntIndexIn',
+		'get_varm_short-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_short-4'	=> 'in:reorderOffsetArr',
+		'get_varm_short-5'	=> 'in:reorderOffsetArr',
+		'get_varm_short-6'	=> 'in:reorderOffsetArr',
+	'get_varm_short_all' => '2:3:4:5:6',
+		'get_varm_short_all-2'	=> 'in:IntIndexIn',
+		'get_varm_short_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_short_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_short_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_short_all-6'	=> 'in:reorderOffsetArr',
+	'get_varm_int' => '2:3:4:5:6',
+		'get_varm_int-2'	=> 'in:IntIndexIn',
+		'get_varm_int-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_int-4'	=> 'in:reorderOffsetArr',
+		'get_varm_int-5'	=> 'in:reorderOffsetArr',
+		'get_varm_int-6'	=> 'in:reorderOffsetArr',
+	'get_varm_int_all' => '2:3:4:5:6',
+		'get_varm_int_all-2'	=> 'in:IntIndexIn',
+		'get_varm_int_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_int_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_int_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_int_all-6'	=> 'in:reorderOffsetArr',
+	'get_varm_float' => '2:3:4:5:6',
+		'get_varm_float-2'	=> 'in:IntIndexIn',
+		'get_varm_float-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_float-4'	=> 'in:reorderOffsetArr',
+		'get_varm_float-5'	=> 'in:reorderOffsetArr',
+		'get_varm_float-6'	=> 'in:reorderOffsetArr',
+	'get_varm_float_all' => '2:3:4:5:6',
+		'get_varm_float_all-2'	=> 'in:IntIndexIn',
+		'get_varm_float_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_float_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_float_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_float_all-6'	=> 'in:reorderOffsetArr',
+	'get_varm_double' => '2:3:4:5:6',
+		'get_varm_double-2'	=> 'in:IntIndexIn',
+		'get_varm_double-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_double-4'	=> 'in:reorderOffsetArr',
+		'get_varm_double-5'	=> 'in:reorderOffsetArr',
+		'get_varm_double-6'	=> 'in:reorderOffsetArr',
+	'get_varm_double_all' => '2:3:4:5:6',
+		'get_varm_double_all-2'	=> 'in:IntIndexIn',
+		'get_varm_double_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_double_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_double_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_double_all-6'	=> 'in:reorderOffsetArr',
+	'get_varm_longlong' => '2:3:4:5:6',
+		'get_varm_longlong-2'	=> 'in:IntIndexIn',
+		'get_varm_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_longlong-4'	=> 'in:reorderOffsetArr',
+		'get_varm_longlong-5'	=> 'in:reorderOffsetArr',
+		'get_varm_longlong-6'	=> 'in:reorderOffsetArr',
+	'get_varm_longlong_all' => '2:3:4:5:6',
+		'get_varm_longlong_all-2'	=> 'in:IntIndexIn',
+		'get_varm_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+		'get_varm_longlong_all-4'	=> 'in:reorderOffsetArr',
+		'get_varm_longlong_all-5'	=> 'in:reorderOffsetArr',
+		'get_varm_longlong_all-6'	=> 'in:reorderOffsetArr',
+
+	'inq' => '5',
+		'inq-5'			=> 'out:IntDimIndex',
+	'inq_att' => '2:3',
+		'inq_att-2'		=> 'in:IntIndexIn',
+		'inq_att-3'		=> 'in:addnull',
+	'inq_attid' => '2:3:4',
+		'inq_attid-2'		=> 'in:IntIndexIn',
+		'inq_attid-3'		=> 'in:addnull',
+		'inq_attid-4'		=> 'out:IntIndex',
+	'inq_attlen' => '2:3',
+		'inq_attlen-2'		=> 'in:IntIndexIn',
+		'inq_attlen-3'		=> 'in:addnull',
+	'inq_attname' => '2:3:4',
+		'inq_attname-2'		=> 'in:IntIndexIn',
+		'inq_attname-3'		=> 'in:IntIndexIn',
+		'inq_attname-4'		=> 'out:blankpad',
+	'inq_atttype' => '2:3',
+		'inq_atttype-2'		=> 'in:IntIndexIn',
+		'inq_atttype-3'		=> 'in:addnull',
+	'inq_attdim' => 3,
+		'inq_attdim-3'		=> 'in:addnull',
+	'inq_dim' => '2:3',
+		'inq_dim-2'		=> 'in:IntIndexIn',
+		'inq_dim-3'		=> 'out:blankpad',
+	'inq_dimid' => '2:3',
+		'inq_dimid-2'		=> 'in:addnull',
+		'inq_dimid-3'		=> 'out:IntIndex',
+	'inq_dimlen' => '2',
+		'inq_dimlen-2'		=> 'in:IntIndexIn',
+	'inq_dimname' => '2:3',
+		'inq_dimname-2'		=> 'in:IntIndexIn',
+		'inq_dimname-3'		=> 'out:blankpad',
+	'inq_unlimdim' => 2,
+		'inq_unlimdim-2'	=> 'out:IntIndex',
+	'inq_var' => '2:3:6',
+		'inq_var-2'		=> 'in:IntIndexIn',
+		'inq_var-3'		=> 'out:blankpad',
+		'inq_var-6'		=> 'out:reorderIntArrOut',
+	'inq_vardimid' => '2:3',
+		'inq_vardimid-2'	=> 'in:IntIndexIn',
+		'inq_vardimid-3'	=> 'out:reorderIntArrOut',
+	'inq_varid' => '2:3',
+		'inq_varid-2'		=> 'in:addnull',
+		'inq_varid-3'		=> 'out:IntIndex',
+	'inq_varname' => '2:3',
+		'inq_varname-2'		=> 'in:IntIndexIn',
+		'inq_varname-3'		=> 'out:blankpad',
+	'inq_varnatts' => '2',
+		'inq_varnatts-2'	=> 'in:IntIndexIn',
+	'inq_varndims' => '2',
+		'inq_varndims-2'	=> 'in:IntIndexIn',
+	'inq_vartype' => '2',
+		'inq_vartype-2'		=> 'in:IntIndexIn',
+	'inq_varoffset' => '2',
+		'inq_varoffset-2'	=> 'in:IntIndexIn',
+	'open' => 2,
+		'open-2'		=> 'in:addnull',
+	'delete' => 1,
+		'delete-1'		=> 'in:addnull',
+	'def_var_fill' => '2',
+		'def_var_fill-2'	=> 'in:IntIndexIn',
+	'inq_var_fill' => '2',
+		'inq_var_fill-2'	=> 'in:IntIndexIn',
+	'fill_var_rec' => '2:3',
+		'fill_var_rec-2'	=> 'in:IntIndexIn',
+		'fill_var_rec-3'	=> 'in:OffsetIndexIn',
+
+	'put_att_text' => '2:3:5',
+		'put_att_text-2'	=> 'in:IntIndexIn',
+		'put_att_text-3'	=> 'in:addnull',
+		'put_att_text-5'	=> 'in:charBufferIn',
+	'put_att_schar' => '2:3:6',
+		'put_att_schar-2'	=> 'in:IntIndexIn',
+		'put_att_schar-3'	=> 'in:addnull',
+		'put_att_schar-6'	=> 'in:int1toschar',
+	'put_att_short' => '2:3',
+		'put_att_short-2'	=> 'in:IntIndexIn',
+		'put_att_short-3'	=> 'in:addnull',
+	'put_att_int' => '2:3',
+		'put_att_int-2'		=> 'in:IntIndexIn',
+		'put_att_int-3'		=> 'in:addnull',
+	'put_att_float' => '2:3',
+		'put_att_float-2'	=> 'in:IntIndexIn',
+		'put_att_float-3'	=> 'in:addnull',
+	'put_att_double' => '2:3',
+		'put_att_double-2'	=> 'in:IntIndexIn',
+		'put_att_double-3'	=> 'in:addnull',
+	'put_att_longlong' => '2:3',
+		'put_att_longlong-2'	=> 'in:IntIndexIn',
+		'put_att_longlong-3'	=> 'in:addnull',
+## Skip long for fortran binding iface
+# 	'put_att_long' => '2:3',
+# 		'put_att_long-2'	=> 'in:IntIndexIn',
+#		'put_att_long-3'	=> 'in:addnull',
+#		'put_att_long-5'	=> 'in:intToOffset',
+
+## Skip uchar for fortran binding iface
+# 	'put_att_uchar' => '2:3',
+# 		'put_att_uchar-2'	=> 'in:IntIndexIn',
+#		'put_att_uchar-3'	=> 'in:charBufferIn',
+#		'put_att_uchar-5'	=> 'in:intToOffset',
+
+	'put_var1' => '2:3',
+		'put_var1-2'		=> 'in:IntIndexIn',
+		'put_var1-3'		=> 'in:reorderOffsetArr:true',
+	'put_var1_all' => '2:3',
+		'put_var1_all-2'	=> 'in:IntIndexIn',
+		'put_var1_all-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_text' => '2:3:4',
+		'put_var1_text-2'	=> 'in:IntIndexIn',
+		'put_var1_text-3'	=> 'in:reorderOffsetArr:true',
+		'put_var1_text-4'	=> 'in:charBufferIn',
+	'put_var1_text_all' => '2:3:4',
+		'put_var1_text_all-2'	=> 'in:IntIndexIn',
+		'put_var1_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_var1_text_all-4'	=> 'in:charBufferIn',
+	'put_var1_schar' => '2:3',
+		'put_var1_schar-2'	=> 'in:IntIndexIn',
+		'put_var1_schar-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_schar_all' => '2:3',
+		'put_var1_schar_all-2'	=> 'in:IntIndexIn',
+		'put_var1_schar_all-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_short' => '2:3',
+		'put_var1_short-2'	=> 'in:IntIndexIn',
+		'put_var1_short-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_short_all' => '2:3',
+		'put_var1_short_all-2'	=> 'in:IntIndexIn',
+		'put_var1_short_all-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_int' => '2:3',
+		'put_var1_int-2'	=> 'in:IntIndexIn',
+		'put_var1_int-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_int_all' => '2:3',
+		'put_var1_int_all-2'	=> 'in:IntIndexIn',
+		'put_var1_int_all-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_float' => '2:3',
+		'put_var1_float-2'	=> 'in:IntIndexIn',
+		'put_var1_float-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_float_all' => '2:3',
+		'put_var1_float_all-2'	=> 'in:IntIndexIn',
+		'put_var1_float_all-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_double' => '2:3',
+		'put_var1_double-2'	=> 'in:IntIndexIn',
+		'put_var1_double-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_double_all' => '2:3',
+		'put_var1_double_all-2'	=> 'in:IntIndexIn',
+		'put_var1_double_all-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_longlong' => '2:3',
+		'put_var1_longlong-2'	=> 'in:IntIndexIn',
+		'put_var1_longlong-3'	=> 'in:reorderOffsetArr:true',
+	'put_var1_longlong_all' => '2:3',
+		'put_var1_longlong_all-2'	=> 'in:IntIndexIn',
+		'put_var1_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+
+	'put_var_text' => '2:3',
+		'put_var_text-2'	=> 'in:IntIndexIn',
+		'put_var_text-3'	=> 'in:charBufferIn',
+	'put_var_text_all' => '2:3',
+		'put_var_text_all-2'	=> 'in:IntIndexIn',
+		'put_var_text_all-3'	=> 'in:charBufferIn',
+	'put_var_schar' => '2',
+		'put_var_schar-2'	=> 'in:IntIndexIn',
+	'put_var_schar_all' => '2',
+		'put_var_schar_all-2'	=> 'in:IntIndexIn',
+	'put_var_int' => '2',
+		'put_var_int-2'		=> 'in:IntIndexIn',
+	'put_var_int_all' => '2',
+		'put_var_int_all-2'	=> 'in:IntIndexIn',
+	'put_var_short' => '2',
+		'put_var_short-2'	=> 'in:IntIndexIn',
+	'put_var_short_all' => '2',
+		'put_var_short_all-2'	=> 'in:IntIndexIn',
+	'put_var_float' => '2',
+		'put_var_float-2'	=> 'in:IntIndexIn',
+	'put_var_float_all' => '2',
+		'put_var_float_all-2'	=> 'in:IntIndexIn',
+	'put_var_double' => '2',
+		'put_var_double-2'	=> 'in:IntIndexIn',
+	'put_var_double_all' => '2',
+		'put_var_double_all-2'	=> 'in:IntIndexIn',
+	'put_var_longlong' => '2',
+		'put_var_longlong-2'	=> 'in:IntIndexIn',
+	'put_var_longlong_all' => '2',
+		'put_var_longlong_all-2'	=> 'in:IntIndexIn',
+
+	'put_var' => '2',
+		'put_var-2'		=> 'in:IntIndexIn',
+	'put_vara' => '2:3:4',
+		'put_vara-2'		=> 'in:IntIndexIn',
+		'put_vara-3'		=> 'in:reorderOffsetArr:true',
+		'put_vara-4'		=> 'in:reorderOffsetArr',
+	'put_vara_all' => '2:3:4',
+		'put_vara_all-2'	=> 'in:IntIndexIn',
+		'put_vara_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_all-4'	=> 'in:reorderOffsetArr',
+	'put_vara_text' => '2:3:4:5',
+		'put_vara_text-2'	=> 'in:IntIndexIn',
+		'put_vara_text-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_text-4'	=> 'in:reorderOffsetArr',
+		'put_vara_text-5'	=> 'in:charBufferIn',
+	'put_vara_text_all' => '2:3:4:5',
+		'put_vara_text_all-2'	=> 'in:IntIndexIn',
+		'put_vara_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_text_all-4'	=> 'in:reorderOffsetArr',
+		'put_vara_text_all-5'	=> 'in:charBufferIn',
+	'put_vara_schar' => '2:3:4',
+		'put_vara_schar-2'	=> 'in:IntIndexIn',
+		'put_vara_schar-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_schar-4'	=> 'in:reorderOffsetArr',
+	'put_vara_schar_all' => '2:3:4',
+		'put_vara_schar_all-2'	=> 'in:IntIndexIn',
+		'put_vara_schar_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_schar_all-4'	=> 'in:reorderOffsetArr',
+	'put_vara_short' => '2:3:4',
+		'put_vara_short-2'	=> 'in:IntIndexIn',
+		'put_vara_short-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_short-4'	=> 'in:reorderOffsetArr',
+	'put_vara_short_all' => '2:3:4',
+		'put_vara_short_all-2'	=> 'in:IntIndexIn',
+		'put_vara_short_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_short_all-4'	=> 'in:reorderOffsetArr',
+	'put_vara_int' => '2:3:4',
+		'put_vara_int-2'	=> 'in:IntIndexIn',
+		'put_vara_int-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_int-4'	=> 'in:reorderOffsetArr',
+	'put_vara_int_all' => '2:3:4',
+		'put_vara_int_all-2'	=> 'in:IntIndexIn',
+		'put_vara_int_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_int_all-4'	=> 'in:reorderOffsetArr',
+	'put_vara_float' => '2:3:4',
+		'put_vara_float-2'	=> 'in:IntIndexIn',
+		'put_vara_float-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_float-4'	=> 'in:reorderOffsetArr',
+	'put_vara_float_all' => '2:3:4',
+		'put_vara_float_all-2'	=> 'in:IntIndexIn',
+		'put_vara_float_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_float_all-4'	=> 'in:reorderOffsetArr',
+	'put_vara_double' => '2:3:4',
+		'put_vara_double-2'	=> 'in:IntIndexIn',
+		'put_vara_double-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_double-4'	=> 'in:reorderOffsetArr',
+	'put_vara_double_all' => '2:3:4',
+		'put_vara_double_all-2'	=> 'in:IntIndexIn',
+		'put_vara_double_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_double_all-4'	=> 'in:reorderOffsetArr',
+	'put_vara_longlong' => '2:3:4',
+		'put_vara_longlong-2'	=> 'in:IntIndexIn',
+		'put_vara_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_longlong-4'	=> 'in:reorderOffsetArr',
+	'put_vara_longlong_all' => '2:3:4',
+		'put_vara_longlong_all-2'	=> 'in:IntIndexIn',
+		'put_vara_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vara_longlong_all-4'	=> 'in:reorderOffsetArr',
+
+	'put_vars' => '2:3:4:5',
+		'put_vars-2'		=> 'in:IntIndexIn',
+		'put_vars-3'		=> 'in:reorderOffsetArr:true',
+		'put_vars-4'		=> 'in:reorderOffsetArr',
+		'put_vars-5'		=> 'in:reorderOffsetArr',
+	'put_vars_all' => '2:3:4:5',
+		'put_vars_all-2'	=> 'in:IntIndexIn',
+		'put_vars_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_all-5'	=> 'in:reorderOffsetArr',
+	'put_vars_text' => '2:3:4:5:6',
+		'put_vars_text-2'	=> 'in:IntIndexIn',
+		'put_vars_text-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_text-4'	=> 'in:reorderOffsetArr',
+		'put_vars_text-5'	=> 'in:reorderOffsetArr',
+		'put_vars_text-6'	=> 'in:charBufferIn',
+	'put_vars_text_all' => '2:3:4:5:6',
+		'put_vars_text_all-2'	=> 'in:IntIndexIn',
+		'put_vars_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_text_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_text_all-5'	=> 'in:reorderOffsetArr',
+		'put_vars_text_all-6'	=> 'in:charBufferIn',
+	'put_vars_schar' => '2:3:4:5',
+		'put_vars_schar-2'	=> 'in:IntIndexIn',
+		'put_vars_schar-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_schar-4'	=> 'in:reorderOffsetArr',
+		'put_vars_schar-5'	=> 'in:reorderOffsetArr',
+	'put_vars_schar_all' => '2:3:4:5',
+		'put_vars_schar_all-2'	=> 'in:IntIndexIn',
+		'put_vars_schar_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_schar_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_schar_all-5'	=> 'in:reorderOffsetArr',
+	'put_vars_short' => '2:3:4:5',
+		'put_vars_short-2'	=> 'in:IntIndexIn',
+		'put_vars_short-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_short-4'	=> 'in:reorderOffsetArr',
+		'put_vars_short-5'	=> 'in:reorderOffsetArr',
+	'put_vars_short_all' => '2:3:4:5',
+		'put_vars_short_all-2'	=> 'in:IntIndexIn',
+		'put_vars_short_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_short_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_short_all-5'	=> 'in:reorderOffsetArr',
+	'put_vars_int' => '2:3:4:5',
+		'put_vars_int-2'	=> 'in:IntIndexIn',
+		'put_vars_int-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_int-4'	=> 'in:reorderOffsetArr',
+		'put_vars_int-5'	=> 'in:reorderOffsetArr',
+	'put_vars_int_all' => '2:3:4:5',
+		'put_vars_int_all-2'	=> 'in:IntIndexIn',
+		'put_vars_int_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_int_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_int_all-5'	=> 'in:reorderOffsetArr',
+	'put_vars_float' => '2:3:4:5',
+		'put_vars_float-2'	=> 'in:IntIndexIn',
+		'put_vars_float-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_float-4'	=> 'in:reorderOffsetArr',
+		'put_vars_float-5'	=> 'in:reorderOffsetArr',
+	'put_vars_float_all' => '2:3:4:5',
+		'put_vars_float_all-2'	=> 'in:IntIndexIn',
+		'put_vars_float_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_float_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_float_all-5'	=> 'in:reorderOffsetArr',
+	'put_vars_double' => '2:3:4:5',
+		'put_vars_double-2'	=> 'in:IntIndexIn',
+		'put_vars_double-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_double-4'	=> 'in:reorderOffsetArr',
+		'put_vars_double-5'	=> 'in:reorderOffsetArr',
+	'put_vars_double_all' => '2:3:4:5',
+		'put_vars_double_all-2'	=> 'in:IntIndexIn',
+		'put_vars_double_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_double_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_double_all-5'	=> 'in:reorderOffsetArr',
+	'put_vars_longlong' => '2:3:4:5',
+		'put_vars_longlong-2'	=> 'in:IntIndexIn',
+		'put_vars_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_longlong-4'	=> 'in:reorderOffsetArr',
+		'put_vars_longlong-5'	=> 'in:reorderOffsetArr',
+	'put_vars_longlong_all' => '2:3:4:5',
+		'put_vars_longlong_all-2'	=> 'in:IntIndexIn',
+		'put_vars_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_vars_longlong_all-4'	=> 'in:reorderOffsetArr',
+		'put_vars_longlong_all-5'	=> 'in:reorderOffsetArr',
+
+	'put_varm' => '2:3:4:5:6',
+		'put_varm-2'		=> 'in:IntIndexIn',
+		'put_varm-3'		=> 'in:reorderOffsetArr:true',
+		'put_varm-4'		=> 'in:reorderOffsetArr',
+		'put_varm-5'		=> 'in:reorderOffsetArr',
+		'put_varm-6'		=> 'in:reorderOffsetArr',
+	'put_varm_all' => '2:3:4:5:6',
+		'put_varm_all-2'	=> 'in:IntIndexIn',
+		'put_varm_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_all-6'	=> 'in:reorderOffsetArr',
+	'put_varm_text' => '2:3:4:5:6:7',
+		'put_varm_text-2'	=> 'in:IntIndexIn',
+		'put_varm_text-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_text-4'	=> 'in:reorderOffsetArr',
+		'put_varm_text-5'	=> 'in:reorderOffsetArr',
+		'put_varm_text-6'	=> 'in:reorderOffsetArr',
+		'put_varm_text-7'	=> 'in:charBufferIn',
+	'put_varm_text_all' => '2:3:4:5:6:7',
+		'put_varm_text_all-2'	=> 'in:IntIndexIn',
+		'put_varm_text_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_text_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_text_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_text_all-6'	=> 'in:reorderOffsetArr',
+		'put_varm_text_all-7'	=> 'in:charBufferIn',
+	'put_varm_schar' => '2:3:4:5:6',
+		'put_varm_schar-2'	=> 'in:IntIndexIn',
+		'put_varm_schar-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_schar-4'	=> 'in:reorderOffsetArr',
+		'put_varm_schar-5'	=> 'in:reorderOffsetArr',
+		'put_varm_schar-6'	=> 'in:reorderOffsetArr',
+	'put_varm_schar_all' => '2:3:4:5:6',
+		'put_varm_schar_all-2'	=> 'in:IntIndexIn',
+		'put_varm_schar_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_schar_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_schar_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_schar_all-6'	=> 'in:reorderOffsetArr',
+	'put_varm_short' => '2:3:4:5:6',
+		'put_varm_short-2'	=> 'in:IntIndexIn',
+		'put_varm_short-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_short-4'	=> 'in:reorderOffsetArr',
+		'put_varm_short-5'	=> 'in:reorderOffsetArr',
+		'put_varm_short-6'	=> 'in:reorderOffsetArr',
+	'put_varm_short_all' => '2:3:4:5:6',
+		'put_varm_short_all-2'	=> 'in:IntIndexIn',
+		'put_varm_short_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_short_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_short_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_short_all-6'	=> 'in:reorderOffsetArr',
+	'put_varm_int' => '2:3:4:5:6',
+		'put_varm_int-2'	=> 'in:IntIndexIn',
+		'put_varm_int-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_int-4'	=> 'in:reorderOffsetArr',
+		'put_varm_int-5'	=> 'in:reorderOffsetArr',
+		'put_varm_int-6'	=> 'in:reorderOffsetArr',
+	'put_varm_int_all' => '2:3:4:5:6',
+		'put_varm_int_all-2'	=> 'in:IntIndexIn',
+		'put_varm_int_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_int_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_int_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_int_all-6'	=> 'in:reorderOffsetArr',
+	'put_varm_float' => '2:3:4:5:6',
+		'put_varm_float-2'	=> 'in:IntIndexIn',
+		'put_varm_float-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_float-4'	=> 'in:reorderOffsetArr',
+		'put_varm_float-5'	=> 'in:reorderOffsetArr',
+		'put_varm_float-6'	=> 'in:reorderOffsetArr',
+	'put_varm_float_all' => '2:3:4:5:6',
+		'put_varm_float_all-2'	=> 'in:IntIndexIn',
+		'put_varm_float_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_float_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_float_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_float_all-6'	=> 'in:reorderOffsetArr',
+	'put_varm_double' => '2:3:4:5:6',
+		'put_varm_double-2'	=> 'in:IntIndexIn',
+		'put_varm_double-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_double-4'	=> 'in:reorderOffsetArr',
+		'put_varm_double-5'	=> 'in:reorderOffsetArr',
+		'put_varm_double-6'	=> 'in:reorderOffsetArr',
+	'put_varm_double_all' => '2:3:4:5:6',
+		'put_varm_double_all-2'	=> 'in:IntIndexIn',
+		'put_varm_double_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_double_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_double_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_double_all-6'	=> 'in:reorderOffsetArr',
+	'put_varm_longlong' => '2:3:4:5:6',
+		'put_varm_longlong-2'	=> 'in:IntIndexIn',
+		'put_varm_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_longlong-4'	=> 'in:reorderOffsetArr',
+		'put_varm_longlong-5'	=> 'in:reorderOffsetArr',
+		'put_varm_longlong-6'	=> 'in:reorderOffsetArr',
+	'put_varm_longlong_all' => '2:3:4:5:6',
+		'put_varm_longlong_all-2'	=> 'in:IntIndexIn',
+		'put_varm_longlong_all-3'	=> 'in:reorderOffsetArr:true',
+		'put_varm_longlong_all-4'	=> 'in:reorderOffsetArr',
+		'put_varm_longlong_all-5'	=> 'in:reorderOffsetArr',
+		'put_varm_longlong_all-6'	=> 'in:reorderOffsetArr',
+
+	'get_varn' => '2:4:5',
+		'get_varn-2'		=> 'in:IntIndexIn',
+		'get_varn-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_text' => '2:4:5:6',
+		'get_varn_text-2'	=> 'in:IntIndexIn',
+		'get_varn_text-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_text-5'	=> 'in:reorderOffsetArr1DTo2D',
+		'get_varn_text-6'	=> 'out:charBufferOut',
+	'get_varn_schar' => '2:4:5',
+		'get_varn_schar-2'	=> 'in:IntIndexIn',
+		'get_varn_schar-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_schar-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_short' => '2:4:5',
+		'get_varn_short-2'	=> 'in:IntIndexIn',
+		'get_varn_short-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_short-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_int' => '2:4:5',
+		'get_varn_int-2'	=> 'in:IntIndexIn',
+		'get_varn_int-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_int-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_float' => '2:4:5',
+		'get_varn_float-2'	=> 'in:IntIndexIn',
+		'get_varn_float-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_float-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_double' => '2:4:5',
+		'get_varn_double-2'	=> 'in:IntIndexIn',
+		'get_varn_double-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_double-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_longlong' => '2:4:5',
+		'get_varn_longlong-2'	=> 'in:IntIndexIn',
+		'get_varn_longlong-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_longlong-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'get_varn_all' => '2:4:5',
+		'get_varn_all-2'		=> 'in:IntIndexIn',
+		'get_varn_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_text_all' => '2:4:5:6',
+		'get_varn_text_all-2'		=> 'in:IntIndexIn',
+		'get_varn_text_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_text_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+		'get_varn_text_all-6'		=> 'out:charBufferOut',
+	'get_varn_schar_all' => '2:4:5',
+		'get_varn_schar_all-2'		=> 'in:IntIndexIn',
+		'get_varn_schar_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_schar_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_short_all' => '2:4:5',
+		'get_varn_short_all-2'		=> 'in:IntIndexIn',
+		'get_varn_short_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_short_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_int_all' => '2:4:5',
+		'get_varn_int_all-2'		=> 'in:IntIndexIn',
+		'get_varn_int_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_int_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_float_all' => '2:4:5',
+		'get_varn_float_all-2'		=> 'in:IntIndexIn',
+		'get_varn_float_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_float_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_double_all' => '2:4:5',
+		'get_varn_double_all-2'		=> 'in:IntIndexIn',
+		'get_varn_double_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_double_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'get_varn_longlong_all' => '2:4:5',
+		'get_varn_longlong_all-2'	=> 'in:IntIndexIn',
+		'get_varn_longlong_all-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'get_varn_longlong_all-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'put_varn' => '2:4:5',
+		'put_varn-2'		=> 'in:IntIndexIn',
+		'put_varn-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_text' => '2:4:5:6',
+		'put_varn_text-2'	=> 'in:IntIndexIn',
+		'put_varn_text-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_text-5'	=> 'in:reorderOffsetArr1DTo2D',
+		'put_varn_text-6'	=> 'in:charBufferIn',
+	'put_varn_schar' => '2:4:5',
+		'put_varn_schar-2'	=> 'in:IntIndexIn',
+		'put_varn_schar-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_schar-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_short' => '2:4:5',
+		'put_varn_short-2'	=> 'in:IntIndexIn',
+		'put_varn_short-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_short-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_int' => '2:4:5',
+		'put_varn_int-2'	=> 'in:IntIndexIn',
+		'put_varn_int-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_int-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_float' => '2:4:5',
+		'put_varn_float-2'	=> 'in:IntIndexIn',
+		'put_varn_float-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_float-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_double' => '2:4:5',
+		'put_varn_double-2'	=> 'in:IntIndexIn',
+		'put_varn_double-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_double-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_longlong' => '2:4:5',
+		'put_varn_longlong-2'	=> 'in:IntIndexIn',
+		'put_varn_longlong-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_longlong-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'put_varn_all' => '2:4:5',
+		'put_varn_all-2'		=> 'in:IntIndexIn',
+		'put_varn_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_text_all' => '2:4:5:6',
+		'put_varn_text_all-2'		=> 'in:IntIndexIn',
+		'put_varn_text_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_text_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+		'put_varn_text_all-6'		=> 'in:charBufferIn',
+	'put_varn_schar_all' => '2:4:5',
+		'put_varn_schar_all-2'		=> 'in:IntIndexIn',
+		'put_varn_schar_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_schar_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_short_all' => '2:4:5',
+		'put_varn_short_all-2'		=> 'in:IntIndexIn',
+		'put_varn_short_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_short_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_int_all' => '2:4:5',
+		'put_varn_int_all-2'		=> 'in:IntIndexIn',
+		'put_varn_int_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_int_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_float_all' => '2:4:5',
+		'put_varn_float_all-2'		=> 'in:IntIndexIn',
+		'put_varn_float_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_float_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_double_all' => '2:4:5',
+		'put_varn_double_all-2'		=> 'in:IntIndexIn',
+		'put_varn_double_all-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_double_all-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'put_varn_longlong_all' => '2:4:5',
+		'put_varn_longlong_all-2'	=> 'in:IntIndexIn',
+		'put_varn_longlong_all-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'put_varn_longlong_all-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'get_vard' => '2',
+		'get_vard-2'		=> 'in:IntIndexIn',
+	'put_vard' => '2',
+		'put_vard-2'		=> 'in:IntIndexIn',
+	'get_vard_all' => '2',
+		'get_vard_all-2'	=> 'in:IntIndexIn',
+	'put_vard_all' => '2',
+		'put_vard_all-2'	=> 'in:IntIndexIn',
+
+	'iget_var1' => '2:3',
+		'iget_var1-2'		=> 'in:IntIndexIn',
+		'iget_var1-3'		=> 'in:reorderOffsetArr:true',
+	'iget_var1_text' => '2:3:4',
+		'iget_var1_text-2'	=> 'in:IntIndexIn',
+		'iget_var1_text-3'	=> 'in:reorderOffsetArr:true',
+		'iget_var1_text-4'	=> 'out:charBufferOut',
+	'iget_var1_schar' => '2:3',
+		'iget_var1_schar-2'	=> 'in:IntIndexIn',
+		'iget_var1_schar-3'	=> 'in:reorderOffsetArr:true',
+	'iget_var1_short' => '2:3',
+		'iget_var1_short-2'	=> 'in:IntIndexIn',
+		'iget_var1_short-3'	=> 'in:reorderOffsetArr:true',
+	'iget_var1_int' => '2:3',
+		'iget_var1_int-2'	=> 'in:IntIndexIn',
+		'iget_var1_int-3'	=> 'in:reorderOffsetArr:true',
+	'iget_var1_float' => '2:3',
+		'iget_var1_float-2'	=> 'in:IntIndexIn',
+		'iget_var1_float-3'	=> 'in:reorderOffsetArr:true',
+	'iget_var1_double' => '2:3',
+		'iget_var1_double-2'	=> 'in:IntIndexIn',
+		'iget_var1_double-3'	=> 'in:reorderOffsetArr:true',
+	'iget_var1_longlong' => '2:3',
+		'iget_var1_longlong-2'	=> 'in:IntIndexIn',
+		'iget_var1_longlong-3'	=> 'in:reorderOffsetArr:true',
+
+	'iget_var' => '2',
+		'iget_var-2'		=> 'in:IntIndexIn',
+	'iget_var_text' => '2:3',
+		'iget_var_text-2'	=> 'in:IntIndexIn',
+		'iget_var_text-3'	=> 'out:charBufferOut',
+	'iget_var_schar' => '2',
+		'iget_var_schar-2'	=> 'in:IntIndexIn',
+	'iget_var_short' => '2',
+		'iget_var_short-2'	=> 'in:IntIndexIn',
+	'iget_var_float' => '2',
+		'iget_var_float-2'	=> 'in:IntIndexIn',
+	'iget_var_double' => '2',
+		'iget_var_double-2'	=> 'in:IntIndexIn',
+	'iget_var_longlong' => '2',
+		'iget_var_longlong-2'	=> 'in:IntIndexIn',
+	'iget_var_int' => '2',
+		'iget_var_int-2'	=> 'in:IntIndexIn',
+
+	'iget_vara' => '2:3:4',
+		'iget_vara-2'		=> 'in:IntIndexIn',
+		'iget_vara-3'		=> 'in:reorderOffsetArr:true',
+		'iget_vara-4'		=> 'in:reorderOffsetArr',
+	'iget_vara_text' => '2:3:4:5',
+		'iget_vara_text-2'	=> 'in:IntIndexIn',
+		'iget_vara_text-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_text-4'	=> 'in:reorderOffsetArr',
+		'iget_vara_text-5'	=> 'out:charBufferOut',
+	'iget_vara_schar' => '2:3:4',
+		'iget_vara_schar-2'	=> 'in:IntIndexIn',
+		'iget_vara_schar-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_schar-4'	=> 'in:reorderOffsetArr',
+	'iget_vara_short' => '2:3:4',
+		'iget_vara_short-2'	=> 'in:IntIndexIn',
+		'iget_vara_short-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_short-4'	=> 'in:reorderOffsetArr',
+	'iget_vara_int' => '2:3:4',
+		'iget_vara_int-2'	=> 'in:IntIndexIn',
+		'iget_vara_int-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_int-4'	=> 'in:reorderOffsetArr',
+	'iget_vara_float' => '2:3:4',
+		'iget_vara_float-2'	=> 'in:IntIndexIn',
+		'iget_vara_float-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_float-4'	=> 'in:reorderOffsetArr',
+	'iget_vara_double' => '2:3:4',
+		'iget_vara_double-2'	=> 'in:IntIndexIn',
+		'iget_vara_double-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_double-4'	=> 'in:reorderOffsetArr',
+	'iget_vara_longlong' => '2:3:4',
+		'iget_vara_longlong-2'	=> 'in:IntIndexIn',
+		'iget_vara_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vara_longlong-4'	=> 'in:reorderOffsetArr',
+
+	'iget_vars' => '2:3:4:5',
+		'iget_vars-2'		=> 'in:IntIndexIn',
+		'iget_vars-3'		=> 'in:reorderOffsetArr:true',
+		'iget_vars-4'		=> 'in:reorderOffsetArr',
+		'iget_vars-5'		=> 'in:reorderOffsetArr',
+	'iget_vars_text' => '2:3:4:5:6',
+		'iget_vars_text-2'	=> 'in:IntIndexIn',
+		'iget_vars_text-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_text-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_text-5'	=> 'in:reorderOffsetArr',
+		'iget_vars_text-6'	=> 'out:charBufferOut',
+	'iget_vars_schar' => '2:3:4:5',
+		'iget_vars_schar-2'	=> 'in:IntIndexIn',
+		'iget_vars_schar-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_schar-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_schar-5'	=> 'in:reorderOffsetArr',
+	'iget_vars_short' => '2:3:4:5',
+		'iget_vars_short-2'	=> 'in:IntIndexIn',
+		'iget_vars_short-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_short-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_short-5'	=> 'in:reorderOffsetArr',
+	'iget_vars_int' => '2:3:4:5',
+		'iget_vars_int-2'	=> 'in:IntIndexIn',
+		'iget_vars_int-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_int-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_int-5'	=> 'in:reorderOffsetArr',
+	'iget_vars_float' => '2:3:4:5',
+		'iget_vars_float-2'	=> 'in:IntIndexIn',
+		'iget_vars_float-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_float-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_float-5'	=> 'in:reorderOffsetArr',
+	'iget_vars_double' => '2:3:4:5',
+		'iget_vars_double-2'	=> 'in:IntIndexIn',
+		'iget_vars_double-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_double-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_double-5'	=> 'in:reorderOffsetArr',
+	'iget_vars_longlong' => '2:3:4:5',
+		'iget_vars_longlong-2'	=> 'in:IntIndexIn',
+		'iget_vars_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'iget_vars_longlong-4'	=> 'in:reorderOffsetArr',
+		'iget_vars_longlong-5'	=> 'in:reorderOffsetArr',
+
+	'iget_varm' => '2:3:4:5:6',
+		'iget_varm-2'		=> 'in:IntIndexIn',
+		'iget_varm-3'		=> 'in:reorderOffsetArr:true',
+		'iget_varm-4'		=> 'in:reorderOffsetArr',
+		'iget_varm-5'		=> 'in:reorderOffsetArr',
+		'iget_varm-6'		=> 'in:reorderOffsetArr',
+	'iget_varm_text' => '2:3:4:5:6:7',
+		'iget_varm_text-2'	=> 'in:IntIndexIn',
+		'iget_varm_text-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_text-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_text-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_text-6'	=> 'in:reorderOffsetArr',
+		'iget_varm_text-7'	=> 'out:charBufferOut',
+	'iget_varm_schar' => '2:3:4:5:6',
+		'iget_varm_schar-2'	=> 'in:IntIndexIn',
+		'iget_varm_schar-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_schar-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_schar-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_schar-6'	=> 'in:reorderOffsetArr',
+	'iget_varm_short' => '2:3:4:5:6',
+		'iget_varm_short-2'	=> 'in:IntIndexIn',
+		'iget_varm_short-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_short-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_short-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_short-6'	=> 'in:reorderOffsetArr',
+	'iget_varm_int' => '2:3:4:5:6',
+		'iget_varm_int-2'	=> 'in:IntIndexIn',
+		'iget_varm_int-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_int-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_int-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_int-6'	=> 'in:reorderOffsetArr',
+	'iget_varm_float' => '2:3:4:5:6',
+		'iget_varm_float-2'	=> 'in:IntIndexIn',
+		'iget_varm_float-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_float-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_float-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_float-6'	=> 'in:reorderOffsetArr',
+	'iget_varm_double' => '2:3:4:5:6',
+		'iget_varm_double-2'	=> 'in:IntIndexIn',
+		'iget_varm_double-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_double-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_double-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_double-6'	=> 'in:reorderOffsetArr',
+	'iget_varm_longlong' => '2:3:4:5:6',
+		'iget_varm_longlong-2'	=> 'in:IntIndexIn',
+		'iget_varm_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'iget_varm_longlong-4'	=> 'in:reorderOffsetArr',
+		'iget_varm_longlong-5'	=> 'in:reorderOffsetArr',
+		'iget_varm_longlong-6'	=> 'in:reorderOffsetArr',
+
+	'iput_var1' => '2:3',
+		'iput_var1-2'		=> 'in:IntIndexIn',
+		'iput_var1-3'		=> 'in:reorderOffsetArr:true',
+	'iput_var1_text' => '2:3:4',
+		'iput_var1_text-2'	=> 'in:IntIndexIn',
+		'iput_var1_text-3'	=> 'in:reorderOffsetArr:true',
+		'iput_var1_text-4'	=> 'in:charBufferIn',
+	'iput_var1_schar' => '2:3',
+		'iput_var1_schar-2'	=> 'in:IntIndexIn',
+		'iput_var1_schar-3'	=> 'in:reorderOffsetArr:true',
+	'iput_var1_short' => '2:3',
+		'iput_var1_short-2'	=> 'in:IntIndexIn',
+		'iput_var1_short-3'	=> 'in:reorderOffsetArr:true',
+	'iput_var1_int' => '2:3',
+		'iput_var1_int-2'	=> 'in:IntIndexIn',
+		'iput_var1_int-3'	=> 'in:reorderOffsetArr:true',
+	'iput_var1_float' => '2:3',
+		'iput_var1_float-2'	=> 'in:IntIndexIn',
+		'iput_var1_float-3'	=> 'in:reorderOffsetArr:true',
+	'iput_var1_double' => '2:3',
+		'iput_var1_double-2'	=> 'in:IntIndexIn',
+		'iput_var1_double-3'	=> 'in:reorderOffsetArr:true',
+	'iput_var1_longlong' => '2:3',
+		'iput_var1_longlong-2'	=> 'in:IntIndexIn',
+		'iput_var1_longlong-3'	=> 'in:reorderOffsetArr:true',
+
+	'iput_var' => '2',
+		'iput_var-2'		=> 'in:IntIndexIn',
+	'iput_var_text' => '2:3',
+		'iput_var_text-2'	=> 'in:IntIndexIn',
+		'iput_var_text-3'	=> 'in:charBufferIn',
+	'iput_var_schar' => '2',
+		'iput_var_schar-2'	=> 'in:IntIndexIn',
+	'iput_var_short' => '2',
+		'iput_var_short-2'	=> 'in:IntIndexIn',
+	'iput_var_int' => '2',
+		'iput_var_int-2'	=> 'in:IntIndexIn',
+	'iput_var_float' => '2',
+		'iput_var_float-2'	=> 'in:IntIndexIn',
+	'iput_var_double' => '2',
+		'iput_var_double-2'	=> 'in:IntIndexIn',
+	'iput_var_longlong' => '2',
+		'iput_var_longlong-2'	=> 'in:IntIndexIn',
+
+	'iput_vara' => '2:3:4',
+		'iput_vara-2'		=> 'in:IntIndexIn',
+		'iput_vara-3'		=> 'in:reorderOffsetArr:true',
+		'iput_vara-4'		=> 'in:reorderOffsetArr',
+	'iput_vara_text' => '2:3:4:5',
+		'iput_vara_text-2'	=> 'in:IntIndexIn',
+		'iput_vara_text-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_text-4'	=> 'in:reorderOffsetArr',
+		'iput_vara_text-5'	=> 'in:charBufferIn',
+	'iput_vara_schar' => '2:3:4',
+		'iput_vara_schar-2'	=> 'in:IntIndexIn',
+		'iput_vara_schar-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_schar-4'	=> 'in:reorderOffsetArr',
+	'iput_vara_short' => '2:3:4',
+		'iput_vara_short-2'	=> 'in:IntIndexIn',
+		'iput_vara_short-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_short-4'	=> 'in:reorderOffsetArr',
+	'iput_vara_int' => '2:3:4',
+		'iput_vara_int-2'	=> 'in:IntIndexIn',
+		'iput_vara_int-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_int-4'	=> 'in:reorderOffsetArr',
+	'iput_vara_float' => '2:3:4',
+		'iput_vara_float-2'	=> 'in:IntIndexIn',
+		'iput_vara_float-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_float-4'	=> 'in:reorderOffsetArr',
+	'iput_vara_double' => '2:3:4',
+		'iput_vara_double-2'	=> 'in:IntIndexIn',
+		'iput_vara_double-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_double-4'	=> 'in:reorderOffsetArr',
+	'iput_vara_longlong' => '2:3:4',
+		'iput_vara_longlong-2'	=> 'in:IntIndexIn',
+		'iput_vara_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vara_longlong-4'	=> 'in:reorderOffsetArr',
+
+	'iput_vars' => '2:3:4:5',
+		'iput_vars-2'		=> 'in:IntIndexIn',
+		'iput_vars-3'		=> 'in:reorderOffsetArr:true',
+		'iput_vars-4'		=> 'in:reorderOffsetArr',
+		'iput_vars-5'		=> 'in:reorderOffsetArr',
+	'iput_vars_text' => '2:3:4:5:6',
+		'iput_vars_text-2'	=> 'in:IntIndexIn',
+		'iput_vars_text-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_text-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_text-5'	=> 'in:reorderOffsetArr',
+		'iput_vars_text-6'	=> 'in:charBufferIn',
+	'iput_vars_schar' => '2:3:4:5',
+		'iput_vars_schar-2'	=> 'in:IntIndexIn',
+		'iput_vars_schar-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_schar-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_schar-5'	=> 'in:reorderOffsetArr',
+	'iput_vars_short' => '2:3:4:5',
+		'iput_vars_short-2'	=> 'in:IntIndexIn',
+		'iput_vars_short-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_short-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_short-5'	=> 'in:reorderOffsetArr',
+	'iput_vars_int' => '2:3:4:5',
+		'iput_vars_int-2'	=> 'in:IntIndexIn',
+		'iput_vars_int-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_int-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_int-5'	=> 'in:reorderOffsetArr',
+	'iput_vars_float' => '2:3:4:5',
+		'iput_vars_float-2'	=> 'in:IntIndexIn',
+		'iput_vars_float-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_float-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_float-5'	=> 'in:reorderOffsetArr',
+	'iput_vars_double' => '2:3:4:5',
+		'iput_vars_double-2'	=> 'in:IntIndexIn',
+		'iput_vars_double-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_double-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_double-5'	=> 'in:reorderOffsetArr',
+	'iput_vars_longlong' => '2:3:4:5',
+		'iput_vars_longlong-2'	=> 'in:IntIndexIn',
+		'iput_vars_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'iput_vars_longlong-4'	=> 'in:reorderOffsetArr',
+		'iput_vars_longlong-5'	=> 'in:reorderOffsetArr',
+
+	'iput_varm' => '2:3:4:5:6',
+		'iput_varm-2'		=> 'in:IntIndexIn',
+		'iput_varm-3'		=> 'in:reorderOffsetArr:true',
+		'iput_varm-4'		=> 'in:reorderOffsetArr',
+		'iput_varm-5'		=> 'in:reorderOffsetArr',
+		'iput_varm-6'		=> 'in:reorderOffsetArr',
+	'iput_varm_text' => '2:3:4:5:6:7',
+		'iput_varm_text-2'	=> 'in:IntIndexIn',
+		'iput_varm_text-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_text-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_text-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_text-6'	=> 'in:reorderOffsetArr',
+		'iput_varm_text-7'	=> 'in:charBufferIn',
+	'iput_varm_schar' => '2:3:4:5:6',
+		'iput_varm_schar-2'	=> 'in:IntIndexIn',
+		'iput_varm_schar-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_schar-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_schar-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_schar-6'	=> 'in:reorderOffsetArr',
+	'iput_varm_short' => '2:3:4:5:6',
+		'iput_varm_short-2'	=> 'in:IntIndexIn',
+		'iput_varm_short-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_short-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_short-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_short-6'	=> 'in:reorderOffsetArr',
+	'iput_varm_int' => '2:3:4:5:6',
+		'iput_varm_int-2'	=> 'in:IntIndexIn',
+		'iput_varm_int-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_int-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_int-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_int-6'	=> 'in:reorderOffsetArr',
+	'iput_varm_float' => '2:3:4:5:6',
+		'iput_varm_float-2'	=> 'in:IntIndexIn',
+		'iput_varm_float-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_float-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_float-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_float-6'	=> 'in:reorderOffsetArr',
+	'iput_varm_double' => '2:3:4:5:6',
+		'iput_varm_double-2'	=> 'in:IntIndexIn',
+		'iput_varm_double-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_double-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_double-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_double-6'	=> 'in:reorderOffsetArr',
+	'iput_varm_longlong' => '2:3:4:5:6',
+		'iput_varm_longlong-2'	=> 'in:IntIndexIn',
+		'iput_varm_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'iput_varm_longlong-4'	=> 'in:reorderOffsetArr',
+		'iput_varm_longlong-5'	=> 'in:reorderOffsetArr',
+		'iput_varm_longlong-6'	=> 'in:reorderOffsetArr',
+
+	'iget_varn' => '2:4:5',
+		'iget_varn-2'		=> 'in:IntIndexIn',
+		'iget_varn-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'iget_varn_text' => '2:4:5:6',
+		'iget_varn_text-2'	=> 'in:IntIndexIn',
+		'iget_varn_text-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_text-5'	=> 'in:reorderOffsetArr1DTo2D',
+		'iget_varn_text-6'	=> 'out:charBufferOut',
+	'iget_varn_schar' => '2:4:5',
+		'iget_varn_schar-2'	=> 'in:IntIndexIn',
+		'iget_varn_schar-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_schar-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iget_varn_short' => '2:4:5',
+		'iget_varn_short-2'	=> 'in:IntIndexIn',
+		'iget_varn_short-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_short-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iget_varn_int' => '2:4:5',
+		'iget_varn_int-2'	=> 'in:IntIndexIn',
+		'iget_varn_int-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_int-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iget_varn_float' => '2:4:5',
+		'iget_varn_float-2'	=> 'in:IntIndexIn',
+		'iget_varn_float-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_float-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iget_varn_double' => '2:4:5',
+		'iget_varn_double-2'	=> 'in:IntIndexIn',
+		'iget_varn_double-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_double-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iget_varn_longlong' => '2:4:5',
+		'iget_varn_longlong-2'	=> 'in:IntIndexIn',
+		'iget_varn_longlong-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iget_varn_longlong-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'iput_varn' => '2:4:5',
+		'iput_varn-2'		=> 'in:IntIndexIn',
+		'iput_varn-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'iput_varn_text' => '2:4:5:6',
+		'iput_varn_text-2'	=> 'in:IntIndexIn',
+		'iput_varn_text-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_text-5'	=> 'in:reorderOffsetArr1DTo2D',
+		'iput_varn_text-6'	=> 'in:charBufferIn',
+	'iput_varn_schar' => '2:4:5',
+		'iput_varn_schar-2'	=> 'in:IntIndexIn',
+		'iput_varn_schar-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_schar-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iput_varn_short' => '2:4:5',
+		'iput_varn_short-2'	=> 'in:IntIndexIn',
+		'iput_varn_short-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_short-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iput_varn_int' => '2:4:5',
+		'iput_varn_int-2'	=> 'in:IntIndexIn',
+		'iput_varn_int-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_int-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iput_varn_float' => '2:4:5',
+		'iput_varn_float-2'	=> 'in:IntIndexIn',
+		'iput_varn_float-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_float-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iput_varn_double' => '2:4:5',
+		'iput_varn_double-2'	=> 'in:IntIndexIn',
+		'iput_varn_double-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_double-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'iput_varn_longlong' => '2:4:5',
+		'iput_varn_longlong-2'	=> 'in:IntIndexIn',
+		'iput_varn_longlong-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'iput_varn_longlong-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'bput_varn' => '2:4:5',
+		'bput_varn-2'		=> 'in:IntIndexIn',
+		'bput_varn-4'		=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn-5'		=> 'in:reorderOffsetArr1DTo2D',
+	'bput_varn_text' => '2:4:5:6',
+		'bput_varn_text-2'	=> 'in:IntIndexIn',
+		'bput_varn_text-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_text-5'	=> 'in:reorderOffsetArr1DTo2D',
+		'bput_varn_text-6'	=> 'in:charBufferIn',
+	'bput_varn_schar' => '2:4:5',
+		'bput_varn_schar-2'	=> 'in:IntIndexIn',
+		'bput_varn_schar-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_schar-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'bput_varn_short' => '2:4:5',
+		'bput_varn_short-2'	=> 'in:IntIndexIn',
+		'bput_varn_short-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_short-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'bput_varn_int' => '2:4:5',
+		'bput_varn_int-2'	=> 'in:IntIndexIn',
+		'bput_varn_int-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_int-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'bput_varn_float' => '2:4:5',
+		'bput_varn_float-2'	=> 'in:IntIndexIn',
+		'bput_varn_float-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_float-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'bput_varn_double' => '2:4:5',
+		'bput_varn_double-2'	=> 'in:IntIndexIn',
+		'bput_varn_double-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_double-5'	=> 'in:reorderOffsetArr1DTo2D',
+	'bput_varn_longlong' => '2:4:5',
+		'bput_varn_longlong-2'	=> 'in:IntIndexIn',
+		'bput_varn_longlong-4'	=> 'in:reorderOffsetArr1DTo2D:true',
+		'bput_varn_longlong-5'	=> 'in:reorderOffsetArr1DTo2D',
+
+	'bput_var1' => '2:3',
+		'bput_var1-2'		=> 'in:IntIndexIn',
+		'bput_var1-3'		=> 'in:reorderOffsetArr:true',
+	'bput_var1_text' => '2:3:4',
+		'bput_var1_text-2'	=> 'in:IntIndexIn',
+		'bput_var1_text-3'	=> 'in:reorderOffsetArr:true',
+		'bput_var1_text-4'	=> 'in:charBufferIn',
+	'bput_var1_schar' => '2:3',
+		'bput_var1_schar-2'	=> 'in:IntIndexIn',
+		'bput_var1_schar-3'	=> 'in:reorderOffsetArr:true',
+	'bput_var1_short' => '2:3',
+		'bput_var1_short-2'	=> 'in:IntIndexIn',
+		'bput_var1_short-3'	=> 'in:reorderOffsetArr:true',
+	'bput_var1_int' => '2:3',
+		'bput_var1_int-2'	=> 'in:IntIndexIn',
+		'bput_var1_int-3'	=> 'in:reorderOffsetArr:true',
+	'bput_var1_float' => '2:3',
+		'bput_var1_float-2'	=> 'in:IntIndexIn',
+		'bput_var1_float-3'	=> 'in:reorderOffsetArr:true',
+	'bput_var1_double' => '2:3',
+		'bput_var1_double-2'	=> 'in:IntIndexIn',
+		'bput_var1_double-3'	=> 'in:reorderOffsetArr:true',
+	'bput_var1_longlong' => '2:3',
+		'bput_var1_longlong-2'	=> 'in:IntIndexIn',
+		'bput_var1_longlong-3'	=> 'in:reorderOffsetArr:true',
+
+	'bput_var' => '2',
+		'bput_var-2'		=> 'in:IntIndexIn',
+	'bput_var_text' => '2:3',
+		'bput_var_text-2'	=> 'in:IntIndexIn',
+		'bput_var_text-3'	=> 'in:charBufferIn',
+	'bput_var_schar' => '2',
+		'bput_var_schar-2'	=> 'in:IntIndexIn',
+	'bput_var_short' => '2',
+		'bput_var_short-2'	=> 'in:IntIndexIn',
+	'bput_var_int' => '2',
+		'bput_var_int-2'	=> 'in:IntIndexIn',
+	'bput_var_float' => '2',
+		'bput_var_float-2'	=> 'in:IntIndexIn',
+	'bput_var_double' => '2',
+		'bput_var_double-2'	=> 'in:IntIndexIn',
+	'bput_var_longlong' => '2',
+		'bput_var_longlong-2'	=> 'in:IntIndexIn',
+
+	'bput_vara' => '2:3:4',
+		'bput_vara-2'		=> 'in:IntIndexIn',
+		'bput_vara-3'		=> 'in:reorderOffsetArr:true',
+		'bput_vara-4'		=> 'in:reorderOffsetArr',
+	'bput_vara_text' => '2:3:4:5',
+		'bput_vara_text-2'	=> 'in:IntIndexIn',
+		'bput_vara_text-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_text-4'	=> 'in:reorderOffsetArr',
+		'bput_vara_text-5'	=> 'in:charBufferIn',
+	'bput_vara_schar' => '2:3:4',
+		'bput_vara_schar-2'	=> 'in:IntIndexIn',
+		'bput_vara_schar-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_schar-4'	=> 'in:reorderOffsetArr',
+	'bput_vara_short' => '2:3:4',
+		'bput_vara_short-2'	=> 'in:IntIndexIn',
+		'bput_vara_short-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_short-4'	=> 'in:reorderOffsetArr',
+	'bput_vara_int' => '2:3:4',
+		'bput_vara_int-2'	=> 'in:IntIndexIn',
+		'bput_vara_int-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_int-4'	=> 'in:reorderOffsetArr',
+	'bput_vara_float' => '2:3:4',
+		'bput_vara_float-2'	=> 'in:IntIndexIn',
+		'bput_vara_float-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_float-4'	=> 'in:reorderOffsetArr',
+	'bput_vara_double' => '2:3:4',
+		'bput_vara_double-2'	=> 'in:IntIndexIn',
+		'bput_vara_double-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_double-4'	=> 'in:reorderOffsetArr',
+	'bput_vara_longlong' => '2:3:4',
+		'bput_vara_longlong-2'	=> 'in:IntIndexIn',
+		'bput_vara_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vara_longlong-4'	=> 'in:reorderOffsetArr',
+
+	'bput_vars' => '2:3:4:5',
+		'bput_vars-2'		=> 'in:IntIndexIn',
+		'bput_vars-3'		=> 'in:reorderOffsetArr:true',
+		'bput_vars-4'		=> 'in:reorderOffsetArr',
+		'bput_vars-5'		=> 'in:reorderOffsetArr',
+	'bput_vars_text' => '2:3:4:5:6',
+		'bput_vars_text-2'	=> 'in:IntIndexIn',
+		'bput_vars_text-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_text-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_text-5'	=> 'in:reorderOffsetArr',
+		'bput_vars_text-6'	=> 'in:charBufferIn',
+	'bput_vars_schar' => '2:3:4:5',
+		'bput_vars_schar-2'	=> 'in:IntIndexIn',
+		'bput_vars_schar-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_schar-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_schar-5'	=> 'in:reorderOffsetArr',
+	'bput_vars_short' => '2:3:4:5',
+		'bput_vars_short-2'	=> 'in:IntIndexIn',
+		'bput_vars_short-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_short-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_short-5'	=> 'in:reorderOffsetArr',
+	'bput_vars_int' => '2:3:4:5',
+		'bput_vars_int-2'	=> 'in:IntIndexIn',
+		'bput_vars_int-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_int-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_int-5'	=> 'in:reorderOffsetArr',
+	'bput_vars_float' => '2:3:4:5',
+		'bput_vars_float-2'	=> 'in:IntIndexIn',
+		'bput_vars_float-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_float-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_float-5'	=> 'in:reorderOffsetArr',
+	'bput_vars_double' => '2:3:4:5',
+		'bput_vars_double-2'	=> 'in:IntIndexIn',
+		'bput_vars_double-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_double-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_double-5'	=> 'in:reorderOffsetArr',
+	'bput_vars_longlong' => '2:3:4:5',
+		'bput_vars_longlong-2'	=> 'in:IntIndexIn',
+		'bput_vars_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'bput_vars_longlong-4'	=> 'in:reorderOffsetArr',
+		'bput_vars_longlong-5'	=> 'in:reorderOffsetArr',
+
+	'bput_varm' => '2:3:4:5:6',
+		'bput_varm-2'		=> 'in:IntIndexIn',
+		'bput_varm-3'		=> 'in:reorderOffsetArr:true',
+		'bput_varm-4'		=> 'in:reorderOffsetArr',
+		'bput_varm-5'		=> 'in:reorderOffsetArr',
+		'bput_varm-6'		=> 'in:reorderOffsetArr',
+	'bput_varm_text' => '2:3:4:5:6:7',
+		'bput_varm_text-2'	=> 'in:IntIndexIn',
+		'bput_varm_text-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_text-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_text-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_text-6'	=> 'in:reorderOffsetArr',
+		'bput_varm_text-7'	=> 'in:charBufferIn',
+	'bput_varm_schar' => '2:3:4:5:6',
+		'bput_varm_schar-2'	=> 'in:IntIndexIn',
+		'bput_varm_schar-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_schar-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_schar-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_schar-6'	=> 'in:reorderOffsetArr',
+	'bput_varm_short' => '2:3:4:5:6',
+		'bput_varm_short-2'	=> 'in:IntIndexIn',
+		'bput_varm_short-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_short-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_short-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_short-6'	=> 'in:reorderOffsetArr',
+	'bput_varm_int' => '2:3:4:5:6',
+		'bput_varm_int-2'	=> 'in:IntIndexIn',
+		'bput_varm_int-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_int-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_int-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_int-6'	=> 'in:reorderOffsetArr',
+	'bput_varm_float' => '2:3:4:5:6',
+		'bput_varm_float-2'	=> 'in:IntIndexIn',
+		'bput_varm_float-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_float-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_float-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_float-6'	=> 'in:reorderOffsetArr',
+	'bput_varm_double' => '2:3:4:5:6',
+		'bput_varm_double-2'	=> 'in:IntIndexIn',
+		'bput_varm_double-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_double-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_double-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_double-6'	=> 'in:reorderOffsetArr',
+	'bput_varm_longlong' => '2:3:4:5:6',
+		'bput_varm_longlong-2'	=> 'in:IntIndexIn',
+		'bput_varm_longlong-3'	=> 'in:reorderOffsetArr:true',
+		'bput_varm_longlong-4'	=> 'in:reorderOffsetArr',
+		'bput_varm_longlong-5'	=> 'in:reorderOffsetArr',
+		'bput_varm_longlong-6'	=> 'in:reorderOffsetArr',
+
+
+	'rename_att' => '2:3:4',
+		'rename_att-2'		=> 'in:IntIndexIn',
+		'rename_att-3'		=> 'in:addnull',
+		'rename_att-4'		=> 'in:addnull',
+	'rename_dim' => '2:3',
+		'rename_dim-2'		=> 'in:IntIndexIn',
+		'rename_dim-3'		=> 'in:addnull',
+	'rename_var' => '2:3',
+		'rename_var-2'		=> 'in:IntIndexIn',
+		'rename_var-3'		=> 'in:addnull'
+);
+
+$build_prototypes = 1;
+$buildMakefile = 0;
+$prototype_header_file = "mpifnetcdf.h";
+$argsneedcast{'const MPI_Offset []'} = '(const MPI_Offset *)(ARG)';
+$argsneedcast{'nc_type *'} = '(nc_type *)(ARG)';
+$argsneedcast{'nc_type'} = '(nc_type)(ARG)';
+
+# Special handling for integer*1 routines
+$declarg{'get_att_int1-4'}		=       'signed char *';
+$declarg{'put_att_int1-6'}		= 'const signed char *';
+$declarg{'get_var1_int1-4'}		=       'signed char *';
+$declarg{'put_var1_int1-4'}		= 'const signed char *';
+$declarg{'get_var1_int1_all-4'}		=       'signed char *';
+$declarg{'put_var1_int1_all-4'}		= 'const signed char *';
+$declarg{'get_var_int1-3'}		=       'signed char *';
+$declarg{'put_var_int1-3'}		= 'const signed char *';
+$declarg{'get_var_int1_all-3'}		=       'signed char *';
+$declarg{'put_var_int1_all-3'}		= 'const signed char *';
+$declarg{'get_vara_int1-5'}		=       'signed char *';
+$declarg{'put_vara_int1-5'}		= 'const signed char *';
+$declarg{'get_vara_int1_all-5'}		=       'signed char *';
+$declarg{'put_vara_int1_all-5'}		= 'const signed char *';
+$declarg{'get_vars_int1-6'}		=       'signed char *';
+$declarg{'put_vars_int1-6'}		= 'const signed char *';
+$declarg{'get_vars_int1_all-6'}		=       'signed char *';
+$declarg{'put_vars_int1_all-6'}		= 'const signed char *';
+$declarg{'get_varm_int1-7'}		=       'signed char *';
+$declarg{'put_varm_int1-7'}		= 'const signed char *';
+$declarg{'get_varm_int1_all-7'}		=       'signed char *';
+$declarg{'put_varm_int1_all-7'}		= 'const signed char *';
+
+$declarg{'get_varn_int1-6'}		=       'signed char *';
+$declarg{'put_varn_int1-6'}		= 'const signed char *';
+$declarg{'get_varn_int1_all-6'}		=       'signed char *';
+$declarg{'put_varn_int1_all-6'}		= 'const signed char *';
+
+$declarg{'iget_varn_int1-6'}		=       'signed char *';
+$declarg{'iput_varn_int1-6'}		= 'const signed char *';
+$declarg{'iget_varn_int1_all-6'}	=       'signed char *';
+$declarg{'iput_varn_int1_all-6'}	= 'const signed char *';
+
+$declarg{'bput_varn_int1-6'}		= 'const signed char *';
+$declarg{'bput_varn_int1_all-6'}	= 'const signed char *';
+
+$declarg{'iget_var1_int1-4'}		=       'signed char *';
+$declarg{'iput_var1_int1-4'}		= 'const signed char *';
+$declarg{'iget_var1_int1-4'}		=       'signed char *';
+$declarg{'iput_var1_int1-4'}		= 'const signed char *';
+$declarg{'iget_var_int1-3'}		=       'signed char *';
+$declarg{'iput_var_int1-3'}		= 'const signed char *';
+$declarg{'iget_vara_int1-5'}		=       'signed char *';
+$declarg{'iput_vara_int1-5'}		= 'const signed char *';
+$declarg{'iget_vars_int1-6'}		=       'signed char *';
+$declarg{'iput_vars_int1-6'}		= 'const signed char *';
+$declarg{'iget_varm_int1-7'}		=       'signed char *';
+$declarg{'iput_varm_int1-7'}		= 'const signed char *';
+
+$declarg{'bput_var1_int1-4'}		= 'const signed char *';
+$declarg{'bput_var_int1-3'}		= 'const signed char *';
+$declarg{'bput_vara_int1-5'}		= 'const signed char *';
+$declarg{'bput_vars_int1-6'}		= 'const signed char *';
+$declarg{'bput_varm_int1-7'}		= 'const signed char *';
+
+# Special handling for int8 routines
+$declarg{'put_att_int8-6'}		= 'const long long *';
+$declarg{'get_att_int8-4'}		= 'long long *';
+
+$declarg{'get_var1_int8-4'}		=       'long long *';
+$declarg{'put_var1_int8-4'}		= 'const long long *';
+$declarg{'get_var1_int8_all-4'}		=       'long long *';
+$declarg{'put_var1_int8_all-4'}		= 'const long long *';
+$declarg{'get_var_int8-3'}		=       'long long *';
+$declarg{'put_var_int8-3'}		= 'const long long *';
+$declarg{'get_var_int8_all-3'}		=       'long long *';
+$declarg{'put_var_int8_all-3'}		= 'const long long *';
+$declarg{'get_vara_int8-5'}		=       'long long *';
+$declarg{'put_vara_int8-5'}		= 'const long long *';
+$declarg{'get_vara_int8_all-5'}		=       'long long *';
+$declarg{'put_vara_int8_all-5'}		= 'const long long *';
+$declarg{'get_vars_int8-6'}		=       'long long *';
+$declarg{'put_vars_int8-6'}		= 'const long long *';
+$declarg{'get_vars_int8_all-6'}		=       'long long *';
+$declarg{'put_vars_int8_all-6'}		= 'const long long *';
+$declarg{'get_varm_int8-7'}		=       'long long *';
+$declarg{'put_varm_int8-7'}		= 'const long long *';
+$declarg{'get_varm_int8_all-7'}		=       'long long *';
+$declarg{'put_varm_int8_all-7'}		= 'const long long *';
+
+$declarg{'get_varn_int8-6'}		=       'long long *';
+$declarg{'put_varn_int8-6'}		= 'const long long *';
+$declarg{'get_varn_int8_all-6'}		=       'long long *';
+$declarg{'put_varn_int8_all-6'}		= 'const long long *';
+
+$declarg{'iget_varn_int8-6'}		=       'long long *';
+$declarg{'iput_varn_int8-6'}		= 'const long long *';
+$declarg{'iget_varn_int8_all-6'}	=       'long long *';
+$declarg{'iput_varn_int8_all-6'}	= 'const long long *';
+
+$declarg{'bput_varn_int8-6'}		= 'const long long *';
+$declarg{'bput_varn_int8_all-6'}	= 'const long long *';
+
+$declarg{'iget_var1_int8-4'}		=       'long long *';
+$declarg{'iput_var1_int8-4'}		= 'const long long *';
+$declarg{'iget_var_int8-3'}		=       'long long *';
+$declarg{'iput_var_int8-3'}		= 'const long long *';
+$declarg{'iget_vara_int8-5'}		=       'long long *';
+$declarg{'iput_vara_int8-5'}		= 'const long long *';
+$declarg{'iget_vars_int8-6'}		=       'long long *';
+$declarg{'iput_vars_int8-6'}		= 'const long long *';
+$declarg{'iget_varm_int8-7'}		=       'long long *';
+$declarg{'iput_varm_int8-7'}		= 'const long long *';
+
+$declarg{'bput_var1_int8-4'}		= 'const long long *';
+$declarg{'bput_var_int8-3'}		= 'const long long *';
+$declarg{'bput_vara_int8-5'}		= 'const long long *';
+$declarg{'bput_vars_int8-6'}		= 'const long long *';
+$declarg{'bput_varm_int8-7'}		= 'const long long *';
+
+# Special argument handling
+# Special routines are used whose names are created from the name
+# used in the hashes above (routinename-position) and these special routine
+# names.
+# void foo( MPI_Fint *v1, etc )
+# {
+# /* Special declarations needed for the variables */
+# <name>_<direction>_decl( <argnum> )
+# /* Special processing need for in variables */
+# <name>_ftoc( <argnum> )
+# /* Call the function.  Replace special arguments with the output from */
+# <name>_<direction>_arg( <argnum> )
+# /* Special post call processing (for out variables) */
+# <name>_ctof( l$count, v$count ) /* local (C) variable name, fortran var name */
+# Not all routines must be provided
+#    use $declarg{routine-position} to replace the handling of input
+#    arguments (in the definition)
+#    E.g., $declarg{'put_att_schar-6'} = 'const signed char *';
+#
+# Routines needed for special argument handling for MPI_Offset
+
+# ---------------------------------------------------------------------------
+# F2C dimension reorder from a Fortran 1D array of type MPI_Offset to a C
+# 1D array of type MPI_Offset.
+# usage is
+#    'Type_struct' => '3', 'Type_struct-3' => 'in:reorderOffsetArr:true',
+# or
+#    'Type_struct' => '3', 'Type_struct-3' => 'in:reorderOffsetArr',
+# where true indicates the array values of the array will be converted
+# from 1-based to 0-based.  Without it, no conversion is done.
+#
+sub reorderOffsetArr_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    MPI_Offset *l$count = NULL;\n";
+}
+sub reorderOffsetArr_ftoc {
+    my $count = $_[0];
+    # We use a local variable for the array size because we may need to
+    # call a function of some of the other arguments to get the array size
+    if ($Array_size) {
+        print $OUTFD "
+    int ndims;
+    ierr = ncmpi_inq_varndims(*v1, l2, &ndims); /* get number of dimensions */
+    if (ierr != NC_NOERR) return ierr;
+
+    if (ndims > 0) {
+        int li;
+        l$count = (MPI_Offset*) $malloc((size_t)ndims * sizeof(MPI_Offset));
+        for (li=0; li<ndims; li++) /* convert Fortran order to C order */
+            l$count\[li\] = v$count\[ndims-1-li\] - 1; /* convert 1-based to 0-based */
+    }\n";
+    } else {
+        print $OUTFD "
+    if (ndims > 0) {
+        int li;
+        l$count = (MPI_Offset*) $malloc((size_t)ndims * sizeof(MPI_Offset));
+        for (li=0; li<ndims; li++) /* convert Fortran order to C order */
+            l$count\[li\] = v$count\[ndims-1-li\];
+    }\n";
+    }
+}
+sub reorderOffsetArr_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+# This routine is invoked even for the in case (to free the result)
+sub reorderOffsetArr_in_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if ($lname) { $free($lname); }
+";
+}
+
+# ---------------------------------------------------------------------------
+# F2C dimension reorder from a Fortran MPI_Offset 1D array to a C MPI_Offset
+# 2D array.
+#    'Type_struct' => '3', 'Type_struct-3' => 'in:reorderOffsetArr1DTo2D:true',
+# or
+#    'Type_struct' => '3', 'Type_struct-3' => 'in:reorderOffsetArr1DTo2D',
+# where true indicates the array values of the array will be converted
+# from 1-based to 0-based.  Without it, no conversion is done.
+#
+sub reorderOffsetArr1DTo2D_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    MPI_Offset **l$count = NULL;\n";
+}
+sub reorderOffsetArr1DTo2D_ftoc {
+    my $count = $_[0];
+    if ($Array_size) {
+        print $OUTFD "
+    int ndims;
+    ierr = ncmpi_inq_varndims(*v1, l2, &ndims); /* get number of dimensions */
+    if (ierr != NC_NOERR) return ierr;\n"
+    }
+    print $OUTFD "
+    if (ndims > 0) {
+        int li, lj;
+        size_t len = (size_t)*v3;
+        l$count    = (MPI_Offset**) $malloc(len * sizeof(MPI_Offset*));
+        l$count\[0\] = (MPI_Offset*)  $malloc(len * (size_t)ndims * sizeof(MPI_Offset));
+        for (lj=1; lj<*v3; lj++)
+            l$count\[lj\] = l$count\[lj-1\] + ndims;
+        for (lj=0; lj<*v3; lj++)
+            for (li=0; li<ndims; li++) /* convert Fortran order to C order */";
+    if ($Array_size) {
+        print $OUTFD "
+                l$count\[lj\]\[li\] = v$count\[lj*ndims + ndims-1-li\] - 1; /* convert 1-based to 0-based */
+    }\n";
+    } else {
+        print $OUTFD "
+                l$count\[lj\]\[li\] = v$count\[lj*ndims + ndims-1-li\];
+    }\n";
+    }
+}
+sub reorderOffsetArr1DTo2D_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+# This routine is invoked even for the in case (to free the result)
+sub reorderOffsetArr1DTo2D_in_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if ($lname) { $free($lname\[0\]); $free($lname); }
+";
+}
+
+# -------------------------------------------------------------------------
+# F2C dimension reorder from a Fortran int array to a C int array.
+# usage is
+#    'Type_struct' => '3', 'Type_struct-3' => 'in:reorderIntArr:true',
+# or
+#    'Type_struct' => '3', 'Type_struct-3' => 'in:reorderIntArr",
+# where true indicates the array values of the array will be converted
+# from 1-based to 0-based.  Without it, no conversion is done.
+#
+sub reorderIntArr_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    int *l$count=NULL;\n";
+}
+sub reorderIntArr_ftoc {
+    my $count = $_[0];
+    # We use a local variable for the array size because we may need to
+    # call a function of some of the other arguments to get the array size
+    # Always copy and invert order
+    if ($Array_size) {
+        print $OUTFD "
+    int ndims;
+    ierr = ncmpi_inq_varndims(*v1, l2, &ndims); /* get number of dimensions */
+    if (ierr != NC_NOERR) return ierr;\n"
+    }
+    print $OUTFD "
+    if (ndims > 0) {
+        int li;
+        l$count = (int*) $malloc((size_t)ndims * sizeof(int));
+        for (li=0; li<ndims; li++) /* convert Fortran order to C order */
+            l$count\[li\] = v$count\[ndims-1-li\];
+    }\n";
+    $clean_up .= "    $free(l$count);\n";
+}
+sub reorderIntArr_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+# This routine is invoked even for the in case (to free the result)
+sub reorderIntArr_in_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if ($lname) { $free($lname); }
+";
+}
+
+# -------------------------------------------------------------------------
+# Convert from a C int array to a Fortran int array with the values reordered
+# for an OUTPUT array
+# usage is
+#    'Type_struct' => '3', 'Type_struct-3' => 'out:reorderIntArrOut',
+# the array values will be converted from C 0-based to Fortran 1-based.
+#
+sub reorderIntArrOut_out_decl {
+    my $count = $_[0];
+    print $OUTFD "    int *l$count=NULL;\n";
+}
+sub reorderIntArrOut_out_ftoc {
+    my $count = $_[0];
+    # We use a local variable for the array size because we may need to
+    # call a function of some of the other arguments to get the array size
+    # Always copy and invert order
+    print $OUTFD "
+    int ndims;
+    ierr = ncmpi_inq_varndims(*v1, l2, &ndims); /* get number of dimensions */
+    if (ierr != NC_NOERR) return ierr;
+
+    if (ndims > 0) {
+        l$count = (int*) $malloc((size_t)ndims * sizeof(int));
+    }\n";
+}
+sub reorderIntArrOut_out_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+# This routine is invoked even for the in case (to free the result)
+sub reorderIntArrOut_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if (ndims > 0) {
+        int li;
+        for (li=0; li<ndims; li++) /* convert C order to Fortran order */
+            v$count\[li\] = l$count\[ndims-1-li\] + 1; /* convert from 0-based to 1-based */
+        $free($lname);
+    }\n";
+}
+
+# -------------------------------------------------------------------------
+sub intToOffset_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    MPI_Offset l$count = (MPI_Offset)*v$count;\n";
+}
+sub intToOffset_ftoc {
+    my $count = $_[0];
+}
+sub intToOffset_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+# This routine is invoked even for the in case (to free the result)
+sub intToOffset_in_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+}
+
+# -------------------------------------------------------------------------
+# For output of int indices, add one to the result
+# usage is
+#    'inq_varid' => '3', 'inq_varid-3' => 'out:IntIndex',
+#
+sub IntIndex_out_decl {
+    my $count = $_[0];
+}
+sub IntIndex_out_ftoc {
+    my $count = $_[0];
+}
+sub IntIndex_out_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub IntIndex_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if (!$errparmrval) *v$count = *v$count + 1;\n";
+}
+
+# -------------------------------------------------------------------------
+# For output of MPI_Offset indices, add one to the result
+# usage is
+#    'inq_varid' => '3', 'inq_varid-3' => 'out:OffsetIndex',
+#
+sub OffsetIndex_out_decl {
+    my $count = $_[0];
+}
+sub OffsetIndex_out_ftoc {
+    my $count = $_[0];
+}
+sub OffsetIndex_out_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub OffsetIndex_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if (!$errparmrval) *v$count = *v$count + 1;\n";
+}
+
+# -------------------------------------------------------------------------
+# For output of dimension indices, add one to the result
+# If no unlimited length dimension has been defined, -1 is returned.
+# usage is
+#    'inq_varid' => '3', 'inq_varid-3' => 'out:IntDimIndex',
+#
+sub IntDimIndex_out_decl {
+    my $count = $_[0];
+}
+sub IntDimIndex_out_ftoc {
+    my $count = $_[0];
+}
+sub IntDimIndex_out_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub IntDimIndex_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if (!$errparmrval && *v$count != -1) *v$count = *v$count + 1;\n";
+}
+
+# -------------------------------------------------------------------------
+# For input of int indices, subtract one to the result
+# usage is
+#    'inq_dim' => '3', 'inq_dim-3' => 'in:IntIndexIn',
+#
+sub IntIndexIn_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    int l$count = *v$count - 1;\n";
+}
+sub IntIndexIn_ftoc {
+    my $count = $_[0];
+}
+sub IntIndexIn_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+sub IntIndexIn_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+}
+
+# -------------------------------------------------------------------------
+# For input of MPI_Offset indices, subtract one to the result
+# usage is
+#    'inq_dim' => '3', 'inq_dim-3' => 'in:OffsetIndexIn',
+#
+sub OffsetIndexIn_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    MPI_Offset l$count = *v$count - 1;\n";
+}
+sub OffsetIndexIn_ftoc {
+    my $count = $_[0];
+}
+sub OffsetIndexIn_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+sub OffsetIndexIn_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+}
+
+# -------------------------------------------------------------------------
+# For input of an array of int indices, subtract one from the result.
+# Also, reverse the order of the array indices
+# usage is
+#    'def_var' => '3', 'def_var-3' => 'in:IntIndexInArr',
+# Note:
+#   This did not match the one use of this routine, in defA-var
+#
+sub IntIndexInArr_in_decl {
+    my $count = $_[0];
+    print $OUTFD "    int *l$count=NULL;\n    int ln$count;\n";
+}
+sub IntIndexInArr_ftoc {
+    my $count = $_[0];
+    print $OUTFD "
+    { ln$count = $Array_size;
+    if (ln$count > 0) {
+        int li;
+        l$count = (int*) $malloc( (size_t)ln$count * sizeof(int));
+        for (li=0; li<ln$count; li++) /* convert Fortran order to C order */
+            l$count\[li\] = v$count\[ln$count-li-1\]-1; /* convert 1-based to 0-based */
+      }}\n";
+      $clean_up .= "    $free(l$count);\n";
+}
+sub IntIndexInArr_in_arg {
+    my $count = $_[0];
+    print $OUTFD "l$count";
+}
+sub IntIndexInArr_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+    print $OUTFD "
+    if ($lname) { $free($lname); }
+";
+}
+
+# ---------------------------------------------------------------------------
+# charBufferIn and charBufferOut are basically no-ops.  They are provided
+# in case special processing is required for the character buffers.
+#
+sub charBufferIn_in_decl {
+}
+sub charBufferIn_in_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub charBufferIn_ftoc {
+}
+# Output text buffers
+sub charBufferOut_out_decl {
+}
+sub charBufferOut_out_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub charBufferOut_ctof {
+}
+
+# -----------------------------------------------------------------------------
+# integer*1 in Fortran to signed char in C
+# FIXME: Not done yet
+#
+sub int1toschar_out_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub int1toschar_in_decl {
+    my $count = $_[0];
+}
+sub int1toschar_out_decl {
+    my $count = $_[0];
+}
+sub int1toschar_ftoc {
+    my $count = $_[0];
+}
+sub int1toschar_in_arg {
+    my $count = $_[0];
+    print $OUTFD "v$count";
+}
+sub int1toschar_ctof {
+    my $lname = $_[0];
+    my $vname = $_[1];
+}
+
+# will this overrride buildiface?
+sub blankpad_out_ftoc {
+    my $count = $_[0];
+
+    # Allocate space to hold the C version of the output
+    $strlen = "d$count";
+    print $OUTFD "    p$count = (char*) $calloc((size_t)$strlen + 1, 1);\n";
+}
+
+# ---------------------------------------------------------------------------
+# Functions to add routines that need special handling
+$ExtraRoutines[$#ExtraRoutines+1] = "ncfxstrerror";
+$ExtraRoutines[$#ExtraRoutines+1] = "ncfxutil";
+$ExtraRoutines[$#ExtraRoutines+1] = "ncfxinqlibvers";
+$ExtraRoutines[$#ExtraRoutines+1] = "ncfissyserr";
+$ExtraRoutines[$#ExtraRoutines+1] = "get_file_info";
+$ExtraRoutines[$#ExtraRoutines+1] = "inq_file_info";
+
+sub ncfxstrerror {
+    $OUTFD = "NCFXSTRERRORFD";
+    open( $OUTFD, ">xstrerrorf.c" ) || die "Cannot open xstrerrorf.c\n";
+    $out_prefix = "nfmpi_";
+    $files[$#files+1] = "xstrerrorf.c";
+    $args = "int *, char *";
+    &print_header( "ncfmpi_xstrerror", "xstrerror", $args );
+    &print_routine_type_decl( $OUTFD, "xstrerror" );
+    &print_args( $OUTFD, $args, 0, "xstrerror" );
+    print $OUTFD "{
+    const char *p = ncmpi_strerror( *v1 );
+    int i;
+    /* d2 is the length of the string passed into the routine */
+    for (i=0; i<d2 && *p; i++) {
+        v2[i] = *p++;
+    }
+    /* Blank pad */
+    for (; i<d2; i++) v2[i] = ' ';
+    return 0;
+}\n";
+    close ($OUTFD);
+}
+
+# Note that this works for errors because the Netcdf errors are negative
+sub ncfxutil {
+    $OUTFD = "NCFXUTIL";
+    open( $OUTFD, ">nfxutil.c" ) || die "Cannot open nfxutil.c\n";
+    $files[$#files+1] = "nfxutil.c";
+    &print_copyright( );
+    print $OUTFD "
+int ncmpixVardim( int ncid, int varid )
+{
+    int ndims, status;
+    status = ncmpi_inq_varndims(ncid, varid, &ndims); /* get number of dimensions */
+    if (status != NC_NOERR) return status;
+    return ndims;
+}\n";
+    close ($OUTFD);
+}
+
+sub ncfxinqlibvers {
+    $OUTFD = "NCFXINQLIBVERSFD";
+    open( $OUTFD, ">xinq_libversf.c" ) || die "Cannot open xinq_libversf.c\n";
+    $out_prefix = "nfmpi_";
+    $args = "char *";
+    $files[$#files+1] = "xinq_libversf.c";
+    &print_header( "ncfmpi_xinq_libvers", "xinq_libvers", $args );
+    &print_routine_type_decl( $OUTFD, "xinq_libvers" );
+    &print_args( $OUTFD, $args, 0, "xinq_libvers" );
+    print $OUTFD "{
+    const char *p = ncmpi_inq_libvers();
+    int i;
+    /* d1 is the length of the string passed into the routine */
+    for (i=0; i<d1 && *p; i++) {
+        v1[i] = *p++;
+    }
+    /* Blank pad */
+    for (; i<d1; i++) v1[i] = ' ';
+    return 0;
+}\n";
+    close ($OUTFD);
+}
+
+sub ncfissyserr {
+    $OUTFD = "NCFISSYSERRFD";
+    open( $OUTFD, ">issyserrf.c" ) || die "Cannot open issyserrf.c\n";
+    $out_prefix = "nfmpi_";
+    $args = "int *";
+    $files[$#files+1] = "issyserrf.c";
+    &print_header( "ncfmpi_issyserr", "issyserr", $args );
+    &print_routine_type_decl( $OUTFD, "issyserr" );
+    &print_args( $OUTFD, $args, 0, "issyserr" );
+    print $OUTFD "{
+    if (*v1 > 0)
+      return 1;
+    else
+      return 0;
+}\n";
+    close ($OUTFD);
+
+}
+
+sub inq_file_info {
+    $OUTFD = "GETFILEINFOFD";
+    open( $OUTFD, ">inq_file_infof.c" ) || die "Cannot open inq_file_infof.c\n";
+    $out_prefix = "nfmpi_";
+    $files[$#files+1] = "inq_file_infof.c";
+    $args = "int *, int *";
+    &print_header( "ncfmpi_inq_file_info", "inq_file_info", $args );
+    &print_routine_type_decl( $OUTFD, "inq_file_info" );
+    &print_args( $OUTFD, $args, 0, "inq_file_info" );
+    print $OUTFD "{
+    int ierr;
+    MPI_Info info;
+
+    ierr = ncmpi_inq_file_info( *v1, &info );
+    *v2 = MPI_Info_c2f(info);
+    return ierr;
+}\n";
+    close ($OUTFD);
+}
+
+sub get_file_info {
+    $OUTFD = "GETFILEINFOFD";
+    open( $OUTFD, ">get_file_infof.c" ) || die "Cannot open get_file_infof.c\n";
+    $out_prefix = "nfmpi_";
+    $files[$#files+1] = "get_file_infof.c";
+    $args = "int *, int *";
+    &print_header( "ncfmpi_get_file_info", "get_file_info", $args );
+    &print_routine_type_decl( $OUTFD, "get_file_info" );
+    &print_args( $OUTFD, $args, 0, "get_file_info" );
+    print $OUTFD "{
+    int ierr;
+    MPI_Info info;
+
+    ierr = ncmpi_get_file_info( *v1, &info );
+    *v2 = MPI_Info_c2f(info);
+    return ierr;
+}\n";
+    close ($OUTFD);
+}
+
+
+return 1;
+
+# Local variables:
+#  mode: perl
+# End:
+#
+# vim:ft=perl

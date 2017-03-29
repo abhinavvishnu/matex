@@ -1,0 +1,55 @@
+#
+# Copyright (C) 2003, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2219 2015-12-11 22:30:03Z wkliao $
+#
+# @configure_input@
+
+srcdir = @srcdir@
+VPATH  = @srcdir@
+
+include ../../macros.make
+
+INCLUDES  = -I../../src/lib
+
+ifeq (@PNC_DEBUG@, yes)
+CPPFLAGS := $(CPPFLAGS) -DPNC_DEBUG
+FPPFLAGS := $(FPPFLAGS) @FC_DEFINE@PNC_DEBUG
+endif
+
+C_SRCS   = testutils.c
+
+F_SRCS   = testutilsf.F90
+
+HEADERS  = testutils.h
+
+OBJS     = $(C_SRCS:.c=.o)
+ifeq (@has_fortran@, yes)
+OBJS    += $(F_SRCS:.F90=.o)
+endif
+
+UTIL_LIB = libtestutils.a
+
+GARBAGE      = $(UTIL_LIB) *.mod
+PACKING_LIST = $(C_SRCS) $(F_SRCS) $(HEADERS) Makefile.in
+
+all: $(UTIL_LIB)
+
+$(C_SRCS:.c=.o) : $(HEADERS)
+
+$(UTIL_LIB): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $(OBJS)
+
+testutils.o: testutils.c testutils.h
+
+testutilsf.o: testutilsf.F90
+
+testing check verbose_testing: $(UTIL_LIB)
+
+ptest ptests: $(UTIL_LIB)
+
+ptest2 ptest4 ptest6 ptest8 ptest10:
+
+include $(srcdir)/../../rules.make
+

@@ -1,0 +1,362 @@
+\begin{verbatim}
+int ncmpi_wait(int ncid, int count, int array_of_requests[],
+                   int array_of_statuses[]);
+
+int ncmpi_wait_all(int ncid, int count, int array_of_requests[],
+                   int array_of_statuses[]);
+
+int ncmpi_cancel(int ncid, int num, int *requests, int *statuses);
+\end{verbatim}
+
+
+{\bf ncmpi\_iput\_var1\_TYPE()}: Post a Nonblocking Write for a Single Data Value
+
+\begin{verbatim}
+int ncmpi_iput_var1(int ncid, int varid, const MPI_Offset index[],
+                    const void *buf, MPI_Offset bufcount,
+                    MPI_Datatype datatype, int *request); 
+
+int ncmpi_iput_var1_schar(int ncid, int varid, const MPI_Offset index[],
+                    const signed char *op, int *request); 
+
+int ncmpi_iput_var1_text(int ncid, int varid, const MPI_Offset index[],
+                    const char *op, int *request); 
+
+int ncmpi_iput_var1_short(int ncid, int varid, const MPI_Offset index[],
+                    const short *op, int *request); 
+
+int ncmpi_iput_var1_int(int ncid, int varid, const MPI_Offset index[],
+                    const int *op, int *request); 
+
+int ncmpi_iput_var1_uchar(int ncid, int varid, const MPI_Offset index[],
+                    const unsigned char *op, int *request);
+
+int ncmpi_iput_var1_long(int ncid, int varid, const MPI_Offset index[],
+                    const long *ip, int *request);
+
+int ncmpi_iput_var1_float(int ncid, int varid, const MPI_Offset index[],
+                    const float *op, int *request); 
+
+int ncmpi_iput_var1_double(int ncid, int varid, const MPI_Offset index[],
+                    const double *op, int *request); 
+\end{verbatim}
+
+
+{\bf ncmpi\_iget\_var1\_TYPE()}: Post a Nonblocking Read for a Single Data Value
+
+\begin{verbatim}
+int ncmpi_iget_var1(int ncid, int varid, const MPI_Offset index[], void *buf,
+                    MPI_Offset bufcount, MPI_Datatype datatype, int *request); 
+
+int ncmpi_iget_var1_schar(int ncid, int varid, const MPI_Offset index[],
+                    signed char *ip, int *request); 
+
+int ncmpi_iget_var1_text(int ncid, int varid, const MPI_Offset index[],
+                    char *ip, int *request); 
+
+int ncmpi_iget_var1_short(int ncid, int varid, const MPI_Offset index[],
+                    short *ip, int *request); 
+
+int ncmpi_iget_var1_int(int ncid, int varid, const MPI_Offset index[],
+                    int *ip, int *request); 
+
+int ncmpi_iget_var1_uchar(int ncid, int varid, const MPI_Offset index[],
+                    unsigned char *ip, int *request);
+
+int ncmpi_iget_var1_long(int ncid, int varid, const MPI_Offset index[],
+                    long *ip, int *request);
+
+int ncmpi_iget_var1_float(int ncid, int varid, const MPI_Offset index[],
+                    float *ip, int *request); 
+
+int ncmpi_iget_var1_double(int ncid, int varid, const MPI_Offset index[],
+                    double *ip, int *request);
+\end{verbatim}
+
+
+{\bf ncmpi\_iput\_var\_TYPE()}: Post a Nonblocking Write for an Entire Variable
+
+\begin{verbatim}
+int ncmpi_iput_var(int ncid, int varid, const void *buf, MPI_Offset bufcount,
+                    MPI_Datatype datatype, int *request);
+
+int ncmpi_iput_var_schar(int ncid, int varid, const signed char *op,
+                    int *request);
+
+int ncmpi_iput_var_text(int ncid, int varid, const char *op, int *request);
+
+int ncmpi_iput_var_short(int ncid, int varid, const short *op, int *request);
+
+int ncmpi_iput_var_int(int ncid, int varid, const int *op, int *request);
+
+int ncmpi_iput_var_uchar(int ncid, int varid, const unsigned char *op,
+                    int *request);
+
+int ncmpi_iput_var_long(int ncid, int varid, const long *op, int *request);
+
+int ncmpi_iput_var_float(int ncid, int varid, const float *op, int *request);
+
+int ncmpi_iput_var_double(int ncid, int varid, const double *op, int *request);
+\end{verbatim}
+
+
+{\bf ncmpi\_iget\_var\_TYPE()}: Post a Nonblocking Read for an Entire Variable
+
+\begin{verbatim}
+int ncmpi_iget_var(int ncid, int varid, void *buf, MPI_Offset bufcount,
+                    MPI_Datatype datatype, int *request);
+
+int ncmpi_iget_var_schar(int ncid, int varid, signed char *ip, int *request);
+
+int ncmpi_iget_var_text(int ncid, int varid, char *ip, int *request);
+
+int ncmpi_iget_var_short(int ncid, int varid, short *ip, int *request);
+
+int ncmpi_iget_var_int(int ncid, int varid, int *ip, int *request);
+
+int ncmpi_iget_var_uchar(int ncid, int varid, unsigned char *ip, int *request);
+
+int ncmpi_iget_var_long(int ncid, int varid, long *ip, int *request);
+
+int ncmpi_iget_var_float(int ncid, int varid, float *ip, int *request);
+
+int ncmpi_iget_var_double(int ncid, int varid, double *ip, int *request);
+\end{verbatim}
+
+
+{\bf ncmpi\_iput\_vara\_TYPE()}: Post a Nonblocking Write for Array of Values
+
+\begin{verbatim}
+int ncmpi_iput_vara(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const void *buf,
+                    MPI_Offset bufcount, MPI_Datatype datatype, int *request); 
+
+int ncmpi_iput_vara_schar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const signed char *op,
+                    int *request); 
+
+int ncmpi_iput_vara_text(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const char *op, int *request); 
+
+int ncmpi_iput_vara_short(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const short *op, int *request); 
+
+int ncmpi_iput_vara_int(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const int *op, int *request); 
+
+int ncmpi_iput_vara_uchar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const unsigned char *op,
+                    int *request);
+
+int ncmpi_iput_vara_long(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const long *op, int *request);
+
+int ncmpi_iput_vara_float(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const float *op, int *request); 
+
+int ncmpi_iput_vara_double(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const double *op, int *request); 
+\end{verbatim}
+
+
+{\bf ncmpi\_iget\_vara\_TYPE()}: Post a Nonblocking Read for Array of Values
+
+\begin{verbatim}
+int ncmpi_iget_vara(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], void *buf, MPI_Offset bufcount,
+                    MPI_Datatype datatype, int *request); 
+
+int ncmpi_iget_vara_schar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], signed char *ip, int *request); 
+
+int ncmpi_iget_vara_text(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], char *ip, int *request); 
+
+int ncmpi_iget_vara_short(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], short *ip, int *request); 
+
+int ncmpi_iget_vara_int(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], int *ip, int *request); 
+
+int ncmpi_iget_vara_uchar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], unsigned char *ip, int *request);
+
+int ncmpi_iget_vara_long(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], long *ip, int *request);
+
+int ncmpi_iget_vara_float(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], float *ip, int *request); 
+
+int ncmpi_iget_vara_double(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], double *ip, int *request);
+\end{verbatim}
+
+
+{\bf ncmpi\_iput\_vars\_TYPE()}: Post a Nonblocking Write for Subsampled Array of Values
+
+\begin{verbatim}
+int ncmpi_iput_vars(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const void *buf, MPI_Offset bufcount,
+                    MPI_Datatype datatype, int *request); 
+
+int ncmpi_iput_vars_schar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const signed char *op, int *request); 
+
+int ncmpi_iput_vars_text(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const char *op, int *request); 
+
+int ncmpi_iput_vars_short(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const short *op, int *request); 
+
+int ncmpi_iput_vars_int(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const int *op, int *request); 
+
+int ncmpi_iput_vars_uchar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const unsigned char *op, int *request);
+
+int ncmpi_iput_vars_long(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const long *op, int *request);
+\end{verbatim}
+
+
+{\bf ncmpi\_iget\_vars\_TYPE()}: Post a Nonblocking Read for Subsampled Array of Values
+
+\begin{verbatim}
+int ncmpi_iget_vars(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    void *buf, MPI_Offset bufcount, MPI_Datatype datatype,
+                    int *request); 
+
+int ncmpi_iput_vars_float(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const float *op, int *request); 
+
+int ncmpi_iput_vars_double(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const double *op, int *request); 
+
+int ncmpi_iget_vars_schar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    signed char *ip, int *request); 
+
+int ncmpi_iget_vars_text(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    char *ip, int *request); 
+
+int ncmpi_iget_vars_short(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    short *ip, int *request); 
+
+int ncmpi_iget_vars_int(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    int *ip, int *request); 
+
+int ncmpi_iget_vars_uchar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    unsigned char *ip, int *request);
+
+int ncmpi_iget_vars_long(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    long *ip, int *request); 
+
+int ncmpi_iget_vars_float(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    float *ip, int *request); 
+
+int ncmpi_iget_vars_double(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    double *ip, int *request); 
+\end{verbatim}
+
+
+{\bf ncmpi\_iput\_varm\_TYPE()}: Post a Nonblocking Write for Mapped Array of Values
+
+\begin{verbatim}
+int ncmpi_iput_varm(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const void *buf,
+                    MPI_Offset bufcount, MPI_Datatype datatype, int *request); 
+
+int ncmpi_iput_varm_schar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const signed char *op,
+                    int *request); 
+
+int ncmpi_iput_varm_text(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const char *op, int *request); 
+
+int ncmpi_iput_varm_short(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const short *op, int *request); 
+
+int ncmpi_iput_varm_int(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const int *op, int *request); 
+
+int ncmpi_iput_varm_uchar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const unsigned char *op,
+                    int *request);
+
+int ncmpi_iput_varm_long(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const long *op, int *request);
+
+int ncmpi_iput_varm_float(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const float *op, int *request); 
+
+int ncmpi_iput_varm_double(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], const double *op, int *request); 
+\end{verbatim}
+
+
+{\bf ncmpi\_iget\_varm\_TYPE()}: Post a Nonblocking Read for Mapped Array of Values
+
+\begin{verbatim}
+int ncmpi_iget_varm(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], void *buf, MPI_Offset bufcount,
+                    MPI_Datatype datatype, int *request); 
+
+int ncmpi_iget_varm_schar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], signed char *ip, int *request); 
+
+int ncmpi_iget_varm_text(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], char *ip, int *request); 
+
+int ncmpi_iget_varm_short(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], short *ip, int *request); 
+
+int ncmpi_iget_varm_int(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], int *ip, int *request); 
+
+int ncmpi_iget_varm_uchar(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], unsigned char *ip, int *request);
+
+int ncmpi_iget_varm_long(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], long *ip, int *request);
+
+int ncmpi_iget_varm_float(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], float *ip, int *request); 
+
+int ncmpi_iget_varm_double(int ncid, int varid, const MPI_Offset start[],
+                    const MPI_Offset count[], const MPI_Offset stride[],
+                    const MPI_Offset imap[], double *ip, int *request);
+\end{verbatim}

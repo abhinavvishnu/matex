@@ -1,0 +1,58 @@
+!******************************************************************************
+
+!  File:        common.fh
+
+!  Purpose:        This file is the global common, visible to all modules,
+!                containing such things as physical constants, runtime
+!                parameters, etc.
+
+        implicit none
+
+
+
+#include "physicaldata.fh"
+
+!                Simulation time and timestep
+
+        double precision        time, dt
+
+!                Simulation step number and beginning step number; my processing
+!                element (PE) number, the PE number of the "master" processor,
+!                and the total number of PEs
+
+        integer nstep, nbegin, MyPE, MasterPE, NumPEs
+
+        common /floats/ time, dt
+
+        common /intgrs/ nstep, nbegin, MyPE, MasterPE, NumPEs
+
+! add the runtime parameters needed explicitly        
+        character*128 basenm
+        
+        common /runtime_char/ basenm
+
+!==============================================================================
+
+!                Numerical constants
+
+        include 'definitions.fh'
+
+!==============================================================================
+
+!                PARAMESH adaptive mesh refinement (AMR) declarations
+
+        include 'tree.fh'
+
+!==============================================================================
+
+!                Message-Passing Interface (MPI) library subroutines & constants
+
+        include 'mpif.h'
+
+        integer info_used
+        logical use_nonblocking_io
+
+        double precision chk_t(3), corner_t(3), nocorner_t(3)
+        common /timers/ chk_t, corner_t, nocorner_t, info_used, use_nonblocking_io
+
+

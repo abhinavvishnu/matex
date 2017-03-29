@@ -1,0 +1,83 @@
+!
+! This file defines a data structure to be used for quantities
+! which may need to be defined at grid block interfaces, eg fluxes,
+! pressures.
+!
+
+
+! storage used for fluxes at block boundaries. This is used when conservation
+! constraints need to be imposed.
+
+! updated 2-15-00 -- allocate storage for the internal energy flux
+      integer nfluxvar
+      parameter(nfluxvar=nuc2+7) !<<< USER EDIT
+
+      integer nfluxes
+      parameter(nfluxes=max(1,nfluxvar))
+
+      integer maxblocksfl
+      parameter(maxblocksfl= 1+(maxblocks-1)*min(1,nfluxvar) )
+
+
+
+!..in 1d the flux_y, flux_z, tflux_y, and tflux_z arrays are not used,
+!..but do need to be declared. thus, in 1d the parameter maxblocksfl
+!..has been replaced with a 1. this significantly reduces the
+!..memory footprint for 1d simulations.
+
+!..in 2d the flux_z and tflux_z arrays are not used,
+!..but do need to be declared. thus, in 2d the parameter maxblocksfl
+!..has been replaced with a 1. this significantly reduces the
+!..memory footprint for 2d simulations.
+
+
+
+! storage used for cell edges at block boundaries. 
+! This is used when quantities located at cell edge centers need to
+! be used consistently at the boundaries between blocks at different
+! refinement levels.
+
+      integer nedgevar
+      parameter(nedgevar=1)                                     !<<< USER EDIT
+
+      integer nedges
+      parameter(nedges=max(1,nedgevar))
+
+      integer maxblockse
+      parameter(maxblockse= 1+(maxblocks-1)*min(1,nedgevar) )
+
+
+
+
+
+! workspace arrays used for inter-block communications
+        integer nbndmax
+        parameter(nbndmax=max(nbndvar,nfluxes))
+        common/blockbnd/ &
+          recvarx1(nbndmax,1:2,jl_bnd:ju_bnd,kl_bnd:ku_bnd) &
+         ,recvary1(nbndmax,il_bnd:iu_bnd,1:2,kl_bnd:ku_bnd) &
+         ,recvarz1(nbndmax,il_bnd:iu_bnd,jl_bnd:ju_bnd,1:2) &
+         ,bndtempx1(nfluxes,1:2,jl_bnd:ju_bnd,kl_bnd:ku_bnd) &
+         ,bndtempy1(nfluxes,il_bnd:iu_bnd,1:2,kl_bnd:ku_bnd) &
+         ,bndtempz1(nfluxes,il_bnd:iu_bnd,jl_bnd:ju_bnd,1:2)
+        double precision    recvarx1,recvary1,recvarz1
+        double precision    bndtempx1,bndtempy1,bndtempz1
+
+
+
+
+! parameters used in communication calls
+      integer len_block_bndx,len_block_bndy,len_block_bndz
+      parameter(len_block_bndx=2*(nyb+2*nguard*k2d)* &
+                                      (nzb+2*nguard*k3d))
+      parameter(len_block_bndy=2*(nxb+2*nguard*k2d)* &
+                                      (nzb+2*nguard*k3d))
+      parameter(len_block_bndz=2*(nxb+2*nguard)*(nyb+2*nguard))
+
+      integer len_block_ex,len_block_ey,len_block_ez
+      parameter(len_block_ex=2*(nyb+k2d+2*nguard*k2d)* &
+                                      (nzb+k3d+2*nguard*k3d))
+      parameter(len_block_ey=2*(nxb+1+2*nguard)* &
+                                      (nzb+k3d+2*nguard*k3d))
+      parameter(len_block_ez=2*(nxb+1+2*nguard)* &
+                                      (nyb+k2d+2*nguard))

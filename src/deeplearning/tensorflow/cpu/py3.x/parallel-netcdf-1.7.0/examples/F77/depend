@@ -1,0 +1,14 @@
+block_cyclic.o: block_cyclic.f
+column_wise.o: column_wise.f
+flexible_api.o: flexible_api.f
+get_info.o: get_info.f
+hints.o: hints.f
+nonblocking_write.o: nonblocking_write.f
+put_vara.o: put_vara.f
+put_varn_real.o: put_varn_real.f
+put_varn_int.o: put_varn_int.f
+transpose.o: transpose.f
+vard_int.o: vard_int.F
+i_varn_real.o: i_varn_real.f
+bput_varn_int8.o: bput_varn_int8.f
+fill_mode.o: fill_mode.f

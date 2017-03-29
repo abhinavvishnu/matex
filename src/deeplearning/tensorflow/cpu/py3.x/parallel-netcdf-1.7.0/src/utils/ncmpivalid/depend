@@ -1,0 +1,1 @@
+ncmpivalid.o: ncmpivalid.c ../../lib/ncx.h ../../lib/macro.h

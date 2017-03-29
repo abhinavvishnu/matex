@@ -1,0 +1,23 @@
+#
+# We want apps to be able to link with both serial NetCDF and Parallel-NetCDF,
+# so we had to alter some symbols in the library.  The following list is a
+# start at documenting the changes.  I found such a list helpful when merging
+# netcdf-3.5 patches to pnetcdf
+#
+
+serial           parallel
+-------------------------
+ncx_len_NC       ncmpii_hdr_len_NC
+ncx_put_NC       ncmpii_hdr_put_NC
+nc_get_NC        ncmpii_hdr_get_NC
+ncx_get_size_t   ncmpix_get_size_t
+new_NC           ncmpii_new_NC
+v1h_get_NC_attarray  hdr_len_NC_attarray
+ncx_len_NC_var       hdr_len_NC_var
+ncx_len_NC_vararray  hdr_len_NC_vararray
+check_v1hs           hdr_check_buffer
+struct v1hs      struct bufferinfo
+NC_*		 ncmpii_NC_*
+nc__
+ncx_*            ncmpix_*
+

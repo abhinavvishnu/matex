@@ -1,0 +1,123 @@
+#
+# Copyright (C) 2012, Northwestern University and Argonne National Laboratory
+# See COPYRIGHT notice in top-level directory.
+#
+# $Id: Makefile.in 2236 2015-12-18 03:49:41Z wkliao $
+#
+# @configure_input@
+
+srcdir  = @srcdir@
+VPATH   = @srcdir@
+
+include ../../macros.make
+
+# note the order of -L list matters
+INCLUDES    = @FC_MODINC@../../src/libf90
+F90LDFLAGS := -L../../src/lib $(F90LDFLAGS) $(LDFLAGS)
+LIBS       := -lpnetcdf $(LIBS)
+
+F90_SRCS  = nonblocking_write.f90 \
+            column_wise.f90 \
+            block_cyclic.f90 \
+            flexible_api.f90 \
+            get_info.f90 \
+            hints.f90 \
+            put_var.f90 \
+            put_varn_real.f90 \
+            put_varn_int.f90 \
+            transpose.f90 \
+            vard_int.f90 \
+            fill_mode.f90
+
+PROGS     = $(F90_SRCS:.f90=)
+OBJS      = $(F90_SRCS:.f90=.o)
+
+UTIL_SRCS  = utils.F90
+UTIL_OBJS  = $(UTIL_SRCS:.F90=.o)
+
+GARBAGE      = $(PROGS) *.nc
+
+PACKING_LIST = $(F90_SRCS) $(UTIL_SRCS) depend Makefile.in
+
+all: $(PROGS)
+
+install:
+
+uninstall:
+
+nonblocking_write: nonblocking_write.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+get_info: get_info.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+column_wise: column_wise.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+block_cyclic: block_cyclic.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+put_var: put_var.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+hints: hints.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+flexible_api: flexible_api.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+put_varn_int: put_varn_int.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+put_varn_real: put_varn_real.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+transpose: transpose.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+vard_int: vard_int.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+fill_mode: fill_mode.o $(UTIL_OBJS) $(LIBRARY)
+	$(LINK.F90) $< $(UTIL_OBJS) $(F90LDFLAGS) $(LIBS)
+
+TEST_MPIRUN_4  = $(subst NP,4,$(TEST_MPIRUN))
+TEST_MPIRUN_8  = $(subst NP,8,$(TEST_MPIRUN))
+TEST_MPIRUN_3  = $(subst NP,3,$(TEST_MPIRUN))
+
+ptest4: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_4) ./$$i -q $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS: F90 parallel run on 4 processes --------------- $$i"; \
+        else \
+           echo "FAILED: F90 parallel run on 4 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest8: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_8) ./$$i -q $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS: F90 parallel run on 8 processes --------------- $$i"; \
+        else \
+           echo "FAILED: F90 parallel run on 8 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest3: $(PROGS)
+	@for i in $(PROGS); do ( \
+        $(TEST_MPIRUN_3) ./$$i -q $(TEST_OUTDIR)/testfile.nc ; \
+        if [ $$? = 0 ] ; then \
+           echo "PASS: F90 parallel run on 3 processes --------------- $$i"; \
+        else \
+           echo "FAILED: F90 parallel run on 3 processes ------------- $$i"; \
+        fi ; ) ; done
+
+ptest: ptest4
+ptests: ptest3 ptest4 ptest8
+ptest2 ptest6 ptest10:
+
+include $(srcdir)/depend
+include $(srcdir)/../../rules.make
+
+$(LIBRARY): ;
+

@@ -1,0 +1,14 @@
+mcoll_perf.c.o: mcoll_perf.c
+mcoll_testf77:  mcoll_testf77.f
+mcoll_testf.o:  mcoll_testf.f90
+test_bput.o:    test_bput.c
+test_bputf.o:   test_bputf.f90
+test_bputf77.o: test_bputf77.f
+interleaved.o:  interleaved.c
+i_varn_int64.o: i_varn_int64.c
+bput_varn_uint.o: bput_varn_uint.c
+flexible_bput.o: flexible_bput.c
+wait_after_indep.o: wait_after_indep.c
+column_wise.o: column_wise.c
+req_all.o: req_all.c
+i_varn_indef.o: i_varn_indef.c

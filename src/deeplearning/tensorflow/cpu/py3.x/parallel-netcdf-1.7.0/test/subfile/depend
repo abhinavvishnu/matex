@@ -1,0 +1,2 @@
+test_subfile.o: test_subfile.c
+

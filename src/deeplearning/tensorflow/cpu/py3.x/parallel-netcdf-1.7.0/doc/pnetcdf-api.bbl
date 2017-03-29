@@ -1,0 +1,10 @@
+\begin{thebibliography}{1}
+
+\bibitem{thakur:romio}
+Rajeev Thakur, William Gropp, and Ewing Lusk.
+\newblock Data sieving and collective {I/O} in {ROMIO}.
+\newblock In {\em Proceedings of the Seventh Symposium on the Frontiers of
+  Massively Parallel Computation}, pages 182--189. IEEE Computer Society Press,
+  February 1999.
+
+\end{thebibliography}

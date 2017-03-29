@@ -1,0 +1,2 @@
+pnf_test.o: pnf_test.f
+pnctestf.o: pnctestf.f
