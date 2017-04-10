@@ -37,10 +37,28 @@ If you are using GPU enabled Tensorflow, you should set up the CUDNN_HOME
 environment variable to point where the CUDNN should be found (the head 
 folder not the lib one).
 
-Aftwards, it is as simple as running source ./install_mpi_tf.sh or source 
-./install_mpi_tf.csh based on your shell preference. Afterwards, you will be 
-in a virtual python environment that encapsulates the tensorflow changes (Your 
+Installing for bash shells
+
+```
+$ source ./install_mpi_tf.sh
+```
+
+Installing for C-shells
+
+```
+$ source ./install_mpi_tf.csh
+
+```
+
+
+Afterwards, you will be in a virtual python environment that 
+encapsulates the tensorflow changes (Your 
 shell prompt should look differently). 
+
+```
+[py_distro] $
+
+```
 
 [IMPORTANT:] A Note about older kernels
 ----------------------------------------
@@ -48,7 +66,24 @@ shell prompt should look differently).
 If you are using an older system (before Linux Kernel 3.0), TensorFlow 1.0 
 might not even run on your system. We have provided a small workaround to do 
 this and we created the setAlias.[csh|sh] scripts to help alleviate the 
-transitions. This script sets the FAKE_SYSTEM_LIBS variable to point to where 
+transitions. 
+
+For bash shells
+
+```
+source ./setAlias.sh
+
+```
+
+For C Shells
+
+```
+source ./setAlias.csh
+
+```
+
+
+This script sets the FAKE_SYSTEM_LIBS variable to point to where 
 the updated versions of the system libraries are (provided by this package too)
 and sets up an alias for a python enabled tensorflow (called pyflow) for 
 interactive sessions. To run inside a script, please check the examples 
@@ -98,10 +133,15 @@ First Test
 After you have installed it (and set Alias if appropiated), you should do 
 this to test:
 
-$ cd py_scripts
-$ sbatch -N 1 ./test1.sh
-$ sbatch -N 4 ./test4.sh
+```
+[py_distro] $ cd py_scripts
+[py_distro] $ sbatch -N 1 ./test1.sh
+[py_distro] $ sbatch -N 4 ./test4.sh
+
+```
 
 You should start seeing learning rates decreasing and iterations per seconds 
 for AlexNet, GoogLeNet, ResNet and InceptionV3.
+
+
 
