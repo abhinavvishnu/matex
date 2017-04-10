@@ -9,7 +9,7 @@ endif
 
 if (-d $pdistro) then
     source $pdistro/bin/activate.csh
-    setenv PYTHONHOME=$PWD/py_distro
+    setenv PYTHONHOME $PWD/py_distro
 fi
 
 set PYVRD="`./utils/strippyd.pl`"
@@ -21,7 +21,7 @@ setenv TF_HOME $PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
 setenv TF_INSTALL_DIR $PWD
 
 
-echo "Assuming PNETCDF_INSTAL_DIR to be " $PNETCDF_INSTAL_DIR
+echo "Assuming PNETCDF_INSTALL_DIR to be " $PNETCDF_INSTALL_DIR
 echo "Assuming TF_HOME to be " $TF_HOME
 echo "Assuming TF_INSTALL_DIR to be " $TF_INSTALL_DIR
 
