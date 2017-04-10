@@ -71,14 +71,14 @@ transitions.
 For bash shells
 
 ```
-source ./setAlias.sh
+[py_distro] $ source ./setAlias.sh
 
 ```
 
 For C Shells
 
 ```
-source ./setAlias.csh
+[py_distro] $ source ./setAlias.csh
 
 ```
 
@@ -93,6 +93,33 @@ but functional).
 YOU MUST RUN setAlias.sh OR setAlias.csh TO RUN ON OLDER KERNELS
 
 If you do not, you will get errors about libraries and binaries not found.
+
+Running again with an already Installed Environment
+---------------------------------------------------
+
+If you have already installed Tensorflow with our extensions, you will need to the run scripts to dump you back into the MPI Tensorflow environment:
+
+For bash shells
+
+```
+[py_distro] $ source ./run_TFEnv.sh
+
+```
+
+For C Shells
+
+```
+[py_distro] $ source ./run_TFEnv.csh
+
+```
+
+Afterwards, you should see the same virtual python 
+environment as before.
+
+```
+[py_distro] $
+
+```
 
 A More in Depth Look
 --------------------
