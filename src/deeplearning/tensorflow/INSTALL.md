@@ -47,9 +47,7 @@ Installing for C-shells
 
 ```
 $ source ./install_mpi_tf.csh
-
 ```
-
 
 Afterwards, you will be in a virtual python environment that 
 encapsulates the tensorflow changes (Your 
@@ -57,7 +55,6 @@ shell prompt should look differently).
 
 ```
 [py_distro] $
-
 ```
 
 [IMPORTANT:] A Note about older kernels
@@ -72,14 +69,12 @@ For bash shells
 
 ```
 [py_distro] $ source ./setAlias.sh
-
 ```
 
 For C Shells
 
 ```
 [py_distro] $ source ./setAlias.csh
-
 ```
 
 
@@ -103,14 +98,12 @@ For bash shells
 
 ```
 [py_distro] $ source ./run_TFEnv.sh
-
 ```
 
 For C Shells
 
 ```
 [py_distro] $ source ./run_TFEnv.csh
-
 ```
 
 Afterwards, you should see the same virtual python 
@@ -118,7 +111,6 @@ environment as before.
 
 ```
 [py_distro] $
-
 ```
 
 A More in Depth Look
@@ -164,11 +156,157 @@ this to test:
 [py_distro] $ cd py_scripts
 [py_distro] $ sbatch -N 1 ./test1.sh
 [py_distro] $ sbatch -N 4 ./test4.sh
-
 ```
 
 You should start seeing learning rates decreasing and iterations per seconds 
 for AlexNet, GoogLeNet, ResNet and InceptionV3.
 
+An example output for the 4 GPU case is shown below:
 
+```
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+1 0.0199993
+1 0.0199993
+1 0.0199993
+1 0.0199993
+2 0.0199986
+2 0.0199986
+2 0.0199986
+2 0.0199986
+3 0.0199978
+3 0.0199978
+3 0.0199978
+3 0.0199978
+4 0.0199971
+4 0.0199971
+4 0.0199971
+4 0.0199971
+5 0.0199964
+5 0.0199964
+5 0.0199964
+5 0.0199964
+6 0.0199957
+6 0.0199957
+6 0.0199957
+6 0.0199957
+7 0.019995
+7 0.019995
+7 0.019995
+7 0.019995
+8 0.0199942
+8 0.0199942
+8 0.0199942
+8 0.0199942
+9 0.0199935
+9 0.0199935
+9 0.0199935
+9 0.0199935
+10 0.0199928
+Iterations Per Second 0.684453933632624 for AlexNet
+10 0.0199928
+Iterations Per Second 0.6844381181750645 for AlexNet
+10 0.0199928
+Iterations Per Second 0.6844912413502751 for AlexNet
+10 0.0199928
+Iterations Per Second 0.6845792657014232 for AlexNet
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+1 0.0199993
+1 0.0199993
+1 0.0199993
+1 0.0199993
+2 0.0199986
+2 0.0199986
+2 0.0199986
+2 0.0199986
+3 0.0199978
+3 0.0199978
+3 0.0199978
+3 0.0199978
+4 0.0199971
+4 0.0199971
+4 0.0199971
+4 0.0199971
+5 0.0199964
+5 0.0199964
+5 0.0199964
+5 0.0199964
+6 0.0199957
+6 0.0199957
+6 0.0199957
+6 0.0199957
+7 0.019995
+7 0.019995
+7 0.019995
+7 0.019995
+8 0.0199942
+8 0.0199942
+8 0.0199942
+8 0.0199942
+9 0.0199935
+9 0.0199935
+9 0.0199935
+9 0.0199935
+10 0.0199928
+Iterations Per Second 0.41826208107679064 for InceptionV3
+10 0.0199928
+Iterations Per Second 0.41790536303300546 for InceptionV3
+10 0.0199928
+Iterations Per Second 0.4179185795385194 for InceptionV3
+10 0.0199928
+Iterations Per Second 0.41788925784819647 for InceptionV3
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+Running TF MPI runtime: funnel op enable
+1 0.0199993
+1 0.0199993
+1 0.0199993
+1 0.0199993
+2 0.0199986
+2 0.0199986
+2 0.0199986
+2 0.0199986
+3 0.0199978
+3 0.0199978
+3 0.0199978
+3 0.0199978
+4 0.0199971
+4 0.0199971
+4 0.0199971
+4 0.0199971
+5 0.0199964
+5 0.0199964
+5 0.0199964
+5 0.0199964
+6 0.0199957
+6 0.0199957
+6 0.0199957
+6 0.0199957
+7 0.019995
+7 0.019995
+7 0.019995
+7 0.019995
+8 0.0199942
+8 0.0199942
+8 0.0199942
+8 0.0199942
+9 0.0199935
+9 0.0199935
+9 0.0199935
+9 0.0199935
+10 0.0199928
+Iterations Per Second 0.6822873442203145 for ResNet50
+10 0.0199928
+Iterations Per Second 0.6814117776721996 for ResNet50
+10 0.0199928
+Iterations Per Second 0.6814274092935413 for ResNet50
+10 0.0199928
+Iterations Per Second 0.6814401520310489 for ResNet50
+```
 
