@@ -1,5 +1,5 @@
-MATEX Distributed TensorFlow Version 0.1
-========================================
+MATEX Distributed TensorFlow Version 0.1 Alpha
+==============================================
 
 Deep Learning (DL) algorithms have become the de facto choice for data analysis. 
 Several DL implementations -- primarily limited to a single compute node -- 
@@ -50,7 +50,7 @@ Hardware Configurations:
 Installation
 -------------
 
-Please refer to INSTALL.txt for a complete set of instructions.
+Please refer to INSTALL.md for a complete set of instructions.
 
 
 Constraints and Known Bugs

@@ -1,5 +1,5 @@
-INSTALL for TF MPI X alpha
-==========================
+INSTALL for MaTEX TensorFlow alpha
+==================================
 
 These folders have all the requirements to install and run the alpha release 
 of MPI enabled tensorflow. This version is based on the 1.0.0 release of 
@@ -30,22 +30,55 @@ be functional. This means that the correct binaries and libraries are in the
 correct place and pointed by the correct environment (i.e PATH and 
 LD_LIBRARY_PATH).
 
-Installation
-------------
 
-If you are using GPU enabled Tensorflow, you should set up the CUDNN_HOME 
-environment variable to point where the CUDNN should be found (the head 
-folder not the lib one).
+Installation for CPU
+--------------------
+
+From the root folder of your code:
 
 Installing for bash shells
 
 ```
+$ cd distro_tf_cpu
 $ source ./install_mpi_tf.sh
 ```
 
 Installing for C-shells
 
 ```
+$ cd distro_tf_cpu
+$ source ./install_mpi_tf.csh
+```
+
+Afterwards, you will be in a virtual python environment that
+encapsulates the tensorflow changes (Your
+shell prompt should look differently).
+
+```
+[py_distro] $
+```
+
+
+Installation for GPU
+--------------------
+
+If you are using GPU enabled Tensorflow, you should set up the CUDNN_HOME 
+environment variable to point where the CUDNN should be found (the head 
+folder not the lib one).
+
+From the root folder of your code:
+
+Installing for bash shells
+
+```
+$ cd distro_tf_gpu
+$ source ./install_mpi_tf.sh
+```
+
+Installing for C-shells
+
+```
+$ cd distro_tf_gpu
 $ source ./install_mpi_tf.csh
 ```
 
@@ -61,9 +94,10 @@ shell prompt should look differently).
 ----------------------------------------
 
 If you are using an older system (before Linux Kernel 3.0), TensorFlow 1.0 
-might not even run on your system. We have provided a small workaround to do 
+will not be supported in your system. We have provided a small workaround to do 
 this and we created the setAlias.[csh|sh] scripts to help alleviate the 
-transitions. 
+transitions. This scripts are replicated across the GPU and CPU folders
+and its usage is the same for bothe distributions.
 
 For bash shells
 
@@ -89,10 +123,12 @@ YOU MUST RUN setAlias.sh OR setAlias.csh TO RUN ON OLDER KERNELS
 
 If you do not, you will get errors about libraries and binaries not found.
 
-Running again with an already Installed Environment
----------------------------------------------------
+Restarting your MaTEX TensorFlow environment w/o reinstalling
+-------------------------------------------------------------
 
-If you have already installed Tensorflow with our extensions, you will need to the run scripts to dump you back into the MPI Tensorflow environment:
+If you have already installed Tensorflow with our extensions, you will need to the run scripts 
+to dump you back into the MPI Tensorflow environment. These scripts are duplicated across the
+CPU and GPU folders also.
 
 For bash shells
 
@@ -164,10 +200,6 @@ for AlexNet, GoogLeNet, ResNet and InceptionV3.
 An example output for the 4 GPU case is shown below:
 
 ```
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
 1 0.0199993
 1 0.0199993
 1 0.0199993
@@ -176,26 +208,7 @@ Running TF MPI runtime: funnel op enable
 2 0.0199986
 2 0.0199986
 2 0.0199986
-3 0.0199978
-3 0.0199978
-3 0.0199978
-3 0.0199978
-4 0.0199971
-4 0.0199971
-4 0.0199971
-4 0.0199971
-5 0.0199964
-5 0.0199964
-5 0.0199964
-5 0.0199964
-6 0.0199957
-6 0.0199957
-6 0.0199957
-6 0.0199957
-7 0.019995
-7 0.019995
-7 0.019995
-7 0.019995
+...
 8 0.0199942
 8 0.0199942
 8 0.0199942
@@ -212,10 +225,7 @@ Iterations Per Second 0.6844381181750645 for AlexNet
 Iterations Per Second 0.6844912413502751 for AlexNet
 10 0.0199928
 Iterations Per Second 0.6845792657014232 for AlexNet
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
+...
 1 0.0199993
 1 0.0199993
 1 0.0199993
@@ -224,26 +234,7 @@ Running TF MPI runtime: funnel op enable
 2 0.0199986
 2 0.0199986
 2 0.0199986
-3 0.0199978
-3 0.0199978
-3 0.0199978
-3 0.0199978
-4 0.0199971
-4 0.0199971
-4 0.0199971
-4 0.0199971
-5 0.0199964
-5 0.0199964
-5 0.0199964
-5 0.0199964
-6 0.0199957
-6 0.0199957
-6 0.0199957
-6 0.0199957
-7 0.019995
-7 0.019995
-7 0.019995
-7 0.019995
+...
 8 0.0199942
 8 0.0199942
 8 0.0199942
@@ -260,10 +251,7 @@ Iterations Per Second 0.41790536303300546 for InceptionV3
 Iterations Per Second 0.4179185795385194 for InceptionV3
 10 0.0199928
 Iterations Per Second 0.41788925784819647 for InceptionV3
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
-Running TF MPI runtime: funnel op enable
+...
 1 0.0199993
 1 0.0199993
 1 0.0199993
@@ -272,26 +260,7 @@ Running TF MPI runtime: funnel op enable
 2 0.0199986
 2 0.0199986
 2 0.0199986
-3 0.0199978
-3 0.0199978
-3 0.0199978
-3 0.0199978
-4 0.0199971
-4 0.0199971
-4 0.0199971
-4 0.0199971
-5 0.0199964
-5 0.0199964
-5 0.0199964
-5 0.0199964
-6 0.0199957
-6 0.0199957
-6 0.0199957
-6 0.0199957
-7 0.019995
-7 0.019995
-7 0.019995
-7 0.019995
+....
 8 0.0199942
 8 0.0199942
 8 0.0199942
