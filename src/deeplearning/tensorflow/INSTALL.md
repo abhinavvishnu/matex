@@ -133,13 +133,13 @@ CPU and GPU folders also.
 For bash shells
 
 ```
-[py_distro] $ source ./run_TFEnv.sh
+$ source ./run_TFEnv.sh
 ```
 
 For C Shells
 
 ```
-[py_distro] $ source ./run_TFEnv.csh
+$ source ./run_TFEnv.csh
 ```
 
 Afterwards, you should see the same virtual python 
