@@ -39,14 +39,14 @@ From the root folder of your code:
 Installing for bash shells
 
 ```
-$ cd distro_tf_cpu
+$ cd cpu/py3.x
 $ source ./install_mpi_tf.sh
 ```
 
 Installing for C-shells
 
 ```
-$ cd distro_tf_cpu
+$ cd cpu/py3.x
 $ source ./install_mpi_tf.csh
 ```
 
@@ -71,14 +71,14 @@ From the root folder of your code:
 Installing for bash shells
 
 ```
-$ cd distro_tf_gpu
+$ cd gpu/py3.x
 $ source ./install_mpi_tf.sh
 ```
 
 Installing for C-shells
 
 ```
-$ cd distro_tf_gpu
+$ cd gpu/py3.x
 $ source ./install_mpi_tf.csh
 ```
 
