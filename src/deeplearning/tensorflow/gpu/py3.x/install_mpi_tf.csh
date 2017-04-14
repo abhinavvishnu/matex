@@ -41,6 +41,8 @@ else
    setenv OLD_PYTHONHOME $PYTHONHOME
    source $pdistro/bin/activate.csh ### Activate the virt env
    setenv PYTHONHOME $pdistro
+   set pip = $PYTHONHOME/bin/pip
+
    $pip install --upgrade pip
 ### Install the python TF dependencies ensuring that they are
 ### the latest ones
@@ -48,7 +50,7 @@ else
 ### OPTIONAL: Install Keras compatible version
    $pip install keras==1.2.2 --no-cache-dir --upgrade
 endif
-
+set pip = $PYTHONHOME/bin/pip
 ### Obtain the version of the current installed python
 set PYVRD="`$PWD/utils/strippyd.pl`"
 
