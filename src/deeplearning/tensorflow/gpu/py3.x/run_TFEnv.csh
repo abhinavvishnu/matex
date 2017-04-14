@@ -10,12 +10,12 @@ endif
 if (-d $pdistro) then
     source $pdistro/bin/activate.csh
     setenv PYTHONHOME $PWD/py_distro
-fi
+endif
 
 set PYVRD="`./utils/strippyd.pl`"
 
 echo "\e[32mGuessing Values for the required environment variables\e[0m"
-setenv PNETCDF_INSTAL_DIR $HOME/opt
+setenv PNETCDF_INSTALL_DIR $HOME/opt
 setenv LD_LIBRARY_PATH $CUDNN_HOME/lib64:$LD_LIBRARY_PATH
 setenv TF_HOME $PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
 setenv TF_INSTALL_DIR $PWD
