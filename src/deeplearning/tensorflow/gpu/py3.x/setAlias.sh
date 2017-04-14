@@ -5,17 +5,17 @@
 
 if [ -z $PNETCDF_INSTALL_DIR ]; then
    echo "Need to set the Parallel NetCDF directory"
-   exit 1
+   return 1
 fi
 
 if [ -z $TF_HOME ]; then
    echo "Need to set the location of the tensorflow folder (probably the directory where tensorflow was installed under python)"
-   exit 1
+   return 1
 fi
 
 if [ -z $TF_INSTALL_DIR ]; then
    echo "Need to set the location of the source folder (probably the directory where this script resides)"
-   exit 1
+   return 1
 fi
 
 ## Point to the fake libraries folders. This folder has support

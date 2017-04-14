@@ -32,7 +32,7 @@ else
       echo "Using: $py3, $venv, $pip"
    else
       echo "Failure to find the correct binaries for python, virtualenv or pip"
-      exit(1)
+      exit 1
    endif
 
    $venv -p $py3 --always-copy $pdistro
@@ -97,14 +97,14 @@ if(-f $TF_INSTALL_DIR/user_ops/tf_reduce.so) then
    echo "\e[32mTF_REDUCE: Dynamic Library found\e[0m"
 else
    echo "\e[31mTF_REDUCE: Dynamic Library not found\e[0m"
-   exit (1)
+   exit 1
 endif
 
 if(-f $TF_INSTALL_DIR/user_ops/tf_broadcast.so) then
    echo "\e[32mTF_BROADCAST: Dynamic Library found\e[0m"
 else
    echo "\e[31mTF_BROADCAST: Dynamic Library not found\e[0m"
-   exit (1)
+   exit 1
 endif
 
 ## Copy the shared objects to the correct locations
@@ -147,7 +147,7 @@ else if (-f $full2) then
    echo "\e[32mPreload library is set to $LD_PRELOAD\e[0m"
 else
    echo "\e[31mCannot find the MPI CXX library. Need it for the extension to work correctly\e[0m"
-   exit (1)
+   exit 1
 endif
 
 setenv TF_SCRIPT_HOME $TF_INSTALL_DIR/py_scripts/

@@ -2,7 +2,7 @@
 
 if [ -z ${CUDNN_HOME+x} ]; then
    echo "Need to set CUDNN_HOME to where the CuDNN libraries resides"
-   exit 2
+   return 2
 else
    echo "CUDNN_HOME set to $CUDNN_HOME"
 fi
