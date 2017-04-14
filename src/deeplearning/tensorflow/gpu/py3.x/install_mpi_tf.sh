@@ -30,10 +30,11 @@ else
       return 1
    fi
    export OLD_PYTHONHOME=$PYTHONHOME
-   virtualenv -p $(which python3.4) --always-copy py_distro
+   $venv -p $(which python3.4) --always-copy py_distro
    source py_distro/bin/activate
    export PYTHONHOME=$PWD/py_distro
    pip="$PYTHONHOME/bin/pip"
+   $pip install pip --upgrade
    $pip install mpi4py numpy scipy --upgrade --no-cache-dir
    $pip install keras==1.2.2 --no-cache-dir --upgrade
 fi
