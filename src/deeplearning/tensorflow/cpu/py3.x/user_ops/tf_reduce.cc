@@ -38,33 +38,14 @@ class TfReduceOp : public OpKernel{
          Tensor *output_tensor = NULL;
          OP_REQUIRES_OK(context, context->allocate_output(0, input_tensor.shape(), &output_tensor));
          auto output = output_tensor->flat<float>();
-         
-         //output_tensor = (Tensor *)((void *)(&context->input(0)));
-         //auto output = output_tensor->flat<float>();
-
          const int N = input.size();
          if(nsize == -1){
              MPI_Comm_size(MPI_COMM_WORLD, &nsize);
          }
-/*         int parts = N / (TS * TS);
-         int rems = N % (TS * TS);
-         for(i = 0; i < parts; i++)
-         {
-              memcpy(&(output(i * (TS * TS))), &(input(i * TS * TS)), sizeof(float) * (TS * TS));
-              for(j = i * TS * TS; j < (i+1) * (TS * TS); ++j){
-                 output(j) /= (float)nsize;
-              }
-              
-         } */
-         
          for(j = 0; j < N; ++j){
             output(j) = input(j);
          }
-        
-          
          MPI_Allreduce(MPI_IN_PLACE, &(output(0)), N, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
-         //context->set_output(0, input_tensor);
-         //rmtx.unlock();
       }
 };
 
