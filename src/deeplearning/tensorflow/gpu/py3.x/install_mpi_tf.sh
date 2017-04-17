@@ -57,18 +57,22 @@ echo -e "\e[93mCheck and update if necessary\e[0m"
 PYVR="$($TF_INSTALL_DIR/utils/strippy.pl)"
 PYVRD="$($TF_INSTALL_DIR/utils/strippyd.pl)"
 WHEELDIR="$TF_INSTALL_DIR/wheels/"
+TF_VERSION="1.0.0"
 
 if [ $# == 1  ]; then
    if [ $1 == 8 ]; then
       WHEELDIR="$WHEELDIR/8.0/"
+      TF_VERSION="1.0.1"
    else
       WHEELDIR="$WHEELDIR/7.5"
+      TF_VERSION="1.0.0"
    fi
 else
    WHEELDIR="$WHEELDIR/7.5"
+   TF_VERSION="1.0.0"
 fi
 
-WHEEL="$WHEELDIR/tensorflow-1.0.1-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
+WHEEL="$WHEELDIR/tensorflow-${TF_VERSION}-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
 echo -e "\e[32mInstalling MPI Tensorflow"
 
