@@ -10,7 +10,7 @@ CU_INC=$(CUDA_HOME)/include
 MPI_INC=$(MPI_HOME)/include
 CUFLAGS=-O2 -shared -I $(CU_INC) -I $(TF_INC) -I $(MPI_INC) -std=c++11 --compiler-options '-fPIC'
 
-all: tf_reduce.so tf_broadcast.so tf_bind.so
+all: tf_reduce.so tf_broadcast.so tf_bind.so tf_sync.so
 
 tf_reduce.so: tf_reduce.cc
 	$(CC) $(CFLAGS) -o tf_reduce.so tf_reduce.cc
