@@ -81,8 +81,8 @@ set PYVR="`$TF_INSTALL_DIR/utils/strippy.pl`"
 ### Locate where the TF wheel should be located
 set WHEELDIR="$TF_INSTALL_DIR/wheels/"
 
-if ($#argv != 1) then
-    if($1 == "8.0") then
+if ($#argv == 1) then
+    if($1 == 8) then
        set WHEELDIR="$WHEELDIR/8.0"
     else
        set WHEELDIR="$WHEELDIR/7.5"
@@ -90,6 +90,8 @@ if ($#argv != 1) then
 else
     set WHEELDIR="$WHEELDIR/7.5"
 endif
+
+echo "Using the wheel: $WHEELDIR"
 
 ### Name the correct wheel with the correct python version
 set WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
@@ -117,6 +119,14 @@ else
    echo "\e[31mTF_BROADCAST: Dynamic Library not found\e[0m"
    exit 1
 endif
+
+if(-f $TF_INSTALL_DIR/user_ops/tf_bind.so) then
+   echo "\e[32mTF_BIND: Dynamic Library found\e[0m"
+else
+   echo "\e[31mTF_BIND: Dynamic Library not found\e[0m"
+   exit 1
+endif
+
 
 ## Copy the shared objects to the correct locations
 

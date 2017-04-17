@@ -18,6 +18,9 @@ tf_reduce.so: tf_reduce.cc
 tf_broadcast.so: tf_broadcast.cc
 	$(CC) $(CFLAGS) -o tf_broadcast.so tf_broadcast.cc
 
+tf_sync.so: tf_sync.cc
+        $(CC) $(CFLAGS) -o tf_sync.so tf_sync.cc
+
 tf_bind.so: tf_bind.cc
 	$(NVCC) $(CUFLAGS) -o tf_bind.so tf_bind.cc
 

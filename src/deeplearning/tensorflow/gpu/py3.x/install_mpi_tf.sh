@@ -59,7 +59,7 @@ PYVRD="$($TF_INSTALL_DIR/utils/strippyd.pl)"
 WHEELDIR="$TF_INSTALL_DIR/wheels/"
 
 if [ $# == 1  ]; then
-   if [ $1 == "8.0" ]; then
+   if [ $1 == 8 ]; then
       WHEELDIR="$WHEELDIR/8.0/"
    else
       WHEELDIR="$WHEELDIR/7.5"
@@ -99,10 +99,10 @@ else
    return 1
 fi
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_sync.so ]; then 
-   echo "\e[32mSync operations built\e[0m" 
+if [ -f $TF_INSTALL_DIR/user_ops/tf_bind.so ]; then 
+   echo "\e[32mBind operations built\e[0m" 
 else 
-   echo "\e[32mSync operation failed to build\e[0m"
+   echo "\e[32mBind operation failed to build\e[0m"
    return 1
 fi
 
