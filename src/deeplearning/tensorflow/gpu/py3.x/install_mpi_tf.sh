@@ -68,7 +68,7 @@ else
    WHEELDIR="$WHEELDIR/7.5"
 fi
 
-WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
+WHEEL="$WHEELDIR/tensorflow-1.0.1-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
 echo -e "\e[32mInstalling MPI Tensorflow"
 

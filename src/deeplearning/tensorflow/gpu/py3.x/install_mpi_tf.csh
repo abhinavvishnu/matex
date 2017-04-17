@@ -94,7 +94,7 @@ endif
 echo "Using the wheel: $WHEELDIR"
 
 ### Name the correct wheel with the correct python version
-set WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
+set WHEEL="$WHEELDIR/tensorflow-1.0.1-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
 echo "\e[32mInstalling TensorFlow\e[0m"
 ### Install the tensorflow modified environment
