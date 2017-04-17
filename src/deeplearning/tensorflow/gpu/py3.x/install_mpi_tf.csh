@@ -79,7 +79,18 @@ echo -e "\e[93mCheck and update if necessary\e[0m"
 ## Obtain the python version with a script
 set PYVR="`$TF_INSTALL_DIR/utils/strippy.pl`"
 ### Locate where the TF wheel should be located
-set WHEELDIR="$TF_INSTALL_DIR/wheels"
+set WHEELDIR="$TF_INSTALL_DIR/wheels/"
+
+if ($#argv != 1) then
+    if($1 == "8.0") then
+       set WHEELDIR="$WHEELDIR/8.0"
+    else
+       set WHEELDIR="$WHEELDIR/7.5"
+    endif
+else
+    set WHEELDIR="$WHEELDIR/7.5"
+endif
+
 ### Name the correct wheel with the correct python version
 set WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
