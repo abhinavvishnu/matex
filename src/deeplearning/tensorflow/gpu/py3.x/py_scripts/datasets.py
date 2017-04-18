@@ -534,24 +534,22 @@ class DataSet:
 
 if __name__ == '__main__':
     mnist = DataSet("MNIST")
-	data = mnist.training_data
-	labels = mnist.training_labels
-	tmp = np.zeros([len(data)])
-	for i in range(len(data)):
-		tmp[i] = np.argmax(labels[i])
-	labels = tmp
-	data = np.reshape(data, [len(data), 784])
-	labels = np.expand_dims(labels, 1)
-	temp = np.concatenate((labels, data), axis=1)
-	temp = temp[:4]
-	np.savetxt("mnist{}.csv".format(rank), temp, delimiter=",")
-	filenames = ["mnist{}.csv".format(r) for r in range(rank)]	
-	with open('mnist.csv', 'w') as outfile:
-		for fname in filenames:
-			with open(fname) as infile:
-				for line in infile:
-					outfile.write(line)
-	print('CSV Generated')
+    odata = mnist.training_data
+    olabels = mnist.training_labels
+    data = comm.gather(odata, root=0)
+    labels = comm.gather(olabels, root=0)
+    if rank == 0:
+       data = np.reshape(data, [-1, np.shape(data)[-3], np.shape(data)[-2], np.shape(data)[-1]])
+       labels = np.reshape(labels, [-1, np.shape(labels)[-1]])
+       tmp = np.zeros([50000])
+       for i in range(50000):
+           tmp[i] = np.argmax(labels[i])
+       labels = tmp
+       data = np.reshape(data, [50000, 784])
+       labels = np.expand_dims(labels, 1)
+       temp = np.concatenate((labels, data), axis=1)
+       np.savetxt("mnist.csv", temp, delimiter=",")
+       print('CSV Generated')
     DataSet("CIFAR10")
     DataSet("CIFAR100")
     DataSet("CSV", file1="mnist.csv", valid_pct=0.0, test_pct=0.0)
