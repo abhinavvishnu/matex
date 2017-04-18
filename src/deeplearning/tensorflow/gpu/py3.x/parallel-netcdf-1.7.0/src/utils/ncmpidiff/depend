@@ -1,1 +1,0 @@
-ncmpidiff.o: ncmpidiff.c ../../lib/pnetcdf.h

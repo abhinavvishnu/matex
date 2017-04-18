@@ -1,9 +1,0 @@
-escapes.o: escapes.c generic.h ncmpigen.h genlib.h ../../lib/pnetcdf.h
-genlib.o: genlib.c generic.h ncmpigen.h genlib.h ../../lib/pnetcdf.h
-getfill.o: getfill.c generic.h ncmpigen.h genlib.h ../../lib/pnetcdf.h
-init.o: init.c generic.h ncmpigen.h genlib.h ../../lib/pnetcdf.h
-load.o: load.c generic.h ncmpigen.h genlib.h ../../lib/pnetcdf.h
-main.o: main.c generic.h ncmpigen.h genlib.h ../../lib/pnetcdf.h
-ncmpigenyy.o: ncmpigenyy.c genlib.h ncmpigentab.h ../../lib/pnetcdf.h
-ncmpigentab.o: ncmpigentab.c generic.h ncmpigen.h genlib.h ncmpigenyy.c \
- ncmpigentab.h ../../lib/pnetcdf.h

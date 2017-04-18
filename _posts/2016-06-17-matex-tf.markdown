@@ -1,0 +1,40 @@
+---
+layout: post
+title:  "User-Transparent Distributed TensorFlow"
+date:   2017-04-17 12:30:00
+excerpt: "First Release for User-Transparent MaTEx TensorFlow"
+---
+
+A team of Machine Learning researchers in PNNL led by Abhinav Vishnu, Joseph Manzano, Charles Siegel and Jeff Daily have developed novel techniques to scale Google TensorFlow on large scale systems using MPI without requiring any TensorFlow specific changes to the users code. The runtime is developed under the umbrella of Machine Learning Toolkit for Extreme Scale (MaTEx) umbrella.
+
+“Existing efforts for distributed TensorFlow require extensive changes to TensorFlow scripts. This is problematic for Deep Learning analysts, since they are not HPC experts. Our MaTEx-TensorFlow effort is to bridge that critical gap, where no TensorFlow specific changes are required to execute on large scale CPU/GPU clusters”, said Abhinav Vishnu, the overall project lead. 
+
+The paper that describes the effort "User-transparent Distributed TensorFlow" is available here:https://arxiv.org/pdf/1704.04560.pdf
+
+The code is available here: [https://github.com/abhinavvishnu/matex](https://github.com/abhinavvishnu/matex). Please contact [abhinav.vishnu@pnnl.gov](abhinav.vishnu@pnnl.gov) for questions/comments.
+
+--
+
+Abstract:
+
+Deep Learning (DL) algorithms have become the de facto choice for data
+analysis. Several DL implementations -- primarily limited to a single compute
+node -- such as Caffe, TensorFlow, Theano and Torch have become readily
+available. Distributed DL implementations capable of execution on large scale
+systems are becoming important to address the computational needs of large data
+produced by scientific simulations and experiments.  Yet, the adoption of
+distributed DL implementations faces significant impediments: 1) most
+implementations require DL analysts to modify their code significantly -- which
+is a show-stopper, 2) several distributed DL implementations are geared towards
+cloud computing systems -- which is inadequate for execution on massively
+parallel systems such as supercomputers. 
+
+This work addresses each of these problems. We provide a distributed memory DL
+implementation by incorporating required changes in the TensorFlow runtime
+itself.  This dramatically reduces the entry barrier for using distributed
+TensorFlow implementation.  We use Message Passing Interface (MPI) -- which
+provides performance portability, especially since MPI specific changes are
+abstracted from users. Lastly -- and arguably most importantly -- we make our
+implementation available for broader use, under the umbrella of Machine
+Learning Toolkit for Extreme Scale (MaTEx) at  http://hpc.pnl.gov/matex. We
+refer to our implementation as MaTEx-TensorFlow.

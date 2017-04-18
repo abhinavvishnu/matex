@@ -1,3 +1,0 @@
-!        Number of fluids to track.
-
-        integer, parameter        :: ionmax = IONMAX
