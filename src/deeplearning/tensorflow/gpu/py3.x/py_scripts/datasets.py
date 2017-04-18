@@ -533,21 +533,25 @@ class DataSet:
         return [test_batch, test_batch_labels]
 
 if __name__ == '__main__':
-    DataSet("MNIST")
-    if rank == 0:
-	    mnist = DataSet("MNIST")
-		data = mnist.training_data
-		labels = mnist.training_labels
-		tmp = np.zeros([50000])
-		for i in range(50000):
-		   tmp[i] = np.argmax(labels[i])
-		labels = tmp
-		data = np.reshape(data, [50000, 784])
-		labels = np.expand_dims(labels, 1)
-		temp = np.concatenate((labels, data), axis=1)
-		temp = temp[:4]
-		print('CSV Generated')
-		np.savetxt("mnist.csv", temp, delimiter=",")
+    mnist = DataSet("MNIST")
+	data = mnist.training_data
+	labels = mnist.training_labels
+	tmp = np.zeros([len(data)])
+	for i in range(len(data)):
+		tmp[i] = np.argmax(labels[i])
+	labels = tmp
+	data = np.reshape(data, [len(data), 784])
+	labels = np.expand_dims(labels, 1)
+	temp = np.concatenate((labels, data), axis=1)
+	temp = temp[:4]
+	np.savetxt("mnist{}.csv".format(rank), temp, delimiter=",")
+	filenames = ["mnist{}.csv".format(r) for r in range(rank)]	
+	with open('mnist.csv', 'w') as outfile:
+		for fname in filenames:
+			with open(fname) as infile:
+				for line in infile:
+					outfile.write(line)
+	print('CSV Generated')
     DataSet("CIFAR10")
     DataSet("CIFAR100")
     DataSet("CSV", file1="mnist.csv", valid_pct=0.0, test_pct=0.0)
