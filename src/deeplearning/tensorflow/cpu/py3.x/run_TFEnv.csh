@@ -10,7 +10,7 @@ endif
 if (-d $pdistro) then
     source $pdistro/bin/activate.csh
     setenv PYTHONHOME=$PWD/py_distro
-fi
+endif
 
 set PYVRD="`./utils/strippyd.pl`"
 
@@ -35,10 +35,10 @@ set name2 = "/../lib64/libmpi_cxx.so"
 set full1 = $dirn$name1
 set full2 = $dirn$name2
 
-if(-f $full1)
+if(-f $full1) then
    setenv LD_PRELOAD "$full1"
    echo "\e[32mPreload library is set to $LD_PRELOAD\e[0m"
-elif (-f $full2)
+else if (-f $full2) then
    setenv LD_PRELOAD "$full2"
    echo "\e[32mPreload library is set to $LD_PRELOAD\e[0m"
 else

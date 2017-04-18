@@ -32,27 +32,10 @@ class TfBroadcastFloatOp : public OpKernel{
          Tensor input_indexf = context->input(1);
          auto input_index = input_indexf.flat<int32>();
          auto input = input_tensor.flat<float>();
-         //Tensor* output_tensor = NULL;
          context->forward_ref_input_to_ref_output(0, 0);
-         //OP_REQUIRES_OK(context, context->allocate_output(0, input_tensor.shape(),
-         //                                           &output_tensor));
-         
-         //auto output = output_tensor->flat<float>();
          const long N = input.size();
-         //int rank;
-         //MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-         //float *tmp_in = new float[N];
-         //for(int i = 0; i < N; ++i){
-         //    tmp_in[i] = input(i);
-         //}
-         //MPI_Bcast(tmp_in, N, MPI::FLOAT, 0, MPI_COMM_WORLD);
          MPI_Bcast(&(input(0)), N, MPI::FLOAT, 0, MPI_COMM_WORLD);
          MPI_Barrier(MPI_COMM_WORLD);
-         //for(int i = 0; i < N; ++i){
-         //   output(i) = tmp_in[i];
-         //   input(i) = tmp_in[i];
-         //}
-         //delete [] tmp_in;
          bmtx->unlock();
       }
 };
@@ -69,26 +52,9 @@ class TfBroadcastInt32Op : public OpKernel{
 
          auto input = input_tensor.flat<int32>();
          context->forward_ref_input_to_ref_output(0,0);
-         //Tensor* output_tensor = NULL;
-         //OP_REQUIRES_OK(context, context->allocate_output(0, input_tensor.shape(),
-         //                                            &output_tensor));
-
-         //auto output = output_tensor->flat<int32>();
          const int N = input.size();
-         //int rank;
-         //MPI_Comm_size(MPI_COMM_WORLD, &rank);
-         //int *tmp_in = new int32[N];
-
-         //for(int i = 0; i < N; ++i){
-         //    tmp_in[i] = input(i);
-        // }
          MPI_Bcast(&(input(0)), N, MPI::INT, 0, MPI_COMM_WORLD);
          MPI_Barrier(MPI_COMM_WORLD);
-         //for(int i = 0; i < N; ++i){
-         //   output(i) = tmp_in[i];
-         //   input(i) = tmp_in[i];
-        // }
-         //delete [] tmp_in;
          bmtx->unlock();
       }
 };

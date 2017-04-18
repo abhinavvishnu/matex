@@ -3,6 +3,7 @@
 if ( -d $PWD/py_distro ) then 
    deactivate
    rm -rf $PWD/py_distro
+   cd $PWD/user_ops ; make clean ; cd ../
    if ( -z "$OLD_PYTHONHOME" ) then 
       echo "PYTHONHOME was unset. Please correct if incorrect"
       unset PYTHONHOME

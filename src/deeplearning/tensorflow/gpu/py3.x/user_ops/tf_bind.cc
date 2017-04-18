@@ -31,7 +31,7 @@ void tfBind2GPU(){
    MPI_Comm_size(comm, &comm_size);
    MPI_Comm_rank(comm, &comm_rank);
 
-   printf ("Size: %d Rank: %d\n", comm_size, comm_rank);
+   //printf ("Size: %d Rank: %d\n", comm_size, comm_rank);
 
    long *hostIds = getAllRankIds(comm, comm_size, comm_rank);
    node_rank = getGpuIDInNodeperRank(comm, hostIds, comm_rank);
@@ -47,7 +47,7 @@ void tfBind2GPU(){
       cerr << "Too many MPI Ranks per node" << endl;
       exit(11);
    }
-   printf ("rank %d with %d gpus\n", node_rank, node_size);
+   //printf ("rank %d with %d gpus\n", node_rank, node_size);
 
    init = 1;
 }
@@ -67,7 +67,7 @@ int tf_my_gpu(){
    MPI_Comm_size(comm, &comm_size);
    MPI_Comm_rank(comm, &comm_rank);
 
-   printf ("Size: %d Rank: %d\n", comm_size, comm_rank);
+//   printf ("Size: %d Rank: %d\n", comm_size, comm_rank);
 
    long *hostIds = getAllRankIds(comm, comm_size, comm_rank);
    node_rank = getGpuIDInNodeperRank(comm, hostIds, comm_rank);
@@ -82,7 +82,7 @@ int tf_my_gpu(){
       cerr << "Too many MPI Ranks per node" << endl;
       exit(11);
    }
-   printf ("rank %d with %d gpus\n", node_rank, node_size);
+//   printf ("rank %d with %d gpus\n", node_rank, node_size);
 
    init = 1;
    return node_rank ;
