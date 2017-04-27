@@ -452,14 +452,14 @@ class DataSet:
         test_size = int(len(mydata) * test_percentage)
         if validation_size != 0:
             self.validation_data = mydata[-validation_size:]
-            self.validation_labels = mydata[-validation_size:]
+            self.validation_labels = labels[-validation_size:]
             mydata = mydata[:-validation_size]
-            labels = mydata[:-validation_size]
+            labels = labels[:-validation_size]
         if test_size != 0:
             self.testing_data = mydata[-test_size:]
-            self.testing_labels = mydata[-test_size:]
+            self.testing_labels = labels[-test_size:]
             mydata = mydata[:-test_size]
-            labels = mydata[:-test_size]
+            labels = labels[:-test_size]
         self.training_data = mydata
         self.training_labels = labels
 
