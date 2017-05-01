@@ -157,7 +157,7 @@ imagine they represent the cpu and gpu distributions respectively. They are
 practically identical to each other except that the GPU 
 version requires the CUDNN_HOME to point where the CUDA DNN libraries resides 
 and the wheels are different. Inside each folder, you will next encounter the 
-folder py3.x which has the wheels for python 3.4 and python 3.5. They shared
+folder py3.x which has the wheels for python 3.4. They shared
 the same install system so we do not need to provide different distros at the
 moment.
 
@@ -169,7 +169,7 @@ Inside the folders, you will encounter the following structure:
 + parallel-netcdf-1.7.0 ==> This folder contains a version of the Parallel 
                             NetCDF file format library. It is used by our data 
                             loaders 
-+ py_scripts ==> Contain example scripts to run with our framework
++ (TOP LEVEL) py_scripts ==> Contain example scripts to run with our framework
 + user_ops ==> Has the source code for each operator
 + utils ==> Has perl scripts to parse the python version from the environment
 + wheels ==> It contains the tensorflow wheel(s)
@@ -189,7 +189,7 @@ After you have installed it (and set Alias if appropiated), you should do
 this to test:
 
 ```
-[py_distro] $ cd py_scripts
+[py_distro] $ cd ${MATEX_ROOT}/src/deeplearning/tensorflow/py_scripts
 [py_distro] $ sbatch -N 1 ./test1.sh
 [py_distro] $ sbatch -N 4 ./test4.sh
 ```
