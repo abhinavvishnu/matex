@@ -24,8 +24,8 @@ if (-d $pdistro) then
 ### If not create the environment
 else
    set py3="`which python3.4`"
+   set venv="`which virtualenv`"
    set base="`dirname $py3`"
-   set venv="$base/virtualenv"
    set pip="$base/pip"
 
    if( -f $py3 && -f $venv && -f $pip) then
@@ -35,7 +35,7 @@ else
       exit 1
    endif
 
-   $venv -p $py3 --always-copy $pdistro
+   $venv -p $py3 $pdistro
 ### Make sure that new pip packages are installed in the 
 ### correct folder
    setenv OLD_PYTHONHOME $PYTHONHOME

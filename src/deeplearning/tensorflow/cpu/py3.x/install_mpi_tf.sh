@@ -13,8 +13,8 @@ if [ -d $PWD/py_distro ]; then
    source $PWD/py_distro/bin/activate
 else
    py3=$(which python3.4)
+   venv=$(which virtualenv)
    base=$(dirname $py3)
-   venv="$base/virtualenv"
    if [ -f $py3 ] && [ -f $venv ]; then
       echo "Using: $py3, $venv, $pip"
    else
@@ -22,7 +22,7 @@ else
       return 1
    fi
    export OLD_PYTHONHOME=$PYTHONHOME
-   $venv -p $(which python3.4) --always-copy py_distro
+   $venv -p $(which python3.4) py_distro
    source $PWD/py_distro/bin/activate
    export PYTHONHOME=$PWD/py_distro
    pip="$PYTHONHOME/bin/pip"
