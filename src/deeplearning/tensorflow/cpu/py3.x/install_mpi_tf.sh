@@ -16,7 +16,7 @@ else
    venv=$(which virtualenv)
    base=$(dirname $py3)
    if [ -f $py3 ] && [ -f $venv ]; then
-      echo "Using: $py3, $venv, $pip"
+      echo "Using: $py3, $venv"
    else
       echo "Failure to find the correct binaries for python, virtualenv or pip"
       return 1
