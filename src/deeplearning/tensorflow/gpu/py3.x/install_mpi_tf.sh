@@ -9,8 +9,6 @@
 ### the folder py_distro.
 ### Depends on python3.4, openmpi/1.8.3 and gcc/4.9.2
 
-set -e
-
 if [ -z ${CUDNN_HOME+x} ]; then
    echo "Need to set CUDNN_HOME to where the CuDNN libraries resides"
    return 2
@@ -25,6 +23,7 @@ else
    py3=$(which python3.4)
    venv=$(which virtualenv)
    base=$(dirname $py3)
+   set pip="$base/pip"
    if [ -f $py3 ] && [ -f $venv ]; then
       echo "Using: $py3, $venv, $pip"
    else
