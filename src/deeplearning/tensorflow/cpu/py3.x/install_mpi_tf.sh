@@ -117,7 +117,7 @@ else
    return 0
 fi
 
-export TF_SCRIPT_HOME=$TF_INSTALL_DIR/py_scripts/
+export TF_SCRIPT_HOME=$TF_INSTALL_DIR/../../examples
 export TF_MPI_ENABLE=1 
 
 echo "Done ..."

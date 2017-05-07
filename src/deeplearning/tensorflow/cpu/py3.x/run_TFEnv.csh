@@ -45,6 +45,6 @@ else
    echo "\e[31mCannot find the MPI CXX library. Need it for the extension to work correctly\e[0m"
 endif
 
-setenv TF_SCRIPT_HOME $TF_INSTALL_DIR/py_scripts/
+setenv TF_SCRIPT_HOME $TF_INSTALL_DIR/../../examples
 setenv TF_MPI_ENABLE 1
 setenv FAKE_SYSTEM_LIBS $TF_INSTALL_DIR/fakeRoot/

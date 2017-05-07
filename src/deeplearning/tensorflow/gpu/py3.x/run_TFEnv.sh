@@ -42,7 +42,7 @@ else
    echo -e "\e[32mCannot find the MPI CXX library. Need it for the extensions to work correctly\e[0m"
 fi
 
-export TF_SCRIPT_HOME=$TF_INSTALL_DIR/py_scripts/
+export TF_SCRIPT_HOME=$TF_INSTALL_DIR/../../examples
 export TF_MPI_ENABLE=1
 export FAKE_SYSTEM_LIBS=$TF_INSTALL_DIR/fakeRoot/
 

@@ -175,7 +175,7 @@ else
    exit 1
 endif
 
-setenv TF_SCRIPT_HOME $TF_INSTALL_DIR/py_scripts/
+setenv TF_SCRIPT_HOME $TF_INSTALL_DIR/../../examples
 setenv TF_MPI_ENABLE 1 
 
 echo "\e[32mDone\e[0m"
