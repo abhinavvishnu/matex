@@ -6,6 +6,13 @@ from keras.layers import Input
 from keras.optimizers import SGD
 from tensorflow import DataSet
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--train_batch', type=int, default=64, help='training batch size')
+args = parser.parse_args()
+
+
 decay = 0.0001
 
 mnist = DataSet("MNIST", normalize=255.0)
@@ -28,4 +35,4 @@ predict = Dense(10, activation='softmax', W_regularizer=l2(decay), b_regularizer
 model = Model(input=input_img, output=predict)
 model.compile(optimizer=SGD(lr=0.01, decay=1e-4), loss=['categorical_crossentropy'], metrics=['categorical_accuracy'])
 print(model.summary())
-model.fit(X_train, y_train, validation_data=(X_test, y_test), nb_epoch=12, batch_size=64, verbose=1)
+model.fit(X_train, y_train, validation_data=(X_test, y_test), nb_epoch=12, batch_size=args.train_batch, verbose=2)

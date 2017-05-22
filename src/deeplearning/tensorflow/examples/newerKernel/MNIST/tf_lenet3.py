@@ -6,6 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_batch', type=int, default=64, help='training batch size')
+parser.add_argument('--iterations', type=int, default=10000, help='training batch size')
 args = parser.parse_args()
 
 mnist = tf.DataSet("MNIST", normalize=255.0)
@@ -59,7 +60,7 @@ sess.run(init)
 
 total_it = 0
 global_start = time.time()
-while total_it < 10000:
+while total_it < args.iterations:
     epoch_start = time.time()
     for train_batch in range(int(len(mnist.training_data)/args.train_batch)):
         batch_start = time.time()
