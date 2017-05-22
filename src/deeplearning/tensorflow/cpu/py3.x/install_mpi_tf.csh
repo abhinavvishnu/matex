@@ -23,10 +23,10 @@ else
    set base="`dirname $py3`"
    set pip="$base/pip"
 
-   if( -f $py3 && -f $venv && -f $pip) then
-      echo "Using: $py3, $venv, $pip"
+   if( -f $py3 && -f $venv ) then
+      echo "Using: $py3, $venv"
    else
-      echo "Failure to find the correct binaries for python, virtualenv or pip"
+      echo "Failure to find the correct binaries for python, virtualenv"
       exit 1
    endif
 
@@ -46,6 +46,17 @@ else
 endif
 
 set pip = $PYTHONHOME/bin/pip
+
+set keras_backend="$PYTHONHOME/lib/python3.4/site-packages/keras/backend/tensorflow_backend.py"
+
+## Patch the keras distribution with the tensorflow enhanced version of the backend
+
+if ( -f $keras_backend ) then
+   cp $PWD/utils/tensorflow_backend.py $keras_backend
+else
+   echo "Incomplete or failed keras installation"
+   exit 11
+endif
 
 ### Obtain the version of the current installed python
 set PYVRD="`$PWD/utils/strippyd.pl`"
@@ -105,6 +116,14 @@ endif
 
 cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
 
+echo "Installing Matex folders to the correct directory"
+cp -r $TF_INSTALL_DIR/utils/matex $TF_HOME/python
+if !( -d  $TF_HOME/python/matex ) then
+   echo "Failed to copy the correct folders to $TF_HOME/python/matex"
+   exit 12
+endif
+
+
 ### Optional: Compile and install the PNETCDF library to be
 ### used by the parallel readers
 
@@ -113,12 +132,20 @@ echo "\e[32mCompiling PNETCDF\e[0m"
 setenv MPICC "`which mpicc`"
 
 cd $TF_INSTALL_DIR/parallel-netcdf-1.7.0
-./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran
-make clean ; make
-make install 
-make shared_library
+./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran >& /dev/null
+make clean >& /dev/null ; make >& /dev/null
+make install >& /dev/null
+make shared_library >& /dev/null
 cp ./src/lib/libpnetcdf.so $PNETCDF_INSTALL_DIR/lib/
 cd $TF_INSTALL_DIR
+
+if ( -f $PNETCDF_INSTALL_DIR/lib/libpnetcdf.so ) then
+   echo "Successfully installed PNETCDF libs"
+else
+   echo "Failed to compiled the PNETCDF files"
+   exit 11
+endif
+
 
 ### Because the way that the user ops work, we might need to 
 ### preload the MPI library, set the correct library to the

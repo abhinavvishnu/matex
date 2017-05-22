@@ -16,9 +16,9 @@ else
    venv=$(which virtualenv)
    base=$(dirname $py3)
    if [ -f $py3 ] && [ -f $venv ]; then
-      echo "Using: $py3, $venv"
+      echo -e "Using: $py3, $venv"
    else
-      echo "Failure to find the correct binaries for python, virtualenv or pip"
+      echo -e "Failure to find the correct binaries for python or virtualenv"
       return 1
    fi
    export OLD_PYTHONHOME=$PYTHONHOME
@@ -33,6 +33,17 @@ fi
 PYVRD="$($PWD/utils/strippyd.pl)"
 
 echo -e "\e[32mGuessing Values for the required environment variables\e[0m"
+
+keras_backend="$PYTHONHOME/lib/python3.4/site-packages/keras/backend/tensorflow_backend.py"
+
+## Patch the keras distribution with the tensorflow enhanced version of the backend
+
+if [ -f $keras_backend ]; then
+   cp $PWD/utils/tensorflow_backend.py $keras_backend
+else
+   echo -e "\e[93mIncomplete or failed keras installation\e[0m"
+   return 11
+fi
 
 export PNETCDF_INSTALL_DIR=$HOME/opt
 export TF_HOME=$PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
@@ -49,7 +60,7 @@ PYVRD="$($TF_INSTALL_DIR/utils/strippyd.pl)"
 WHEELDIR="$TF_INSTALL_DIR/wheels/"
 WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
-echo -e "\e[32mInstalling MPI Tensorflow"
+echo -e "\e[32mInstalling MPI Tensorflow\e[0m"
 
 if [ -f $WHEEL ]; then 
    echo -e "\e[32mWheel found Successfully\e[0m"
@@ -67,36 +78,52 @@ cd $TF_INSTALL_DIR/user_ops; make clean ; make ; cd $TF_INSTALL_DIR
 if [ -f $TF_INSTALL_DIR/user_ops/tf_reduce.so ]; then  
     echo -e "\e[32mReduce operations built\e[0m"
 else 
-    echo "\e[93mReduce operation failed to build\e[0m"
+    echo -e "\e[93mReduce operation failed to build\e[0m"
     return 1
 fi
 
 if [ -f $TF_INSTALL_DIR/user_ops/tf_broadcast.so ]; then  
-   echo "\e[32mBroadcast operations built\e[0m"
+   echo -e "\e[32mBroadcast operations built\e[0m"
 else
-   echo "\e[32mBroadcast operation failed to build\e[0m"
+   echo -e "\e[32mBroadcast operation failed to build\e[0m"
    return 1
 fi
 
 if [ -f $TF_INSTALL_DIR/user_ops/tf_sync.so ]; then 
-   echo "\e[32mSync operations built\e[0m"
+   echo -e "\e[32mSync operations built\e[0m"
 else
-   echo "\e[32mSync operation failed to build\e[0m"
+   echo -e "\e[32mSync operation failed to build\e[0m"
    return 1
 fi
 
 cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
 
+echo -e "Installing Matex folders to the correct directory"
+cp -r $TF_INSTALL_DIR/utils/matex $TF_HOME/python/
+if [ -d  $TF_HOME/python/matex ]; then
+   echo -e "\e[32mSuccessfully installed the matex reader files\e[0m"
+else
+   echo -e "\e[93mFailed to copy the correct folders to $TF_HOME/python/matex\e[0m"
+   return 12
+fi
+
 echo -e "\e[32mCompiling PNETCDF\e[0m"
 
 cd ./parallel-netcdf-1.7.0
 export MPICC=$(which mpicc)
-./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran
-make clean ; make
-make install
-make shared_library
+./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran > /dev/null 2>&1
+make clean > /dev/null 2>&1 ; make > /dev/null 2>&1
+make install > /dev/null 2>&1
+make shared_library > /dev/null 2>&1
 cp ./src/lib/libpnetcdf.so $PNETCDF_INSTALL_DIR/lib/
 cd ..
+
+if [ -f  $PNETCDF_INSTALL_DIR/lib/libnetcdf.so ]; then
+   echo -e "\e[32mSuccessfully installed the PNETCDF library\e[0m"
+else
+   echo -e "\e[93mFailed to install the PNETCDF library\e[0m"
+   return 12
+fi
 
 
 echo -e "\e[32mSetting dynamic load MPI library\e[0m"
