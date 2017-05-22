@@ -118,7 +118,7 @@ make shared_library > /dev/null 2>&1
 cp ./src/lib/libpnetcdf.so $PNETCDF_INSTALL_DIR/lib/
 cd ..
 
-if [ -f  $PNETCDF_INSTALL_DIR/lib/libnetcdf.so ]; then
+if [ -f  $PNETCDF_INSTALL_DIR/lib/libpnetcdf.so ]; then
    echo -e "\e[32mSuccessfully installed the PNETCDF library\e[0m"
 else
    echo -e "\e[93mFailed to install the PNETCDF library\e[0m"
