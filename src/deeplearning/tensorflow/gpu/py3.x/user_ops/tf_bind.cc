@@ -18,6 +18,7 @@ int getGpuIDInNodeperRank(MPI_Comm comm, long *hostIds, int me);
 int getGpuNumPerNode(MPI_Comm comm, long *hostIds, int me, int size);
 
 void tfBind2GPU(){
+#ifndef CPU
    int count = 0;
    int node_rank = 0;
    int comm_size = 0;
@@ -48,7 +49,7 @@ void tfBind2GPU(){
       exit(11);
    }
    //printf ("rank %d with %d gpus\n", node_rank, node_size);
-
+#endif
    init = 1;
 }
 
@@ -61,6 +62,9 @@ int tf_my_gpu(){
    int node_size = 0;
    MPI_Comm comm = MPI_COMM_WORLD;
 
+   #ifdef CPU
+      return -1;
+   #else
    if(init == 1) return -1;
 
    cudaGetDeviceCount(&count);
@@ -92,6 +96,7 @@ int tf_my_gpu(){
 
 long *getAllRankIds(MPI_Comm comm, int size, int me)
 {
+#ifndef CPU
    if(size <= 0 || me < 0) return NULL;
    if(comm == MPI_COMM_NULL){
       comm = MPI_COMM_WORLD;
@@ -105,9 +110,13 @@ long *getAllRankIds(MPI_Comm comm, int size, int me)
       return NULL;
    }
    return hostIds; 
+#else
+   return NULL;
+#endif
 }
 /* Util function Get the GPU related to the rank and node */
 int getGpuIDInNodeperRank(MPI_Comm comm, long *hostIds, int me){
+#ifndef CPU
    if(comm == MPI_COMM_NULL){
       comm = MPI_COMM_WORLD;
    }
@@ -120,8 +129,12 @@ int getGpuIDInNodeperRank(MPI_Comm comm, long *hostIds, int me){
       }
    }
    return gpuId; 
+#else
+   return -1;
+#endif
 }
 int getGpuNumPerNode(MPI_Comm comm, long *hostIds, int me, int size){
+#ifndef CPU
     if(comm == MPI_COMM_NULL){
        comm = MPI_COMM_WORLD;
     }
@@ -134,6 +147,9 @@ int getGpuNumPerNode(MPI_Comm comm, long *hostIds, int me, int size){
       }
    }
    return gpuSize;
+#else
+   return -1;
+#endif
 }
 
 }

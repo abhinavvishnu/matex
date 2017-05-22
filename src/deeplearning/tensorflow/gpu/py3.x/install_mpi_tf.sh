@@ -27,7 +27,7 @@ else
    if [ -f $py3 ] && [ -f $venv ]; then
       echo "Using: $py3, $venv, $pip"
    else
-      echo "Failure to find the correct binaries for python, virtualenv or pip"
+      echo "Failure to find the correct binaries for python, virtualenv or pip, $py3 - $pip - $venv"
       return 1
    fi
    export OLD_PYTHONHOME=$PYTHONHOME
@@ -43,6 +43,17 @@ fi
 PYVRD="$($PWD/utils/strippyd.pl)"
 
 echo -e "\e[32mGuessing Values for the required environment variables\e[0m"
+
+keras_backend="$PYTHONHOME/lib/python3.4/site-packages/keras/backend/tensorflow_backend.py"
+
+## Patch the keras distribution with the tensorflow enhanced version of the backend
+
+if [ -f $keras_backend ]; then
+   cp $PWD/utils/tensorflow_backend.py $keras_backend
+else
+   echo "Incomplete or failed keras installation"
+   return 11
+fi
 
 export PNETCDF_INSTALL_DIR=$HOME/opt
 export TF_HOME=$PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
@@ -63,7 +74,7 @@ TF_VERSION="1.0.0"
 if [ $# == 1  ]; then
    if [ $1 == 8 ]; then
       WHEELDIR="$WHEELDIR/8.0/"
-      TF_VERSION="1.0.1"
+      TF_VERSION="1.0.0"
    else
       WHEELDIR="$WHEELDIR/7.5"
       TF_VERSION="1.0.0"
@@ -113,17 +124,31 @@ fi
 
 cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
 
+cp -r $TF_INSTALL_DIR/utils/matex $TF_HOME/python/
+if [ -d  $TF_HOME/python/matex ]; then
+   echo "Successfully installed the matex headers"
+else
+   echo "Failed to copy the correct folders to $TF_HOME/python/matex"
+   return 12
+fi
+
 echo -e "\e[32mCompiling PNETCDF\e[0m"
 
 cd ./parallel-netcdf-1.7.0
 export MPICC=$(which mpicc)
-./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran
-make clean ; make
-make install
-make shared_library
+./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran > /dev/null 2>&1
+make clean > /dev/null 2>&1 ; make > /dev/null 2>&1
+make install > /dev/null 2>&1
+make shared_library > /dev/null 2>&1
 cp ./src/lib/libpnetcdf.so $PNETCDF_INSTALL_DIR/lib/
 cd ..
 
+if [ -f  $PNETCDF_INSTALL_DIR/lib/libnetcdf.so ]; then
+   echo -e "\e[32mSuccessfully installed the PNETCDF library\e[0m"
+else
+   echo -e "\e[93mFailed to install the PNETCDF library\e[0m"
+   return 12
+fi
 
 echo -e "\e[32mSetting dynamic load MPI library\e[0m"
 
