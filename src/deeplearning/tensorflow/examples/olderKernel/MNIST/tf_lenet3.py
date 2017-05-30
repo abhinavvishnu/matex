@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_batch', type=int, default=64, help='training batch size')
-parser.add_argument('--iterations', type=int, default=64, help='training batch size')
+parser.add_argument('--iterations', type=int, default=10000, help='iterations')
 args = parser.parse_args()
 
 mnist = tf.DataSet("MNIST", normalize=255.0)
