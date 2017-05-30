@@ -11,6 +11,7 @@ parser.add_argument('--train_batch', type=int, default=64)
 parser.add_argument('--decay_coefficient', type=float, default=0.0001)
 parser.add_argument('--valid_pct', type=float, default=1.0/6)
 parser.add_argument('--data', type=str, default='MNIST')
+parser.add_argument('--iterations', type=int, default='10000')
 args = parser.parse_args()
 
 mnist = tf.DataSet("MNIST", normalize=255.0)
@@ -44,7 +45,7 @@ sess.run(init)
 
 total_it = 0
 global_start = time.time()
-while total_it < 10000:
+while total_it < args.iterations:
     epoch_start = time.time()
     for train_batch in range(int(len(mnist.training_data)/args.train_batch)):
         batch_start = time.time()
