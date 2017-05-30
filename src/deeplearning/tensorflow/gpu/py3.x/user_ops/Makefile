@@ -1,6 +1,6 @@
 CC=mpicc
 TF_INC=../py_distro/lib/python3.4/site-packages/tensorflow/include/
-CFLAGS=-O2 -fPIC -shared -I $(TF_INC) -std=c++11 -msse -mavx
+CFLAGS=-O2 -fPIC -shared -I $(TF_INC) -std=c++11 -msse -mavx -D_GLIBCXX_USE_CXX11_ABI=0
 #CUDA_HOME=/usr/local/cuda-6.5
 NVCC=$(CUDA_HOME)/bin/nvcc
 CU_LIBS=$(CUDA_HOME)/lib:$(CUDA_HOME)/lib64
