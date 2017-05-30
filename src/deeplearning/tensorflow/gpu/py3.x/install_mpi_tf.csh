@@ -69,7 +69,7 @@ endif
 ### Guess the locations of necessary environment variables 
 ### and set them accordingly
 
-echo -e "\e[32mGuessing default values for the required environment variables\e[0m"
+echo  "\e[32mGuessing default values for the required environment variables\e[0m"
 ### Location of the Parallel NETCDF libraries install
 ### directories
 setenv PNETCDF_INSTALL_DIR $HOME/opt
@@ -84,7 +84,7 @@ echo "Assuming PNETCDF_INSTALL_DIR to be " $PNETCDF_INSTALL_DIR
 echo "Assuming TF_HOME to be " $TF_HOME
 echo "Assuming TF_INSTALL_DIR to be " $TF_INSTALL_DIR
 
-echo -e "\e[93mCheck and update if necessary\e[0m"
+echo  "\e[93mCheck and update if necessary\e[0m"
 
 ### Find the necessary components to install the wheel
 
