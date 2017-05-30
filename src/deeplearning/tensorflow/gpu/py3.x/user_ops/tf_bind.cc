@@ -90,6 +90,7 @@ int tf_my_gpu(){
 
    init = 1;
    return node_rank ;
+   #endif
 }
 
 
