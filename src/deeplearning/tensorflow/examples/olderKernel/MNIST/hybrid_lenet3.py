@@ -54,6 +54,7 @@ while total_it < args.iterations:
         batch_x = mnist.training_data[lo:hi]
         batch_y = mnist.training_labels[lo:hi]
         sess.run(train_step, feed_dict={x: batch_x, y_: batch_y})
+        sess.run(learning_rate)
         total_it += 1
         if total_it % 100 == 0:
             batch_err = sess.run(tf.reduce_mean(cross_entropy), feed_dict={x: batch_x, y_: batch_y})
@@ -62,7 +63,7 @@ while total_it < args.iterations:
             test_start = time.time()
             acc = 0.0
             test_loss = 0.0
-            for test_batch in range(100):
+            for test_batch in range(int(len(mnist.testing_data)/100)):
                 lo = test_batch * 100
                 hi = (test_batch + 1) * 100
                 batch_x = mnist.testing_data[lo:hi]
