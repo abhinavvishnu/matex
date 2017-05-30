@@ -10,6 +10,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_batch', type=int, default=64, help='training batch size')
+parser.add_argument('--epochs', type=int, default=13, help='Epochs')
 args = parser.parse_args()
 
 
@@ -35,4 +36,4 @@ predict = Dense(10, activation='softmax', W_regularizer=l2(decay), b_regularizer
 model = Model(input=input_img, output=predict)
 model.compile(optimizer=SGD(lr=0.01, decay=1e-4), loss=['categorical_crossentropy'], metrics=['categorical_accuracy'])
 print(model.summary())
-model.fit(X_train, y_train, validation_data=(X_test, y_test), nb_epoch=12, batch_size=args.train_batch, verbose=2)
+model.fit(X_train, y_train, validation_data=(X_test, y_test), nb_epoch=args.epoch, batch_size=args.train_batch, verbose=2)
