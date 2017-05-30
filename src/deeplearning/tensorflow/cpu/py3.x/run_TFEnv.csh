@@ -2,11 +2,6 @@
 
 set pdistro="$PWD/py_distro/"
 
-if(! $?CUDNN_HOME) then
-   echo "CUDNN_HOME must be set and point to where the CuDNN library resides"
-   exit 2
-endif
-
 if (-d $pdistro) then
     source $pdistro/bin/activate.csh
     setenv PYTHONHOME=$PWD/py_distro
