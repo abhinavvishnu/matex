@@ -31,7 +31,7 @@ else
    if( -f $py3 && -f $venv ) then
       echo "Using: $py3, $venv"
    else
-      echo "Failure to find the correct binaries for python, virtualenv or pip"
+      echo "Failure to find the correct binaries for python, virtualenv : $venv and $py3"
       exit 1
    endif
 

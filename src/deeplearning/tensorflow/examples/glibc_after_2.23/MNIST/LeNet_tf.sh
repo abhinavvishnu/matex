@@ -27,7 +27,7 @@ while getopts ":b:n:" opt; do
 done
 
 train_batch=`expr $train_batch / $nodes`
-echo "Using $nodes for computing with a batch size
+echo "Using $nodes for computing with a batch size $train_batch"
 
-    mpirun --map-by node -n $(nodes)  --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/tf_lenet3.py --train_batch $(train_batch) --iterations 1000
+    mpirun --map-by node -n $nodes  --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/tf_lenet3.py --train_batch $train_batch --iterations 1000
 
