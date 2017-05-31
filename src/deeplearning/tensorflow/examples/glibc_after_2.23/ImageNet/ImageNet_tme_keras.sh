@@ -26,10 +26,10 @@ while getopts ":b:n:" opt; do
 done
 
 train_batch=`expr $train_batch / $nodes`
-echo "Using $nodes for computing with a batch size
+echo "Using $nodes for computing with a batch size $train_batch"
 
-    mpirun --map-by node -n $(nodes) --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $(train_batch) --iterations 500 --network "AlexNet"
-    mpirun --map-by node -n $(nodes) --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $(train_batch) --iterations 500 --network "InceptionV3"
-    mpirun --map-by node -n $(nodes) --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $(train_batch) --iterations 500 --network "ResNet50"
-    mpirun --map-by node -n $(nodes) --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $(train_batch) --iterations 500 --network "GoogLeNet"
+    mpirun --map-by node -n $nodes --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $train_batch --iterations 500 --network "AlexNet"
+    mpirun --map-by node -n $nodes --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $train_batch --iterations 500 --network "InceptionV3"
+    mpirun --map-by node -n $nodes --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $train_batch --iterations 500 --network "ResNet50"
+    mpirun --map-by node -n $nodes --mca opal_event_include poll $PYTHONHOME/bin/python $PWD/keras_timetest.py --train_batch $train_batch --iterations 500 --network "GoogLeNet"
 
