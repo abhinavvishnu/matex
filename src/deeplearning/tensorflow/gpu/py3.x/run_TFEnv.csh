@@ -10,6 +10,9 @@ endif
 if (-d $pdistro) then
     source $pdistro/bin/activate.csh
     setenv PYTHONHOME $PWD/py_distro
+else
+    echo "Please run install_mpi_tf first"
+    exit 2
 endif
 
 set PYVRD="`./utils/strippyd.pl`"
