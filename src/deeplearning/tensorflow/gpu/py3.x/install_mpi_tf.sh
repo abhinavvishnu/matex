@@ -104,21 +104,21 @@ cd $TF_INSTALL_DIR/user_ops; make clean ; make ; cd $TF_INSTALL_DIR
 if [ -f $TF_INSTALL_DIR/user_ops/tf_reduce.so ]; then 
    echo -e "\e[32mReduce operations built\e[0m"
 else 
-   echo "\e[93mReduce operation failed to build\e[0m"
+   echo -e "\e[93mReduce operation failed to build\e[0m"
    return 1
 fi
 
 if [ -f $TF_INSTALL_DIR/user_ops/tf_broadcast.so ]; then  
-   echo "\e[32mBroadcast operations built\e[0m" 
+   echo -e "\e[32mBroadcast operations built\e[0m" 
 else 
-   echo "\e[32mBroadcast operation failed to build\e[0m"
+   echo -e "\e[32mBroadcast operation failed to build\e[0m"
    return 1
 fi
 
 if [ -f $TF_INSTALL_DIR/user_ops/tf_bind.so ]; then 
-   echo "\e[32mBind operations built\e[0m" 
+   echo -e "\e[32mBind operations built\e[0m" 
 else 
-   echo "\e[32mBind operation failed to build\e[0m"
+   echo -e "\e[32mBind operation failed to build\e[0m"
    return 1
 fi
 
