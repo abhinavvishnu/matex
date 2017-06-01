@@ -3,6 +3,9 @@
 if [ -d $PWD/py_distro ]; then
    source py_distro/bin/activate
    export PYTHONHOME=$PWD/py_distro
+else
+   echo "Please run the install_mpi_tf scripts before hand"
+   return 2
 fi
 
 PYVRD="$(./utils/strippyd.pl)"

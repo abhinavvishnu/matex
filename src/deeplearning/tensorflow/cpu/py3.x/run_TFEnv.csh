@@ -5,6 +5,9 @@ set pdistro="$PWD/py_distro/"
 if (-d $pdistro) then
     source $pdistro/bin/activate.csh
     setenv PYTHONHOME=$PWD/py_distro
+else
+    echo "Please run the install_mpi_tf scripts"
+    exit 2
 endif
 
 set PYVRD="`./utils/strippyd.pl`"
