@@ -1,7 +1,7 @@
 #!/bin/tcsh
 
 ### Setting up the environment for TensorFlow with MPI
-### extensions using C shell. Must be run under the 
+### extensions using C shell. Must be run under the
 ### untarred environment.
 ###
 ### This script will create if not done already and activate
@@ -9,7 +9,7 @@
 ### the folder py_distro.
 ### Depends on python3.4, openmpi/1.8.3 and gcc/4.9.2
 
-### Points to the head of the python virtual environment 
+### Points to the head of the python virtual environment
 ### distribution
 set pdistro="$PWD/py_distro"
 
@@ -36,7 +36,7 @@ else
    endif
 
    $venv -p $py3 $pdistro
-### Make sure that new pip packages are installed in the 
+### Make sure that new pip packages are installed in the
 ### correct folder
    setenv OLD_PYTHONHOME $PYTHONHOME
    source $pdistro/bin/activate.csh ### Activate the virt env
@@ -66,7 +66,7 @@ else
    exit 11
 endif
 
-### Guess the locations of necessary environment variables 
+### Guess the locations of necessary environment variables
 ### and set them accordingly
 
 echo  "\e[32mGuessing default values for the required environment variables\e[0m"
@@ -78,7 +78,6 @@ setenv TF_HOME $PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
 ### The current place of wheels and scripts
 setenv TF_INSTALL_DIR $PWD
 setenv LD_LIBRARY_PATH $CUDNN_HOME/lib64:$LD_LIBRARY_PATH
-
 
 echo "Assuming PNETCDF_INSTALL_DIR to be " $PNETCDF_INSTALL_DIR
 echo "Assuming TF_HOME to be " $TF_HOME
@@ -143,18 +142,6 @@ else
    exit 1
 endif
 
-
-## Copy the shared objects to the correct locations
-
-cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
-
-echo "Installing Matex folders to the correct directory"
-cp -r $TF_INSTALL_DIR/utils/matex $TF_HOME/python
-if !( -d  $TF_HOME/python/matex ) then
-   echo "Failed to copy the correct folders to $TF_HOME/python/matex"
-   return 12
-endif
-
 ### Optional: Compile and install the PNETCDF library to be
 ### used by the parallel readers
 
@@ -177,8 +164,7 @@ else
    exit 11
 endif
 
-
-### Because the way that the user ops work, we might need to 
+### Because the way that the user ops work, we might need to
 ### preload the MPI library, set the correct library to the
 ### LD_PRELOAD variable
 echo "\e[32mSetting dynamic load MPI library\e[0m"
@@ -203,7 +189,6 @@ else
 endif
 
 setenv TF_SCRIPT_HOME $TF_INSTALL_DIR/../../examples
-setenv TF_MPI_ENABLE 1 
+setenv TF_MPI_ENABLE 1
 
 echo "\e[32mDone\e[0m"
-

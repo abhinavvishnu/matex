@@ -96,17 +96,6 @@ else
    return 1
 fi
 
-cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
-
-echo -e "Installing Matex folders to the correct directory"
-cp -r $TF_INSTALL_DIR/utils/matex $TF_HOME/python/
-if [ -d  $TF_HOME/python/matex ]; then
-   echo -e "\e[32mSuccessfully installed the matex reader files\e[0m"
-else
-   echo -e "\e[93mFailed to copy the correct folders to $TF_HOME/python/matex\e[0m"
-   return 12
-fi
-
 echo -e "\e[32mCompiling PNETCDF\e[0m"
 
 cd ./parallel-netcdf-1.7.0
