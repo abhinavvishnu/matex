@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### Setting up the environment for TensorFlow with MPI
-### extensions using bash shell. Must be run under the 
+### extensions using bash shell. Must be run under the
 ### untarred environment.
 ###
 ### This script will create if not done already and activate
@@ -30,7 +30,7 @@ else
    $pip install keras==1.2.2 --no-cache-dir --upgrade
 fi
 
-PYVRD="$($PWD/utils/strippyd.pl)"
+PYVRD="$(python $PWD/utils/strippyd.py)"
 
 echo -e "\e[32mGuessing Values for the required environment variables\e[0m"
 
@@ -55,14 +55,14 @@ echo "Assuming TF_INSTALL_DIR to be " $TF_INSTALL_DIR
 
 echo -e "\e[93mCheck and update if necessary\e[0m"
 
-PYVR="$($TF_INSTALL_DIR/utils/strippy.pl)"
-PYVRD="$($TF_INSTALL_DIR/utils/strippyd.pl)"
+PYVR="$(python $TF_INSTALL_DIR/utils/strippy.py)"
+PYVRD="$(python $TF_INSTALL_DIR/utils/strippyd.py)"
 WHEELDIR="$TF_INSTALL_DIR/wheels/"
 WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
 echo -e "\e[32mInstalling MPI Tensorflow\e[0m"
 
-if [ -f $WHEEL ]; then 
+if [ -f $WHEEL ]; then
    echo -e "\e[32mWheel found Successfully\e[0m"
 else
    echo -e "\e[93mWheel was not found\e[0m"
@@ -75,21 +75,21 @@ echo -e "\e[32mInstalling User Ops\e[0m"
 
 cd $TF_INSTALL_DIR/user_ops; make clean ; make ; cd $TF_INSTALL_DIR
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_reduce.so ]; then  
+if [ -f $TF_INSTALL_DIR/user_ops/tf_reduce.so ]; then
     echo -e "\e[32mReduce operations built\e[0m"
-else 
+else
     echo -e "\e[93mReduce operation failed to build\e[0m"
     return 1
 fi
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_broadcast.so ]; then  
+if [ -f $TF_INSTALL_DIR/user_ops/tf_broadcast.so ]; then
    echo -e "\e[32mBroadcast operations built\e[0m"
 else
    echo -e "\e[32mBroadcast operation failed to build\e[0m"
    return 1
 fi
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_sync.so ]; then 
+if [ -f $TF_INSTALL_DIR/user_ops/tf_sync.so ]; then
    echo -e "\e[32mSync operations built\e[0m"
 else
    echo -e "\e[32mSync operation failed to build\e[0m"
@@ -125,7 +125,6 @@ else
    return 12
 fi
 
-
 echo -e "\e[32mSetting dynamic load MPI library\e[0m"
 
 ndir=$(which mpicc)
@@ -145,8 +144,6 @@ else
 fi
 
 export TF_SCRIPT_HOME=$TF_INSTALL_DIR/../../examples
-export TF_MPI_ENABLE=1 
+export TF_MPI_ENABLE=1
 
 echo "Done ..."
-
-

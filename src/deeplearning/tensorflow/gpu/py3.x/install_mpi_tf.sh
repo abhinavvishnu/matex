@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### Setting up the environment for TensorFlow with MPI
-### extensions using bash shell. Must be run under the 
+### extensions using bash shell. Must be run under the
 ### untarred environment.
 ###
 ### This script will create if not done already and activate
@@ -15,7 +15,6 @@ if [ -z ${CUDNN_HOME+x} ]; then
 else
    echo "CUDNN_HOME set to $CUDNN_HOME"
 fi
-
 
 if [ -d $PWD/py_distro ]; then
    source $PWD/py_distro/bin/activate
@@ -40,7 +39,7 @@ else
    $pip install keras==1.2.2 --no-cache-dir --upgrade
 fi
 
-PYVRD="$($PWD/utils/strippyd.pl)"
+PYVRD="$(python $PWD/utils/strippyd.py)"
 
 echo -e "\e[32mGuessing Values for the required environment variables\e[0m"
 
@@ -66,8 +65,8 @@ echo "Assuming TF_INSTALL_DIR to be " $TF_INSTALL_DIR
 
 echo -e "\e[93mCheck and update if necessary\e[0m"
 
-PYVR="$($TF_INSTALL_DIR/utils/strippy.pl)"
-PYVRD="$($TF_INSTALL_DIR/utils/strippyd.pl)"
+PYVR="$(python $TF_INSTALL_DIR/utils/strippy.py)"
+PYVRD="$(python $TF_INSTALL_DIR/utils/strippyd.py)"
 WHEELDIR="$TF_INSTALL_DIR/wheels/"
 TF_VERSION="1.0.0"
 
@@ -84,13 +83,13 @@ else
    TF_VERSION="1.0.0"
 fi
 
-WHEEL="$WHEELDIR/tensorflow-${TF_VERSION}-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
+WHEEL="$WHEELDIR/tensorflow_gpu-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
 echo -e "\e[32mInstalling MPI Tensorflow"
 
 if [ -f $WHEEL ]; then
-   echo -e "\e[32mWheel found Successfully\e[0m" 
-else 
+   echo -e "\e[32mWheel found Successfully\e[0m"
+else
    echo -e "\e[93mWheel was not found\e[0m"
    return 1
 fi
@@ -101,23 +100,23 @@ echo -e "\e[32mInstalling User Ops\e[0m"
 
 cd $TF_INSTALL_DIR/user_ops; make clean ; make ; cd $TF_INSTALL_DIR
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_reduce.so ]; then 
+if [ -f $TF_INSTALL_DIR/user_ops/tf_reduce.so ]; then
    echo -e "\e[32mReduce operations built\e[0m"
-else 
+else
    echo -e "\e[93mReduce operation failed to build\e[0m"
    return 1
 fi
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_broadcast.so ]; then  
-   echo -e "\e[32mBroadcast operations built\e[0m" 
-else 
+if [ -f $TF_INSTALL_DIR/user_ops/tf_broadcast.so ]; then
+   echo -e "\e[32mBroadcast operations built\e[0m"
+else
    echo -e "\e[32mBroadcast operation failed to build\e[0m"
    return 1
 fi
 
-if [ -f $TF_INSTALL_DIR/user_ops/tf_bind.so ]; then 
-   echo -e "\e[32mBind operations built\e[0m" 
-else 
+if [ -f $TF_INSTALL_DIR/user_ops/tf_bind.so ]; then
+   echo -e "\e[32mBind operations built\e[0m"
+else
    echo -e "\e[32mBind operation failed to build\e[0m"
    return 1
 fi
@@ -169,8 +168,6 @@ else
 fi
 
 export TF_SCRIPT_HOME=$TF_INSTALL_DIR/../../examples
-export TF_MPI_ENABLE=1 
+export TF_MPI_ENABLE=1
 
 echo "Done ..."
-
-
