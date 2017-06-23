@@ -121,6 +121,8 @@ else
    return 1
 fi
 
+cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
+
 echo -e "\e[32mCompiling PNETCDF\e[0m"
 
 cd ./parallel-netcdf-1.7.0

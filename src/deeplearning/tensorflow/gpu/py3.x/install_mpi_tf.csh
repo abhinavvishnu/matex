@@ -142,6 +142,8 @@ else
    exit 1
 endif
 
+cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
+
 ### Optional: Compile and install the PNETCDF library to be
 ### used by the parallel readers
 
