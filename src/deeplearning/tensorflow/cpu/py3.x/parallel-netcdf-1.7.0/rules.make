@@ -104,8 +104,7 @@ irix_shared_library:
 	ld -o $(LIBRARY:.a=.so) -shared -no_archive \
 	    -all $(LIBRARY) -none -lc -lC $(LIBS)
 linux_shared_library:
-	mpicc -o $(LIBRARY:.a=.so) -shared -Wl,--whole-archive $(LIBRARY) -Wl,--no-whole-archive
-	#ld -o $(LIBRARY:.a=.so) -shared --whole-archive $(LIBRARY)
+	ld -o $(LIBRARY:.a=.so) -shared --whole-archive $(LIBRARY)
 osf1_shared_library:
 	ld -o $(LIBRARY:.a=.so) -shared -all $(LIBRARY)
 sunos4_shared_library:

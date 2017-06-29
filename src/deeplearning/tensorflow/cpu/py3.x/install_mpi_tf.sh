@@ -45,8 +45,8 @@ else
    return 11
 fi
 
-export PNETCDF_INSTALL_DIR=$HOME/opt
-#export PNETCDF_INSTALL_DIR=$SCRATCH/opt
+#export PNETCDF_INSTALL_DIR=$HOME/opt
+export PNETCDF_INSTALL_DIR=$SCRATCH/opt
 export TF_HOME=$PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
 export TF_INSTALL_DIR=$PWD
 
@@ -102,7 +102,8 @@ cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
 echo -e "\e[32mCompiling PNETCDF\e[0m"
 
 cd ./parallel-netcdf-1.7.0
-export MPICC=$(which mpicc)
+#export MPICC=$(which mpicc)
+export MPICC=$(which cc)
 ./configure --prefix=$PNETCDF_INSTALL_DIR CFLAGS="-g -O2 -fPIC" CPPFLAGS="-g -O2 -fPIC" CXXFLAGS="-g -O2 -fPIC" FFLAGS="-O2 -fPIC" FCFLAGS="-O2 -fPIC" --disable-cxx --disable-fortran > /dev/null 2>&1
 make clean > /dev/null 2>&1 ; make > /dev/null 2>&1
 make install > /dev/null 2>&1
