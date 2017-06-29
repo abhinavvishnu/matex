@@ -46,6 +46,7 @@ else
 fi
 
 export PNETCDF_INSTALL_DIR=$HOME/opt
+#export PNETCDF_INSTALL_DIR=$SCRATCH/opt
 export TF_HOME=$PWD/py_distro/lib/python${PYVRD}/site-packages/tensorflow
 export TF_INSTALL_DIR=$PWD
 
@@ -57,7 +58,7 @@ echo -e "\e[93mCheck and update if necessary\e[0m"
 
 PYVR="$(python $TF_INSTALL_DIR/utils/strippy.py)"
 PYVRD="$(python $TF_INSTALL_DIR/utils/strippyd.py)"
-WHEELDIR="$TF_INSTALL_DIR/wheels/"
+WHEELDIR="$TF_INSTALL_DIR/wheels/cori"
 WHEEL="$WHEELDIR/tensorflow-1.0.0-cp${PYVR}-cp${PYVR}m-linux_x86_64.whl"
 
 echo -e "\e[32mInstalling MPI Tensorflow\e[0m"
@@ -118,11 +119,13 @@ fi
 
 echo -e "\e[32mSetting dynamic load MPI library\e[0m"
 
-ndir=$(which mpicc)
+#ndir=$(which mpicc)
+ndir=$(which cc)
 nndir=$(dirname $ndir)
 name1="/../lib/libmpi_cxx.so"
 name2="/../lib64/libmpi_cxx.so"
-full1=$nndir$name1
+#full1=$nndir$name1
+full1=/opt/cray/pe/mpt/7.4.4/gni/mpich-gnu/5.1/lib/libmpichcxx.so
 full2=$nndir$name2
 
 if [ -f $full1 ]; then

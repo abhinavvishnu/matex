@@ -1,6 +1,7 @@
-CC=mpicc
+#CC=mpicc
+CC=`which cc`
 TF_INC=../py_distro/lib/python3.4/site-packages/tensorflow/include/
-CFLAGS=-O2 -fPIC -shared -I $(TF_INC) -std=c++11 -msse -mavx -DCPU -D_GLIBCXX_USE_CXX11_ABI=0
+CFLAGS=-O2 -fPIC -shared -I $(TF_INC) -std=c++11 -msse -mavx -mavx2 -mfma -DCPU -D_GLIBCXX_USE_CXX11_ABI=0
 
 all: tf_reduce.so tf_broadcast.so tf_sync.so tf_bind.so
 
