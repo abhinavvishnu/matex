@@ -26,8 +26,8 @@ else
   INSTDIR=${MTX_INSTALL_DIR}
 fi
 
-if [ -d $PWD/matex_tf ]; then
-   source activate $PWD/matex_tf
+if [ -d $INSTDIR/matex_tf ]; then
+   source activate $INSTDIR/matex_tf
 else
    py3=$(which python3.5)
    base=$(dirname $py3)
