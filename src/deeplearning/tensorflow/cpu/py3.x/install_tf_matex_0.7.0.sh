@@ -118,7 +118,7 @@ make clean > /dev/null 2>&1 ; make > /dev/null 2>&1
 make install > /dev/null 2>&1
 make shared_library > /dev/null 2>&1
 cp ./src/lib/libpnetcdf.so $PNETCDF_INSTALL_DIR/lib/
-cd ../../
+cd $TF_INSTALL_DIR
 
 if [ -f  $PNETCDF_INSTALL_DIR/lib/libpnetcdf.so ]; then
    echo -e "\e[32mSuccessfully installed the PNETCDF library\e[0m"
