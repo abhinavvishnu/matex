@@ -29,7 +29,7 @@ fi
 if [ -d $INSTDIR/matex_tf ]; then
    source activate $INSTDIR/matex_tf
 else
-   py3=$(which python3.5)
+   py3=$(which python3)
    base=$(dirname $py3)
 
    pip="$base/pip"
