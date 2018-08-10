@@ -37,16 +37,16 @@ fi
 if [ -d $INSTDIR/matex_tf ]; then
    source activate $INSTDIR/matex_tf
 else
-   py3=$(which python3.5)
-   base=$(dirname ${py3})
+   export py3=$(which python3)
+   export base=$(dirname ${py3})
 
-   set pip="${base}/pip"
+   pip="${base}/pip"
 
-   if [ -f ${py3} ] && [ -f ${pip} ]; then
-      echo "Failure to find the correct binaries for python, virtualenv or pip, $py3 - $pip"
-      return 1
-   else
+   if [ -e ${py3} ] || [ -e ${pip} ]; then
       echo "Using: $py3, $pip"
+   else
+      echo "Failure to find the correct binaries for python or pip, $py3 - $pip"
+      return 1
    fi
    export OLD_PYTHONHOME=$PYTHONHOME
    conda create -p ${INSTDIR}/matex_tf python=3.5.2 conda anaconda -y
