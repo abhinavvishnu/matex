@@ -19,16 +19,30 @@ try:
 	import h5py
 except:
 	print("HDF5 format not configured")
-	
+
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-
 class DataSet:
-    def __init__(self, data_name, train_batch_size=None, test_batch_size=None, normalize=1.0, train_file=None, validation_file=None, test_file=None,
-                 valid_pct=0.0, test_pct=0.0):
+    def __init__(self, data_name,
+                 train_batch_size=None,
+                 test_batch_size=None,
+                 normalize=1.0,
+                 train_file=None,
+                 validation_file=None,
+                 test_file=None,
+                 data_directory=None,
+                 valid_pct=0.0,
+                 test_pct=0.0,
+                 delim=','):
+
         self.dataset = data_name
         self.train_file = train_file
         self.validation_file = validation_file
@@ -39,6 +53,7 @@ class DataSet:
         self.validation_labels = None
         self.testing_data = None
         self.testing_labels = None
+        self.data_directory = data_directory
 
         self.train_batch_size = train_batch_size
         self.test_batch_size = test_batch_size
@@ -74,7 +89,10 @@ class DataSet:
         elif self.dataset.lower() == "cifar100":
             self.read_cifar100("CIFAR_data", validation_percentage=valid_pct)
         elif self.dataset.lower() == "csv":
-            self.read_csv(self.train_file, validation_percentage=valid_pct, test_percentage=test_pct)
+            if self.data_directory is not None:
+                self.read_csv_dir(self.data_directory, delim, validation_percentage=valid_pct,test_percentage=test_pct)
+            else:
+                self.read_csv(self.train_file, validation_percentage=valid_pct, test_percentage=test_pct)
 
         if type(self.training_labels) is list:
             self.training_labels = self.dense_to_one_hot(self.training_labels, max(self.training_labels) + 1)
@@ -415,6 +433,54 @@ class DataSet:
             labels_one_hot[i, int(labels_dense[i])] = 1
         return labels_one_hot
 
+    def read_csv_dir(self, dir_name, file_delimiter=',', validation_percentage=0.0, test_percentage=0.0):
+        line_count = 0;
+        for root, subdirs, files in os.walk(dir_name):
+            for fname in files:
+                file_path = os.path.join(root, fname)
+                line_count += file_len(file_path)
+
+        num = line_count // size
+        rem = line_count % size
+        chunk = num
+        if rank == 0:
+            print("total samples", line_count)
+            print("samples subset (%d,%d)=%d" % (line_count, size, num))
+            print("samples subset remainder", rem)
+        if rank < rem:
+            chunk += 1
+        start = rank * chunk
+        if rank > rem:
+            correction = rem
+        else:
+            correction = rank
+        start += correction
+        stop = start + chunk
+
+        initial_line_count = line_count
+
+        line_count = 0
+        data_list = []
+        for root, subdirs, files in os.walk(dir_name):
+            for fname in files:
+                file_path = os.path.join(root, fname)
+                with open(fname, 'r') as f:
+                    lines = f.readlines()
+                    for line in lines:
+                        if line_count >= start and line_count < stop:
+                            temp_list = np.fromstring(line, dtype=np.float64, sep=file_delimiter)
+                            data_list.append(temp_list)
+                        line_count += 1
+
+        this_data = np.array(data_list)
+        data_list = []
+        print("Total Line Count(read): {}".format(line_count))
+        print("Local Data Shape, row 0 shape: {}".format(this_data[0].shape))
+        #print(len(this_data))
+        if initial_line_count != line_count:
+            raise ValueError("Error. Original Total line count does not match final line count")
+        self.training_data = this_data
+
     def read_csv(self, filename, validation_percentage=0.0, test_percentage=0.0):
         line_count = 0
         with open(filename, 'r') as f:
@@ -512,19 +578,19 @@ class DataSet:
         if rank == 0:
             print("Rank Start Stop NumExamples")
         print(rank, start, finish, number)
-		
+
         tup = [f[names[i]][start[i]:finish[i]] for i in range(len(names))]
-		
+
         train_labels = [i for i in range(len(names)) for j in range(number[i])]
         train_data = np.concatenate(tup)
-		
+
         rng_state = np.random.get_state()
         np.random.shuffle(train_data)
         np.random.set_state(rng_state)
         np.random.shuffle(train_labels)
         train_labels = self.dense_to_one_hot2(train_labels, len(names))
         return train_data, train_labels
-		
+
     def next_train_batch(self):
         if self.train_batch_size is None:
             raise UserWarning("No Training Batch Size Specified")

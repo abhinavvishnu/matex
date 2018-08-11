@@ -11,20 +11,24 @@ import six.moves
 import pickle
 import tarfile
 from itertools import islice
+try:
+	from pnetcdf import read_pnetcdf
+except:
+	print("PNetCDF format not configured")
+try:
+	import h5py
+except:
+	print("HDF5 format not configured")
 
-try:
-    from .pnetcdf import read_pnetcdf
-except:
-    print("PNetCDF format not configured")
-try:
-    import h5py
-except:
-    print("HDF5 format not configured")
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
-
 
 class DataSet:
     def __init__(self, data_name,
@@ -34,8 +38,11 @@ class DataSet:
                  train_file=None,
                  validation_file=None,
                  test_file=None,
+                 data_directory=None,
                  valid_pct=0.0,
-                 test_pct=0.0):
+                 test_pct=0.0,
+                 delim=','):
+
         self.dataset = data_name
         self.train_file = train_file
         self.validation_file = validation_file
@@ -46,6 +53,7 @@ class DataSet:
         self.validation_labels = None
         self.testing_data = None
         self.testing_labels = None
+        self.data_directory = data_directory
 
         self.train_batch_size = train_batch_size
         self.test_batch_size = test_batch_size
@@ -67,23 +75,24 @@ class DataSet:
         elif self.dataset.lower() == "pnetcdf":
             self.training_data, self.training_labels = read_pnetcdf(self.train_file)
             if validation_file:
-                self.validation_data, self.validation_labels = read_pnetcdf(self.validation_file)
+               self.validation_data, self.valiation_labels = read_pnetcdf(self.validation_file)
             if test_file:
-                self.testing_data, self.testing_labels = read_pnetcdf(self.test_file)
+               self.testing_data, self.testing_labels = read_pnetcdf(self.test_file)
         elif self.dataset.lower() == "hdf5":
-            self.training_data, self.training_labels = self.read_hdf5(self.train_file)
+            self.training_data, self.training_labels = read_hdf5(self.train_file)
             if validation_file:
-                self.validation_data, self.validation_labels = self.read_hdf5(self.validation_file)
+               self.validation_data, self.valiation_labels = read_hdf5(self.validation_file)
             if test_file:
-                self.testing_data, self.testing_labels = self.read_hdf5(self.test_file)
+               self.testing_data, self.testing_labels = read_hdf5(self.test_file)
         elif self.dataset.lower() == "cifar10":
             self.read_cifar10("CIFAR_data", validation_percentage=valid_pct)
-            self.training_data = self.training_data.reshape([-1, 3, 32, 32]).transpose([0, 2, 3, 1])
-            self.testing_data = self.testing_data.reshape([-1, 3, 32, 32]).transpose([0, 2, 3, 1])
         elif self.dataset.lower() == "cifar100":
             self.read_cifar100("CIFAR_data", validation_percentage=valid_pct)
         elif self.dataset.lower() == "csv":
-            self.read_csv(self.train_file, validation_percentage=valid_pct, test_percentage=test_pct)
+            if self.data_directory is not None:
+                self.read_csv_dir(self.data_directory, delim, validation_percentage=valid_pct,test_percentage=test_pct)
+            else:
+                self.read_csv(self.train_file, validation_percentage=valid_pct, test_percentage=test_pct)
 
         if type(self.training_labels) is list:
             self.training_labels = self.dense_to_one_hot(self.training_labels, max(self.training_labels) + 1)
@@ -105,18 +114,18 @@ class DataSet:
         return filepath
 
     def read_mnist(self, train_dir):
-        source_url = 'http://yann.lecun.com/exdb/mnist/'
+        SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
 
-        train_images = 'train-images-idx3-ubyte.gz'
-        train_labels = 'train-labels-idx1-ubyte.gz'
-        test_images = 't10k-images-idx3-ubyte.gz'
-        test_labels = 't10k-labels-idx1-ubyte.gz'
+        TRAIN_IMAGES = 'train-images-idx3-ubyte.gz'
+        TRAIN_LABELS = 'train-labels-idx1-ubyte.gz'
+        TEST_IMAGES = 't10k-images-idx3-ubyte.gz'
+        TEST_LABELS = 't10k-labels-idx1-ubyte.gz'
 
         if rank == 0:
-            train_data_localfile = self.maybe_download(train_images, train_dir, source_url)
-            train_labels_localfile = self.maybe_download(train_labels, train_dir, source_url)
-            test_data_localfile = self.maybe_download(test_images, train_dir, source_url)
-            test_labels_localfile = self.maybe_download(test_labels, train_dir, source_url)
+            train_data_localfile = self.maybe_download(TRAIN_IMAGES, train_dir, SOURCE_URL)
+            train_labels_localfile = self.maybe_download(TRAIN_LABELS, train_dir, SOURCE_URL)
+            test_data_localfile = self.maybe_download(TEST_IMAGES, train_dir, SOURCE_URL)
+            test_labels_localfile = self.maybe_download(TEST_LABELS, train_dir, SOURCE_URL)
 
             temp_file = open(train_data_localfile, 'rb')
             self.training_data = self.extract_images(temp_file)
@@ -424,6 +433,54 @@ class DataSet:
             labels_one_hot[i, int(labels_dense[i])] = 1
         return labels_one_hot
 
+    def read_csv_dir(self, dir_name, file_delimiter=',', validation_percentage=0.0, test_percentage=0.0):
+        line_count = 0;
+        for root, subdirs, files in os.walk(dir_name):
+            for fname in files:
+                file_path = os.path.join(root, fname)
+                line_count += file_len(file_path)
+
+        num = line_count // size
+        rem = line_count % size
+        chunk = num
+        if rank == 0:
+            print("total samples", line_count)
+            print("samples subset (%d,%d)=%d" % (line_count, size, num))
+            print("samples subset remainder", rem)
+        if rank < rem:
+            chunk += 1
+        start = rank * chunk
+        if rank > rem:
+            correction = rem
+        else:
+            correction = rank
+        start += correction
+        stop = start + chunk
+
+        initial_line_count = line_count
+
+        line_count = 0
+        data_list = []
+        for root, subdirs, files in os.walk(dir_name):
+            for fname in files:
+                file_path = os.path.join(root, fname)
+                with open(fname, 'r') as f:
+                    lines = f.readlines()
+                    for line in lines:
+                        if line_count >= start and line_count < stop:
+                            temp_list = np.fromstring(line, dtype=np.float64, sep=file_delimiter)
+                            data_list.append(temp_list)
+                        line_count += 1
+
+        this_data = np.array(data_list)
+        data_list = []
+        print("Total Line Count(read): {}".format(line_count))
+        print("Local Data Shape, row 0 shape: {}".format(this_data[0].shape))
+        #print(len(this_data))
+        if initial_line_count != line_count:
+            raise ValueError("Error. Original Total line count does not match final line count")
+        self.training_data = this_data
+
     def read_csv(self, filename, validation_percentage=0.0, test_percentage=0.0):
         line_count = 0
         with open(filename, 'r') as f:
@@ -494,7 +551,7 @@ class DataSet:
         items_per_class = []
         for name in names:
             items_per_class.append(f[name].shape[0])
-        even_division = [x // size for x in items_per_class]
+        even_division = [x//size for x in items_per_class]
         remainder = [x % size for x in items_per_class]
         number = even_division
         if rank == 0:
@@ -503,19 +560,19 @@ class DataSet:
             print("samples subset remainder", remainder)
         r = 0
         while remainder != [0 for x in remainder]:
-            for it in range(len(remainder)):
-                if remainder[it] != 0:
-                    remainder[it] -= 1
+            for i in range(len(remainder)):
+                if remainder[i] != 0:
+                    remainder[i] -= 1
                     if rank == r:
-                        number[it] += 1
+                        number[i] += 1
                     r += 1
         start = [rank * x for x in number]
         correction = [0] * len(remainder)
-        for it in range(len(remainder)):
-            if rank > remainder[it]:
-                correction[it] = remainder[it]
+        for i in range(len(remainder)):
+            if rank > remainder[i]:
+                correction[i] = remainder[i]
             else:
-                correction[it] = rank
+                correction[i] = rank
         start = [start[i] + correction[i] for i in range(len(start))]
         finish = [start[i] + number[i] for i in range(len(start))]
         if rank == 0:
@@ -603,7 +660,6 @@ class DataSet:
             test_batch_labels = self.testing_labels[self.test_start:self.test_end]
         return [test_batch, test_batch_labels]
 
-
 if __name__ == '__main__':
     mnist = DataSet("MNIST")
     odata = mnist.training_data
@@ -611,17 +667,17 @@ if __name__ == '__main__':
     data = comm.gather(odata, root=0)
     labels = comm.gather(olabels, root=0)
     if rank == 0:
-        data = np.reshape(data, [-1, np.shape(data)[-3], np.shape(data)[-2], np.shape(data)[-1]])
-        labels = np.reshape(labels, [-1, np.shape(labels)[-1]])
-        tmp = np.zeros([50000])
-        for i in range(50000):
-            tmp[i] = np.argmax(labels[i])
-        labels = tmp
-        data = np.reshape(data, [50000, 784])
-        labels = np.expand_dims(labels, 1)
-        temp = np.concatenate((labels, data), axis=1)
-        np.savetxt("mnist.csv", temp, delimiter=",")
-        print('CSV Generated')
+       data = np.reshape(data, [-1, np.shape(data)[-3], np.shape(data)[-2], np.shape(data)[-1]])
+       labels = np.reshape(labels, [-1, np.shape(labels)[-1]])
+       tmp = np.zeros([50000])
+       for i in range(50000):
+           tmp[i] = np.argmax(labels[i])
+       labels = tmp
+       data = np.reshape(data, [50000, 784])
+       labels = np.expand_dims(labels, 1)
+       temp = np.concatenate((labels, data), axis=1)
+       np.savetxt("mnist.csv", temp, delimiter=",")
+       print('CSV Generated')
     DataSet("CIFAR10")
     DataSet("CIFAR100")
     DataSet("CSV", train_file="mnist.csv", valid_pct=0.0, test_pct=0.0)

@@ -107,6 +107,14 @@ fi
 
 cp -r $TF_INSTALL_DIR/user_ops $TF_HOME/core/
 
+cp -r $TF_INSTALL_DIR/utils/matex $TF_HOME/python/
+if [ -d  $TF_HOME/python/matex ]; then
+   echo "Successfully installed the matex headers"
+else
+   echo "Failed to copy the correct folders to $TF_HOME/python/matex"
+   return 12
+fi
+
 echo -e "\e[32mCompiling PNETCDF\e[0m"
 
 cd ${TF_INSTALL_DIR}/parallel-netcdf-1.7.0
