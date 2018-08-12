@@ -31,7 +31,7 @@ rank = comm.Get_rank()
 size = comm.Get_size()
 
 class DataSet:
-    def __init__(self, data_name,
+    def __init__(self, data_name,delim,
                  train_batch_size=None,
                  test_batch_size=None,
                  normalize=1.0,
@@ -40,8 +40,8 @@ class DataSet:
                  test_file=None,
                  data_directory=None,
                  valid_pct=0.0,
-                 test_pct=0.0,
-                 delim=','):
+                 test_pct=0.0
+                 ):
 
         self.dataset = data_name
         self.train_file = train_file
@@ -433,7 +433,7 @@ class DataSet:
             labels_one_hot[i, int(labels_dense[i])] = 1
         return labels_one_hot
 
-    def read_csv_dir(self, dir_name, file_delimiter=',', validation_percentage=0.0, test_percentage=0.0):
+    def read_csv_dir(self, dir_name, file_delimiter, validation_percentage=0.0, test_percentage=0.0):
         line_count = 0;
         for root, subdirs, files in os.walk(dir_name):
             for fname in files:
@@ -464,7 +464,7 @@ class DataSet:
         for root, subdirs, files in os.walk(dir_name):
             for fname in files:
                 file_path = os.path.join(root, fname)
-                with open(fname, 'r') as f:
+                with open(file_path, 'r') as f:
                     lines = f.readlines()
                     for line in lines:
                         if line_count >= start and line_count < stop:
